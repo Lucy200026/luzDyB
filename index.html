@@ -27,7 +27,7 @@
   <!-- Encabezado / Navbar -->
   <header class="bg-white shadow-sm sticky top-0 z-30">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-pink-600 tracking-wide">🌷 D & B Belleza</h1>
+      <h1 class="text-2xl font-bold text-pink-600 tracking-wide">🌷 D & B Tienda online</h1>
 
       <div class="flex items-center space-x-4">
         <!-- Botón Acceso Dueña -->
@@ -423,6 +423,7 @@
         carrito.push({ ...prod, cantidad: 1 });
       }
       actualizarCarrito();
+      alert(`✅ "${prod.nombre}" agregado correctamente al carrito de compras`);
     }
 
     function actualizarCarrito() {
@@ -463,14 +464,15 @@
 
     function enviarPedidoWhatsApp() {
       if (carrito.length === 0) return alert('El carrito está vacío');
-      let msg = '¡Hola! Quisiera realizar el siguiente pedido en D & B Belleza:\n\n';
+      let msg = '¡Hola D & B Belleza! 👋 Quisiera realizar el siguiente pedido:\n\n';
       carrito.forEach(i => {
         msg += `• ${i.nombre} (x${i.cantidad}) - Gs. ${(i.precio * i.cantidad).toLocaleString()}\n`;
       });
       const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-      msg += `\n*Total: Gs. ${total.toLocaleString()}*`;
+      msg += `\n*Total a pagar: Gs. ${total.toLocaleString()}*`;
 
-      window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+      const numeroWhatsApp = '595982416860';
+      window.open(`https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
     // --- ACCESOS Y MODALES ---
