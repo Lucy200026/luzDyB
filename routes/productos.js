@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Producto = require('../models/Producto');
 
-// Obtener todos los productos (con datos de su categoría)
+// Obtener todos los productos
 router.get('/', async (req, res) => {
   try {
-    const productos = await Producto.find().populate('categoria');
+    const productos = await Producto.find();
     res.json(productos);
   } catch (err) {
     res.status(500).json({ mensaje: err.message });
@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
     imagen: req.body.imagen,
     stock: req.body.stock,
     categoria: req.body.categoria,
-    opciones: req.body.opciones || [] // <--- Guarda el arreglo de opciones
+    opciones: req.body.opciones || []
   });
 
   try {
@@ -35,7 +35,6 @@ router.post('/', async (req, res) => {
 // Editar producto
 router.put('/:id', async (req, res) => {
   try {
-    // Al pasar req.body directamente, asegura la actualización de todos los campos incluidos req.body.opciones
     const productoActualizado = await Producto.findByIdAndUpdate(
       req.params.id,
       req.body,
