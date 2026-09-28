@@ -138,6 +138,13 @@
           <input type="text" id="admin-prod-nombre" placeholder="Nombre del producto" class="border p-2 rounded-lg" required>
           <input type="number" id="admin-prod-precio" placeholder="Precio (Gs.)" class="border p-2 rounded-lg" required>
 
+          <!-- Opciones / Variantes (Tonos, Talles, Calzados) -->
+          <div class="md:col-span-2 border border-pink-200 bg-white p-3 rounded-lg flex flex-col gap-1">
+            <label class="text-xs font-bold text-pink-700">🎨 Tonos / Talles / Medidas (Opcional):</label>
+            <input type="text" id="admin-prod-opciones" placeholder="Ej: Tono 01, Tono 02, Tono 03  ó  S, M, L  ó  36, 37, 38" class="border p-2 rounded-lg text-xs">
+            <span class="text-[10px] text-gray-500">Escribe las opciones separadas por comas. Si lo dejas vacío, no se le pedirá opción al cliente.</span>
+          </div>
+
           <!-- Opciones de Imagen -->
           <div class="md:col-span-2 border border-pink-200 bg-white p-3 rounded-lg flex flex-col gap-2">
             <label class="text-xs font-bold text-pink-700">Subir imagen desde el celular:</label>
@@ -267,8 +274,12 @@
       const categoria = document.getElementById('admin-prod-categoria').value;
       const descripcion = document.getElementById('admin-prod-desc').value;
       const imagen = document.getElementById('admin-prod-imagen').value;
+      const opcionesRaw = document.getElementById('admin-prod-opciones').value;
 
-      const payload = { nombre, precio, categoria, descripcion, imagen };
+      // Convertir texto separado por comas en un array limpio
+      const opciones = opcionesRaw ? opcionesRaw.split(',').map(o => o.trim()).filter(o => o !== '') : [];
+
+      const payload = { nombre, precio, categoria, descripcion, imagen, opciones };
       const esEdicion = Boolean(id);
       const url = esEdicion ? `${API_URL}/productos/${id}` : `${API_URL}/productos`;
       const method = esEdicion ? 'PUT' : 'POST';
@@ -301,6 +312,10 @@
       document.getElementById('admin-prod-categoria').value = prod.categoria || '';
       document.getElementById('admin-prod-desc').value = prod.descripcion || '';
       document.getElementById('admin-prod-imagen').value = prod.imagen || '';
+      
+      const ops = Array.isArray(prod.opciones) ? prod.opciones.join(', ') : (prod.opciones || '');
+      document.getElementById('admin-prod-opciones').value = ops;
+
       document.getElementById('form-prod-title').innerText = '✏️ Editar Producto';
     }
 
@@ -322,6 +337,7 @@
     function resetFormProducto() {
       document.getElementById('form-prod').reset();
       document.getElementById('admin-prod-id').value = '';
+      document.getElementById('admin-prod-opciones').value = '';
       document.getElementById('form-prod-title').innerText = '2. Agregar Producto';
     }
 
@@ -370,19 +386,34 @@
         grid.innerHTML = '<p class="col-span-full text-center text-pink-400 py-8">No hay productos en esta categoría.</p>';
         return;
       }
-      grid.innerHTML = prods.map(p => `
-        <div class="bg-white rounded-2xl p-3 shadow-sm flex flex-col justify-between border border-pink-100 hover:shadow-md transition-shadow">
-          <img src="${p.imagen || 'https://via.placeholder.com/150'}" onclick="ampliarImg('${p.imagen}')" class="w-full h-36 object-cover rounded-xl mb-2 cursor-pointer">
-          <div class="flex-grow">
-            <h4 class="font-bold text-gray-800 text-sm line-clamp-1">${p.nombre}</h4>
-            <p class="text-xs text-gray-500 line-clamp-2 mb-2">${p.descripcion || ''}</p>
+      grid.innerHTML = prods.map(p => {
+        const opciones = Array.isArray(p.opciones) ? p.opciones : (p.opciones ? p.opciones.split(',') : []);
+        const tieneOpciones = opciones.length > 0;
+
+        return `
+          <div class="bg-white rounded-2xl p-3 shadow-sm flex flex-col justify-between border border-pink-100 hover:shadow-md transition-shadow">
+            <img src="${p.imagen || 'https://via.placeholder.com/150'}" onclick="ampliarImg('${p.imagen}')" class="w-full h-36 object-cover rounded-xl mb-2 cursor-pointer">
+            <div class="flex-grow">
+              <h4 class="font-bold text-gray-800 text-sm line-clamp-1">${p.nombre}</h4>
+              <p class="text-xs text-gray-500 line-clamp-2 mb-2">${p.descripcion || ''}</p>
+              
+              ${tieneOpciones ? `
+                <div class="mb-2">
+                  <label class="block text-[11px] font-semibold text-pink-700 mb-0.5">Elegir Tono/Talle:</label>
+                  <select id="opcion-select-${p._id}" class="w-full border border-pink-200 text-xs rounded-lg p-1 bg-pink-50 text-pink-900 focus:outline-none">
+                    ${opciones.map(op => `<option value="${op.trim()}">${op.trim()}</option>`).join('')}
+                  </select>
+                </div>
+              ` : ''}
+            </div>
+
+            <div class="flex justify-between items-center mt-2 pt-2 border-t border-gray-50">
+              <span class="font-bold text-pink-600">Gs. ${p.precio.toLocaleString()}</span>
+              <button onclick="agregarAlCarrito('${p._id}')" class="bg-pink-100 text-pink-700 px-2.5 py-1 rounded-lg text-xs font-bold hover:bg-pink-200">+ Carrito</button>
+            </div>
           </div>
-          <div class="flex justify-between items-center mt-2 pt-2 border-t border-gray-50">
-            <span class="font-bold text-pink-600">Gs. ${p.precio.toLocaleString()}</span>
-            <button onclick="agregarAlCarrito('${p._id}')" class="bg-pink-100 text-pink-700 px-2.5 py-1 rounded-lg text-xs font-bold hover:bg-pink-200">+ Carrito</button>
-          </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     function renderAdminTablaProductos() {
@@ -416,14 +447,29 @@
     function agregarAlCarrito(id) {
       const prod = productos.find(p => p._id === id);
       if (!prod) return;
-      const item = carrito.find(i => i._id === id);
+
+      const selectElement = document.getElementById(`opcion-select-${id}`);
+      const opcionSeleccionada = selectElement ? selectElement.value : null;
+
+      // Clave única considerando el id del producto y la variante/opción
+      const itemKey = opcionSeleccionada ? `${id}-${opcionSeleccionada}` : id;
+
+      const item = carrito.find(i => i.itemKey === itemKey);
       if (item) {
         item.cantidad++;
       } else {
-        carrito.push({ ...prod, cantidad: 1 });
+        carrito.push({
+          ...prod,
+          itemKey: itemKey,
+          opcion: opcionSeleccionada,
+          cantidad: 1
+        });
       }
+
       actualizarCarrito();
-      alert(`✅ "${prod.nombre}" agregado correctamente al carrito de compras`);
+      
+      const detalleOp = opcionSeleccionada ? ` (${opcionSeleccionada})` : '';
+      alert(`✅ "${prod.nombre}${detalleOp}" agregado correctamente al carrito de compras`);
     }
 
     function actualizarCarrito() {
@@ -436,13 +482,15 @@
         itemsCont.innerHTML = carrito.map(item => `
           <div class="py-3 flex justify-between items-center">
             <div>
-              <h5 class="font-bold text-sm text-pink-900">${item.nombre}</h5>
+              <h5 class="font-bold text-sm text-pink-900">
+                ${item.nombre} ${item.opcion ? `<span class="text-pink-600 text-xs font-normal">(${item.opcion})</span>` : ''}
+              </h5>
               <p class="text-xs text-pink-600">Gs. ${item.precio.toLocaleString()} x ${item.cantidad}</p>
             </div>
             <div class="flex items-center gap-2">
-              <button onclick="cambiarCantidad('${item._id}', -1)" class="bg-pink-100 text-pink-700 px-2 rounded font-bold">-</button>
+              <button onclick="cambiarCantidad('${item.itemKey}', -1)" class="bg-pink-100 text-pink-700 px-2 rounded font-bold">-</button>
               <span class="text-xs font-bold">${item.cantidad}</span>
-              <button onclick="cambiarCantidad('${item._id}', 1)" class="bg-pink-100 text-pink-700 px-2 rounded font-bold">+</button>
+              <button onclick="cambiarCantidad('${item.itemKey}', 1)" class="bg-pink-100 text-pink-700 px-2 rounded font-bold">+</button>
             </div>
           </div>
         `).join('');
@@ -452,12 +500,12 @@
       document.getElementById('cart-total').innerText = `Gs. ${total.toLocaleString()}`;
     }
 
-    function cambiarCantidad(id, delta) {
-      const item = carrito.find(i => i._id === id);
+    function cambiarCantidad(itemKey, delta) {
+      const item = carrito.find(i => i.itemKey === itemKey);
       if (!item) return;
       item.cantidad += delta;
       if (item.cantidad <= 0) {
-        carrito = carrito.filter(i => i._id !== id);
+        carrito = carrito.filter(i => i.itemKey !== itemKey);
       }
       actualizarCarrito();
     }
@@ -466,7 +514,8 @@
       if (carrito.length === 0) return alert('El carrito está vacío');
       let msg = '¡Hola D & B Belleza! 👋 Quisiera realizar el siguiente pedido:\n\n';
       carrito.forEach(i => {
-        msg += `• ${i.nombre} (x${i.cantidad}) - Gs. ${(i.precio * i.cantidad).toLocaleString()}\n`;
+        const detalleOp = i.opcion ? ` [${i.opcion}]` : '';
+        msg += `• ${i.nombre}${detalleOp} (x${i.cantidad}) - Gs. ${(i.precio * i.cantidad).toLocaleString()}\n`;
       });
       const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
       msg += `\n*Total a pagar: Gs. ${total.toLocaleString()}*`;
