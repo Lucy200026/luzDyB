@@ -4,7 +4,8 @@ const cors = require('cors');
 
 const app = express();
 app.use(cors());
-app.use(express.json({ limit: '50mb' }));
+app.use(express.json({ limit: '100mb' }));
+app.use(express.urlencoded({ limit: '100mb', extended: true }));
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://lucy200026_db:Luz200026@cluster0.p75st.mongodb.net/tienda?retryWrites=true&w=majority';
 
@@ -24,12 +25,13 @@ const ProductoSchema = new mongoose.Schema({
   descripcion: String,
   imagen: String,
   stock: Number,
-  opciones: [String]
-});
+  opciones: { type: [String], default: [] }
+}, { strict: false });
 
 const Categoria = mongoose.model('Categoria', CategoriaSchema);
 const Producto = mongoose.model('Producto', ProductoSchema);
 
+// Rutas Categorías
 app.get('/api/categorias', async (req, res) => {
   try {
     const cats = await Categoria.find();
@@ -58,6 +60,7 @@ app.delete('/api/categorias/:id', async (req, res) => {
   }
 });
 
+// Rutas Productos
 app.get('/api/productos', async (req, res) => {
   try {
     const prods = await Producto.find();
@@ -69,7 +72,16 @@ app.get('/api/productos', async (req, res) => {
 
 app.post('/api/productos', async (req, res) => {
   try {
-    const nuevo = new Producto(req.body);
+    const { nombre, precio, categoria, descripcion, imagen, stock, opciones } = req.body;
+    const nuevo = new Producto({
+      nombre,
+      precio,
+      categoria,
+      descripcion,
+      imagen,
+      stock,
+      opciones: Array.isArray(opciones) ? opciones : []
+    });
     await nuevo.save();
     res.json(nuevo);
   } catch (e) {
@@ -79,7 +91,17 @@ app.post('/api/productos', async (req, res) => {
 
 app.put('/api/productos/:id', async (req, res) => {
   try {
-    const actualizado = await Producto.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const { nombre, precio, categoria, descripcion, imagen, stock, opciones } = req.body;
+    const datosActualizar = {
+      nombre,
+      precio,
+      categoria,
+      descripcion,
+      imagen,
+      stock,
+      opciones: Array.isArray(opciones) ? opciones : []
+    };
+    const actualizado = await Producto.findByIdAndUpdate(req.params.id, datosActualizar, { new: true });
     res.json(actualizado);
   } catch (e) {
     res.status(500).json({ error: e.message });
