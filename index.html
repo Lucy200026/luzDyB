@@ -163,16 +163,15 @@
           <input type="text" id="admin-prod-nombre" placeholder="Nombre del producto" class="border p-2 rounded-lg" required>
           <input type="number" id="admin-prod-precio" placeholder="Precio (Gs.)" class="border p-2 rounded-lg" required>
 
-          <!-- NUEVO CREADOR DINÁMICO DE OPCIONES/TONOS -->
+          <!-- CREADOR DE OPCIONES -->
           <div class="md:col-span-2 border border-pink-200 bg-white p-3 rounded-lg flex flex-col gap-2">
             <label class="text-xs font-bold text-pink-700">🎨 Agregar Tonos / Talles / Medidas (Opcional):</label>
             <div class="flex gap-2">
-              <input type="text" id="input-nueva-opcion" placeholder="Ej: Tono 01" class="border p-2 rounded-lg text-xs flex-grow">
+              <input type="text" id="input-nueva-opcion" placeholder="Ej: S, M, L o Tono 01" class="border p-2 rounded-lg text-xs flex-grow">
               <button type="button" onclick="agregarOpcionLista()" class="bg-pink-600 text-white font-bold text-xs px-3 py-2 rounded-lg hover:bg-pink-700">
                 + Agregar
               </button>
             </div>
-            <!-- Lista visual de opciones agregadas -->
             <div id="admin-lista-opciones-temp" class="flex flex-wrap gap-1.5 mt-1"></div>
           </div>
 
@@ -225,7 +224,7 @@
     let productos = [];
     let carrito = [];
     let opcionSeleccionadaModal = null;
-    let opcionesTempForm = []; // Almacena las opciones temporales del formulario
+    let opcionesTempForm = [];
 
     document.addEventListener('DOMContentLoaded', () => {
       cargarCategorias();
@@ -289,7 +288,6 @@
       }
     }
 
-    // --- MANEJO DE OPCIONES / TONOS EN EL PANEL ---
     function agregarOpcionLista() {
       const input = document.getElementById('input-nueva-opcion');
       const val = input.value.trim();
@@ -310,7 +308,7 @@
     function renderOpcionesTempAdmin() {
       const cont = document.getElementById('admin-lista-opciones-temp');
       if (opcionesTempForm.length === 0) {
-        cont.innerHTML = '<span class="text-[10px] text-gray-400">No hay tonos o talles agregados.</span>';
+        cont.innerHTML = '<span class="text-[10px] text-gray-400">No hay opciones agregadas.</span>';
         return;
       }
       cont.innerHTML = opcionesTempForm.map((op, idx) => `
@@ -330,7 +328,15 @@
       const descripcion = document.getElementById('admin-prod-desc').value;
       const imagen = document.getElementById('admin-prod-imagen').value;
 
-      const payload = { nombre, precio, categoria, descripcion, imagen, opciones: opcionesTempForm };
+      const payload = { 
+        nombre, 
+        precio, 
+        categoria, 
+        descripcion, 
+        imagen, 
+        opciones: opcionesTempForm 
+      };
+
       const url = id ? `${API_URL}/productos/${id}` : `${API_URL}/productos`;
       const method = id ? 'PUT' : 'POST';
 
@@ -346,10 +352,10 @@
           resetFormProducto();
           await cargarProductos();
         } else {
-          alert('❌ Error al guardar producto');
+          alert('❌ Error al guardar el producto');
         }
       } catch (e) {
-        alert('❌ Error de conexión');
+        alert('❌ Error de conexión al servidor');
       }
     }
 
@@ -489,7 +495,7 @@
       document.getElementById('modal-det-nombre').innerText = prod.nombre;
       document.getElementById('modal-det-precio').innerText = `Gs. ${prod.precio.toLocaleString()}`;
 
-      // Configuración de la descripción (Solo si le pones texto)
+      // Configuración de la descripción
       const descElement = document.getElementById('modal-det-desc');
       if (prod.descripcion && prod.descripcion.trim() !== '' && prod.descripcion !== 'Sin descripción disponible.') {
         descElement.innerText = prod.descripcion;
@@ -512,7 +518,7 @@
 
       if (listaOpciones.length > 0) {
         opContainer.classList.remove('hidden');
-        opcionSeleccionadaModal = listaOpciones[0]; // Selecciona la opción 1 por defecto
+        opcionSeleccionadaModal = listaOpciones[0];
 
         opList.innerHTML = listaOpciones.map((op, idx) => {
           const val = op;
