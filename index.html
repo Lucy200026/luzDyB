@@ -24,18 +24,16 @@
 </head>
 <body class="bg-pink-50 font-sans text-gray-800 min-h-screen flex flex-col">
 
-  <!-- Encabezado / Navbar -->
+  <!-- Encabezado -->
   <header class="bg-white shadow-sm sticky top-0 z-30">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
       <h1 class="text-2xl font-bold text-pink-600 tracking-wide">🌷 D & B Tienda online</h1>
 
       <div class="flex items-center space-x-4">
-        <!-- Botón Acceso Dueña -->
         <button onclick="toggleAdminModal()" class="text-xs text-pink-500 hover:underline bg-pink-50 px-2 py-1 rounded-md border border-pink-200">
           🔐 Acceso Dueña
         </button>
 
-        <!-- Carrito Icono -->
         <button onclick="toggleCarrito()" class="relative bg-pink-100 p-2 rounded-full text-pink-600 hover:bg-pink-200">
           🛒
           <span id="cart-count" class="absolute -top-1 -right-1 bg-pink-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
@@ -53,7 +51,7 @@
   <!-- Contenedor Principal -->
   <main class="max-w-6xl mx-auto px-4 flex-grow w-full pb-12">
 
-    <!-- Filtro de Categorías -->
+    <!-- Categorías -->
     <div class="mb-6">
       <h3 class="text-lg font-bold text-pink-700 mb-3">Categorías</h3>
       <div id="categorias-bar" class="flex flex-wrap gap-2">
@@ -69,7 +67,7 @@
 
   </main>
 
-  <!-- MODAL: DETALLE DE PRODUCTO Y VER EN GRANDE -->
+  <!-- MODAL: DETALLE DE PRODUCTO -->
   <div id="modal-producto-detalle" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-md w-full p-5 relative shadow-2xl overflow-y-auto max-h-[90vh]">
       <button onclick="cerrarModalDetalle()" class="absolute top-3 right-3 bg-pink-100 text-pink-700 rounded-full w-8 h-8 flex items-center justify-center font-bold text-lg hover:bg-pink-200 z-10">✕</button>
@@ -84,7 +82,7 @@
 
       <!-- Selector de Tonos / Talles -->
       <div id="modal-det-opciones-container" class="mb-6 hidden">
-        <label class="block text-xs font-bold text-pink-800 uppercase tracking-wider mb-2">Selecciona una opción / tono / talle:</label>
+        <label class="block text-xs font-bold text-pink-800 uppercase tracking-wider mb-2">Selecciona Tono / Talle:</label>
         <div id="modal-det-opciones-list" class="flex flex-wrap gap-2"></div>
       </div>
 
@@ -102,7 +100,7 @@
     </div>
   </div>
 
-  <!-- DRAWER: Carrito de Compras -->
+  <!-- DRAWER: Carrito -->
   <div id="drawer-carrito" class="fixed inset-y-0 right-0 w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
     <div class="p-4 bg-pink-100 flex justify-between items-center border-b border-pink-200">
       <h3 class="text-lg font-bold text-pink-800">🛒 Mi Carrito</h3>
@@ -134,13 +132,13 @@
     </div>
   </div>
 
-  <!-- PANEL DE ADMINISTRACIÓN (DUEÑA) -->
+  <!-- PANEL DE ADMINISTRACIÓN -->
   <div id="panel-admin" class="fixed inset-0 bg-gray-900/90 z-50 hidden overflow-y-auto p-4 md:p-8">
     <div class="max-w-4xl mx-auto bg-white rounded-2xl p-6 shadow-2xl relative">
       <button onclick="cerrarPanelAdmin()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl">✕</button>
       <h2 class="text-2xl font-bold text-pink-700 mb-6 border-b pb-2">🛠️ Panel de Control - Dueña</h2>
 
-      <!-- Sección 1: Crear Categoría -->
+      <!-- Categoría -->
       <div class="mb-8 bg-pink-50 p-4 rounded-xl">
         <h4 class="font-bold text-pink-800 mb-2">1. Nueva Categoría</h4>
         <form id="form-cat" onsubmit="guardarCategoria(event)" class="flex flex-col md:flex-row gap-2">
@@ -155,7 +153,7 @@
         </div>
       </div>
 
-      <!-- Sección 2: Crear / Editar Producto -->
+      <!-- Producto -->
       <div class="mb-8 bg-pink-50 p-4 rounded-xl">
         <h4 id="form-prod-title" class="font-bold text-pink-800 mb-2">2. Agregar Producto</h4>
         <form id="form-prod" onsubmit="guardarProducto(event)" class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -163,14 +161,12 @@
           <input type="text" id="admin-prod-nombre" placeholder="Nombre del producto" class="border p-2 rounded-lg" required>
           <input type="number" id="admin-prod-precio" placeholder="Precio (Gs.)" class="border p-2 rounded-lg" required>
 
-          <!-- Opciones / Variantes (Tonos, Talles, Calzados) -->
           <div class="md:col-span-2 border border-pink-200 bg-white p-3 rounded-lg flex flex-col gap-1">
             <label class="text-xs font-bold text-pink-700">🎨 Tonos / Talles / Medidas (Opcional):</label>
-            <input type="text" id="admin-prod-opciones" placeholder="Ej: Tono 01, Tono 02, Tono 03  ó  S, M, L  ó  36, 37, 38" class="border p-2 rounded-lg text-xs">
-            <span class="text-[10px] text-gray-500">Escribe las opciones separadas por comas.</span>
+            <input type="text" id="admin-prod-opciones" placeholder="Ej: comeback, red carpet  ó  S, M, L" class="border p-2 rounded-lg text-xs">
+            <span class="text-[10px] text-gray-500">Separar por comas cada opción.</span>
           </div>
 
-          <!-- Opciones de Imagen -->
           <div class="md:col-span-2 border border-pink-200 bg-white p-3 rounded-lg flex flex-col gap-2">
             <label class="text-xs font-bold text-pink-700">Subir imagen desde el celular:</label>
             <input type="file" id="admin-prod-file" accept="image/*" onchange="convertirImagenABase64(event)" class="text-xs text-gray-600">
@@ -191,7 +187,7 @@
         </form>
       </div>
 
-      <!-- Sección 3: Lista de Productos (Gestión) -->
+      <!-- Tabla Inventario -->
       <div>
         <h4 class="font-bold text-pink-800 mb-3">Gestión de Inventario</h4>
         <div class="overflow-x-auto">
@@ -213,25 +209,22 @@
     </div>
   </div>
 
-  <!-- SCRIPT DE LÓGICA / CONEXIÓN -->
+  <!-- SCRIPT -->
   <script>
     const API_URL = 'https://luzdyb-1.onrender.com/api';
     let categorias = [];
     let productos = [];
     let carrito = [];
     let opcionSeleccionadaModal = null;
-    let productoActualModal = null;
 
     document.addEventListener('DOMContentLoaded', () => {
       cargarCategorias();
       cargarProductos();
     });
 
-    // --- CARGAR DATOS DE API ---
     async function cargarCategorias() {
       try {
         const res = await fetch(`${API_URL}/categorias`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         categorias = await res.json();
         renderBarraCategorias();
         renderSelectCategorias();
@@ -244,7 +237,6 @@
     async function cargarProductos() {
       try {
         const res = await fetch(`${API_URL}/productos`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         productos = await res.json();
         renderGridProductos(productos);
         renderAdminTablaProductos();
@@ -253,7 +245,6 @@
       }
     }
 
-    // --- GESTIÓN DE CATEGORÍAS ---
     async function guardarCategoria(e) {
       e.preventDefault();
       const nombre = document.getElementById('admin-cat-nombre').value;
@@ -269,30 +260,25 @@
           alert('✅ Categoría guardada');
           document.getElementById('form-cat').reset();
           cargarCategorias();
-        } else {
-          alert('❌ No se pudo guardar la categoría');
         }
       } catch (e) {
-        alert('❌ Error de conexión al guardar categoría');
+        alert('❌ Error al guardar categoría');
       }
     }
 
     async function eliminarCategoria(id) {
-      if (!confirm('¿Estás segura de eliminar esta categoría?')) return;
+      if (!confirm('¿Eliminar categoría?')) return;
       try {
         const res = await fetch(`${API_URL}/categorias/${id}`, { method: 'DELETE' });
         if (res.ok) {
           alert('🗑️ Categoría eliminada');
           cargarCategorias();
-        } else {
-          alert('❌ Error al eliminar categoría');
         }
       } catch (e) {
-        alert('❌ Error de conexión');
+        alert('❌ Error');
       }
     }
 
-    // --- GESTIÓN DE PRODUCTOS ---
     async function guardarProducto(e) {
       e.preventDefault();
       const id = document.getElementById('admin-prod-id').value;
@@ -303,12 +289,14 @@
       const imagen = document.getElementById('admin-prod-imagen').value;
       const opcionesRaw = document.getElementById('admin-prod-opciones').value;
 
-      const opciones = opcionesRaw ? opcionesRaw.split(',').map(o => o.trim()).filter(o => o !== '') : [];
+      let opciones = [];
+      if (opcionesRaw) {
+        opciones = opcionesRaw.split(',').map(o => o.trim()).filter(o => o !== '');
+      }
 
       const payload = { nombre, precio, categoria, descripcion, imagen, opciones };
-      const esEdicion = Boolean(id);
-      const url = esEdicion ? `${API_URL}/productos/${id}` : `${API_URL}/productos`;
-      const method = esEdicion ? 'PUT' : 'POST';
+      const url = id ? `${API_URL}/productos/${id}` : `${API_URL}/productos`;
+      const method = id ? 'PUT' : 'POST';
 
       try {
         const res = await fetch(url, {
@@ -318,11 +306,11 @@
         });
 
         if (res.ok) {
-          alert(esEdicion ? '✅ Producto actualizado' : '✅ Producto creado');
+          alert('✅ Producto guardado');
           resetFormProducto();
           cargarProductos();
         } else {
-          alert('❌ Error al guardar el producto');
+          alert('❌ Error al guardar');
         }
       } catch (e) {
         alert('❌ Error de conexión');
@@ -339,24 +327,26 @@
       document.getElementById('admin-prod-desc').value = prod.descripcion || '';
       document.getElementById('admin-prod-imagen').value = prod.imagen || '';
       
-      const ops = Array.isArray(prod.opciones) ? prod.opciones.join(', ') : (prod.opciones || '');
+      let ops = '';
+      if (Array.isArray(prod.opciones)) {
+        ops = prod.opciones.join(', ');
+      } else if (typeof prod.opciones === 'string') {
+        ops = prod.opciones;
+      }
       document.getElementById('admin-prod-opciones').value = ops;
-
       document.getElementById('form-prod-title').innerText = '✏️ Editar Producto';
     }
 
     async function eliminarProducto(id) {
-      if (!confirm('¿Estás segura de eliminar este producto?')) return;
+      if (!confirm('¿Eliminar producto?')) return;
       try {
         const res = await fetch(`${API_URL}/productos/${id}`, { method: 'DELETE' });
         if (res.ok) {
           alert('🗑️ Producto eliminado');
           cargarProductos();
-        } else {
-          alert('❌ Error al eliminar el producto');
         }
       } catch (e) {
-        alert('❌ Error de conexión');
+        alert('❌ Error');
       }
     }
 
@@ -377,7 +367,6 @@
       reader.readAsDataURL(file);
     }
 
-    // --- RENDERIZADO DE INTERFAZ ---
     function renderBarraCategorias() {
       const bar = document.getElementById('categorias-bar');
       bar.innerHTML = `
@@ -409,7 +398,7 @@
     function renderGridProductos(prods) {
       const grid = document.getElementById('grid-productos');
       if (prods.length === 0) {
-        grid.innerHTML = '<p class="col-span-full text-center text-pink-400 py-8">No hay productos en esta categoría.</p>';
+        grid.innerHTML = '<p class="col-span-full text-center text-pink-400 py-8">No hay productos disponibles.</p>';
         return;
       }
       grid.innerHTML = prods.map(p => `
@@ -451,12 +440,11 @@
       }
     }
 
-    // --- MODAL DE DETALLE / SELECCIÓN DE TONOS Y TALLES ---
+    // MODAL DE DETALLE
     function abrirModalDetalle(id) {
       const prod = productos.find(p => p._id === id);
       if (!prod) return;
 
-      productoActualModal = prod;
       opcionSeleccionadaModal = null;
 
       document.getElementById('modal-det-img').src = prod.imagen || 'https://via.placeholder.com/300';
@@ -464,19 +452,27 @@
       document.getElementById('modal-det-precio').innerText = `Gs. ${prod.precio.toLocaleString()}`;
       document.getElementById('modal-det-desc').innerText = prod.descripcion || 'Sin descripción disponible.';
 
-      const opciones = Array.isArray(prod.opciones) ? prod.opciones : (prod.opciones ? prod.opciones.split(',') : []);
+      // Obtener lista de opciones limpia
+      let listaOpciones = [];
+      if (Array.isArray(prod.opciones)) {
+        listaOpciones = prod.opciones;
+      } else if (typeof prod.opciones === 'string' && prod.opciones.trim() !== '') {
+        listaOpciones = prod.opciones.split(',').map(o => o.trim());
+      }
+
       const opContainer = document.getElementById('modal-det-opciones-container');
       const opList = document.getElementById('modal-det-opciones-list');
 
-      if (opciones.length > 0) {
+      if (listaOpciones.length > 0) {
         opContainer.classList.remove('hidden');
-        opcionSeleccionadaModal = opciones[0].trim(); // Primera opción por defecto
+        opcionSeleccionadaModal = listaOpciones[0]; // Opción 1 seleccionada por defecto
 
-        opList.innerHTML = opciones.map((op, idx) => {
+        opList.innerHTML = listaOpciones.map((op, idx) => {
           const val = op.trim();
-          const selected = idx === 0 ? 'bg-pink-600 text-white border-pink-600' : 'bg-white text-gray-700 border-pink-200 hover:bg-pink-50';
+          const isSelected = idx === 0;
+          const bgClass = isSelected ? 'bg-pink-600 text-white border-pink-600' : 'bg-white text-gray-700 border-pink-200 hover:bg-pink-50';
           return `
-            <button type="button" onclick="seleccionarOpcionModal('${val}', this)" class="op-btn px-3 py-1.5 rounded-xl border text-xs font-bold transition-all ${selected}">
+            <button type="button" onclick="seleccionarOpcionModal('${val}', this)" class="op-btn px-3 py-1.5 rounded-xl border text-xs font-bold transition-all ${bgClass}">
               ${val}
             </button>
           `;
@@ -505,7 +501,6 @@
       document.getElementById('modal-producto-detalle').classList.add('hidden');
     }
 
-    // --- CARRITO ---
     function toggleCarrito() {
       document.getElementById('drawer-carrito').classList.toggle('translate-x-full');
     }
@@ -530,7 +525,7 @@
 
       actualizarCarrito();
       const detalleOp = opcion ? ` (${opcion})` : '';
-      alert(`✅ "${prod.nombre}${detalleOp}" agregado correctamente al carrito de compras`);
+      alert(`✅ "${prod.nombre}${detalleOp}" agregado al carrito`);
     }
 
     function actualizarCarrito() {
@@ -581,11 +576,9 @@
       const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
       msg += `\n*Total a pagar: Gs. ${total.toLocaleString()}*`;
 
-      const numeroWhatsApp = '595982416860';
-      window.open(`https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(msg)}`, '_blank');
+      window.open(`https://wa.me/595982416860?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
-    // --- ACCESOS Y MODALES ---
     function toggleAdminModal() {
       document.getElementById('modal-login').classList.toggle('hidden');
     }
