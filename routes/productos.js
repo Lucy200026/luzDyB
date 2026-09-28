@@ -20,7 +20,8 @@ router.post('/', async (req, res) => {
     descripcion: req.body.descripcion,
     imagen: req.body.imagen,
     stock: req.body.stock,
-    categoria: req.body.categoria
+    categoria: req.body.categoria,
+    opciones: req.body.opciones // <--- ¡AQUÍ ESTABA HACIENDO FALTA!
   });
   try {
     const nuevoProducto = await producto.save();
