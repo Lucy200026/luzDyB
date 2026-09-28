@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>D & B - Belleza & Cosmética</title>
+  <title>D & B - Belleza & Cosmética Premium</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts para tipografía elegante -->
+  <!-- Fuentes Elegantes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..800;1,400..800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -20,17 +20,17 @@
             sans: ['"Plus Jakarta Sans"', 'sans-serif'],
           },
           colors: {
-            rosebrand: {
-              50: '#fdf2f8',
-              100: '#fce7f3',
-              200: '#fbcfe8',
-              300: '#f472b6',
-              400: '#e879f9',
-              500: '#bc5278', // Rosa empolvado principal
-              600: '#9f3a5e', // Rosa medio/oscuro
-              700: '#832847', // Rosa oscuro
-              800: '#5c1a30', // Rosa profundo
-              900: '#3d101f', // Pie de página
+            zack: {
+              50: '#fdf2f4',
+              100: '#fce7eb',
+              200: '#f9d2dc',
+              300: '#f4adc0',
+              400: '#ec7b9b',
+              500: '#e14d79',
+              600: '#c22c5e', // Rosa fuerte acento
+              700: '#a31f4a',
+              800: '#871d41',
+              900: '#400a1d',
             }
           }
         }
@@ -38,183 +38,224 @@
     }
   </script>
 </head>
-<body class="bg-[#faf7f5] font-sans text-gray-800 min-h-screen flex flex-col selection:bg-rosebrand-200">
+<body class="bg-[#faf7f7] font-sans text-gray-800 min-h-screen flex flex-col">
 
-  <!-- 1. Barra de Anuncio Superior -->
-  <div class="bg-rosebrand-600 text-white text-[11px] md:text-xs py-1.5 px-4 text-center font-medium tracking-wider flex justify-between items-center">
-    <div class="hidden md:flex gap-3 text-rosebrand-100">
-      <span>Envíos a todo el país</span>
+  <!-- 1. Barra Promocional Superior -->
+  <div class="bg-zack-100 text-zack-900 text-[11px] py-1.5 px-4 text-center font-medium tracking-wider border-b border-zack-200 flex justify-between items-center">
+    <div class="hidden md:flex gap-4 text-gray-600">
+      <span>✨ Envíos a todo el país</span>
       <span>•</span>
-      <span>Atención personalizada</span>
+      <span>30 Días para cambios</span>
     </div>
-    <p class="w-full md:w-auto text-center font-semibold">✨ Regalitos especiales en compras seleccionadas | Código: BEAUTY10 ✨</p>
-    <div class="hidden md:flex gap-3 text-rosebrand-100">
-      <a href="#" class="hover:text-white">Instagram</a>
-      <a href="#" class="hover:text-white">Facebook</a>
+    <p class="w-full md:w-auto text-center font-semibold">💖 ENVÍO GRATIS en compras seleccionadas | Usa el código: GLOW10</p>
+    <div class="hidden md:flex gap-3 text-gray-600 font-semibold">
+      <span>Atención 24/7</span>
     </div>
   </div>
 
-  <!-- 2. Encabezado Principal -->
-  <header class="bg-white/90 backdrop-blur-md sticky top-0 z-30 border-b border-rosebrand-100 shadow-sm">
+  <!-- 2. Encabezado de la Tienda -->
+  <header class="bg-white sticky top-0 z-30 border-b border-gray-100 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 py-3.5 flex justify-between items-center">
       
-      <!-- Menú de navegación rápido (escritorio) -->
+      <!-- Menú Superior -->
       <nav class="hidden md:flex items-center space-x-6 text-xs font-semibold uppercase tracking-wider text-gray-600">
-        <a href="#inicio" class="hover:text-rosebrand-600 transition-colors">Inicio</a>
-        <a href="#categorias-seccion" class="hover:text-rosebrand-600 transition-colors">Categorías</a>
-        <a href="#ofertas-seccion" class="hover:text-rosebrand-600 transition-colors">Ofertas</a>
-        <a href="#productos-seccion" class="hover:text-rosebrand-600 transition-colors">Productos</a>
+        <a href="#inicio" class="hover:text-zack-600 transition-colors">Inicio</a>
+        <a href="#categorias" class="hover:text-zack-600 transition-colors">Categorías</a>
+        <a href="#productos" class="hover:text-zack-600 transition-colors">Productos</a>
+        <a href="#ofertas" class="hover:text-zack-600 transition-colors">Ofertas</a>
       </nav>
 
-      <!-- Logotipo Estilo Boutique -->
+      <!-- Logo Estilo ZACK Beauty -->
       <div class="text-center">
-        <h1 class="font-serif text-2xl md:text-3xl font-extrabold text-rosebrand-800 tracking-wide uppercase">
-          D & B
+        <h1 class="font-serif text-2xl md:text-3xl font-bold tracking-tight text-gray-900">
+          <span class="text-zack-600">D & B</span> BEAUTY
         </h1>
-        <span class="block text-[9px] uppercase tracking-[0.3em] text-rosebrand-500 font-semibold -mt-1">
-          BEAUTY & COSMETICS
-        </span>
       </div>
 
-      <!-- Iconos de Acción -->
-      <div class="flex items-center space-x-3 md:space-x-4">
+      <!-- Iconos y Botones -->
+      <div class="flex items-center space-x-3">
         <!-- Acceso Dueña -->
-        <button onclick="toggleAdminModal()" title="Acceso Exclusivo Dueña" class="text-xs text-rosebrand-700 hover:bg-rosebrand-50 px-2.5 py-1.5 rounded-full border border-rosebrand-200 transition-all flex items-center gap-1 font-medium">
-          🔐 <span class="hidden sm:inline">Dueña</span>
+        <button onclick="toggleAdminModal()" class="text-xs text-zack-700 bg-zack-50 hover:bg-zack-100 px-3 py-1.5 rounded-full border border-zack-200 transition-all font-semibold flex items-center gap-1">
+          🔐 <span>Dueña</span>
         </button>
 
-        <!-- Carrito de Compras -->
-        <button onclick="toggleCarrito()" class="relative bg-rosebrand-50 p-2.5 rounded-full text-rosebrand-700 hover:bg-rosebrand-100 transition-all border border-rosebrand-200 shadow-sm">
-          🛒
-          <span id="cart-count" class="absolute -top-1 -right-1 bg-rosebrand-600 text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-white">0</span>
+        <!-- Carrito -->
+        <button onclick="toggleCarrito()" class="relative p-2 text-gray-700 hover:text-zack-600 transition-all">
+          <span class="text-xl">🛒</span>
+          <span id="cart-count" class="absolute top-0 right-0 bg-zack-600 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">0</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- 3. Banner Hero Principal (Estilo Elegante) -->
-  <section id="inicio" class="relative bg-gradient-to-r from-[#f7e9e8] via-[#fce7f3] to-[#f4e2de] py-12 md:py-20 px-4 border-b border-rosebrand-100 overflow-hidden">
+  <!-- 3. Banner Hero Principal (Estilo Zack Beauty) -->
+  <section id="inicio" class="bg-gradient-to-r from-[#fcf2f4] via-[#fbebee] to-[#f7e4e8] py-12 md:py-20 px-4 border-b border-zack-100">
     <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center">
-      <div class="text-center md:text-left z-10">
-        <span class="text-rosebrand-600 text-xs uppercase tracking-[0.2em] font-bold bg-white/70 px-3 py-1 rounded-full inline-block mb-3 border border-rosebrand-200">
-          NUEVA COLECCIÓN
+      <div class="text-center md:text-left">
+        <span class="text-zack-600 text-[11px] font-bold uppercase tracking-[0.2em] mb-2 block">
+          REALZA TU BELLEZA NATURAL
         </span>
         <h2 class="font-serif text-3xl md:text-5xl font-bold text-gray-900 leading-tight mb-4">
-          Piel radiante.<br><span class="text-rosebrand-600 italic">Confianza real.</span>
+          Resplandece con <br><span class="text-zack-600 italic">Productos Premium</span>
         </h2>
-        <p class="text-gray-600 text-sm md:text-base mb-6 max-w-md mx-auto md:mx-0 font-light">
-          Cosmética y cuidado personal formulados para nutrir, realzar y resaltar tu belleza natural todos los días.
+        <p class="text-gray-600 text-xs md:text-sm mb-6 max-w-md mx-auto md:mx-0 font-light leading-relaxed">
+          Descubre maquillaje y cuidado de la piel de alta calidad que te harán brillar todos los días.
         </p>
-        <a href="#productos-seccion" class="inline-block bg-rosebrand-600 hover:bg-rosebrand-700 text-white text-xs md:text-sm font-bold uppercase tracking-wider px-8 py-3.5 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5">
-          Explorar Catálogo
-        </a>
+        <div class="flex justify-center md:justify-start gap-3">
+          <a href="#productos" class="bg-zack-600 hover:bg-zack-700 text-white text-xs font-bold uppercase tracking-wider px-7 py-3 rounded-md shadow-md transition-all">
+            Comprar Ahora
+          </a>
+          <a href="#categorias" class="bg-white hover:bg-zack-50 text-gray-800 border border-gray-200 text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-md transition-all">
+            Ver Colecciones →
+          </a>
+        </div>
       </div>
-      
-      <!-- Ilustración / Imagen estilo Banner -->
-      <div class="relative flex justify-center items-center">
-        <div class="w-64 h-64 md:w-80 md:h-80 rounded-full bg-rosebrand-200/50 absolute blur-2xl"></div>
-        <div class="relative bg-white/60 p-4 rounded-3xl backdrop-blur-sm border border-white shadow-xl max-w-sm text-center">
-          <div class="text-4xl mb-2">🌷🌸✨</div>
-          <h3 class="font-serif font-bold text-gray-800 text-lg">Belleza y Cosmética D & B</h3>
-          <p class="text-xs text-gray-500 mt-1">Encuentra los tonos, tratamientos y productos perfectos diseñados exclusivamente para ti.</p>
+
+      <!-- Tarjeta Ilustrativa Banner -->
+      <div class="flex justify-center">
+        <div class="bg-white/80 p-6 rounded-2xl border border-zack-200 shadow-xl max-w-sm text-center backdrop-blur-sm">
+          <div class="text-5xl mb-3">🌸✨💄</div>
+          <h3 class="font-serif font-bold text-lg text-gray-900">Colección Cosmética D & B</h3>
+          <p class="text-xs text-gray-500 mt-1">Formulaciones pensadas para cuidar y resaltar lo mejor de ti.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 4. Cinta de Valores / Garantías -->
-  <section class="bg-white py-6 border-b border-rosebrand-100 shadow-sm">
+  <!-- 4. Cinta de Características e Iconos -->
+  <section class="bg-white py-6 border-b border-gray-100 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-      <div class="p-2">
-        <span class="text-2xl block mb-1">🌱</span>
-        <h4 class="text-xs font-bold text-gray-800 uppercase tracking-wider">Ingredientes Limpios</h4>
-        <p class="text-[11px] text-gray-500">Libres de tóxicos</p>
+      <div class="flex items-center justify-center gap-3 p-2">
+        <span class="text-2xl">🚀</span>
+        <div class="text-left">
+          <h4 class="text-xs font-bold uppercase text-gray-800">ENVÍO RÁPIDO</h4>
+          <p class="text-[10px] text-gray-500">En todos los pedidos</p>
+        </div>
       </div>
-      <div class="p-2">
-        <span class="text-2xl block mb-1">🔬</span>
-        <h4 class="text-xs font-bold text-gray-800 uppercase tracking-wider">Probado Clínicamente</h4>
-        <p class="text-[11px] text-gray-500">Testado dermatológicamente</p>
+      <div class="flex items-center justify-center gap-3 p-2">
+        <span class="text-2xl">💎</span>
+        <div class="text-left">
+          <h4 class="text-xs font-bold uppercase text-gray-800">ALTA CALIDAD</h4>
+          <p class="text-[10px] text-gray-500">Productos seleccionados</p>
+        </div>
       </div>
-      <div class="p-2">
-        <span class="text-2xl block mb-1">🐰</span>
-        <h4 class="text-xs font-bold text-gray-800 uppercase tracking-wider">Cruelty Free</h4>
-        <p class="text-[11px] text-gray-500">Libre de crueldad animal</p>
+      <div class="flex items-center justify-center gap-3 p-2">
+        <span class="text-2xl">🔄</span>
+        <div class="text-left">
+          <h4 class="text-xs font-bold uppercase text-gray-800">CAMBIOS FÁCILES</h4>
+          <p class="text-[10px] text-gray-500">Atención personalizada</p>
+        </div>
       </div>
-      <div class="p-2">
-        <span class="text-2xl block mb-1">✨</span>
-        <h4 class="text-xs font-bold text-gray-800 uppercase tracking-wider">Calidad Garantizada</h4>
-        <p class="text-[11px] text-gray-500">Atención personalizada</p>
+      <div class="flex items-center justify-center gap-3 p-2">
+        <span class="text-2xl">🔒</span>
+        <div class="text-left">
+          <h4 class="text-xs font-bold uppercase text-gray-800">PAGO SEGURO</h4>
+          <p class="text-[10px] text-gray-500">100% garantizado</p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Contenedor Principal -->
-  <main class="max-w-6xl mx-auto px-4 flex-grow w-full py-10">
+  <main class="max-w-6xl mx-auto px-4 flex-grow w-full py-12">
 
-    <!-- 5. Sección de Categorías Circulares -->
-    <section id="categorias-seccion" class="mb-12 text-center">
-      <h3 class="font-serif text-2xl font-bold text-gray-900 mb-1 uppercase tracking-wider">Comprar por Categoría</h3>
-      <div class="w-12 h-0.5 bg-rosebrand-500 mx-auto mb-6"></div>
+    <!-- 5. Comprar por Categoría -->
+    <section id="categorias" class="mb-14 text-center">
+      <h3 class="font-serif text-2xl font-bold uppercase tracking-wider text-gray-900 mb-2">Comprar por Categoría</h3>
+      <div class="w-10 h-0.5 bg-zack-600 mx-auto mb-8"></div>
 
-      <div id="categorias-bar" class="flex flex-wrap justify-center gap-3 md:gap-4">
-        <button onclick="filtrarProductos('todas')" class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-rosebrand-600 text-white shadow-md transition-all hover:bg-rosebrand-700">
+      <div id="categorias-bar" class="flex flex-wrap justify-center gap-3">
+        <button onclick="filtrarProductos('todas')" class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-zack-600 text-white shadow-md transition-all">
           Todas
         </button>
       </div>
     </section>
 
-    <!-- 6. Banner de Oferta Especial Promocional -->
-    <section id="ofertas-seccion" class="mb-12 bg-gradient-to-r from-rosebrand-600 to-rosebrand-700 rounded-3xl text-white p-6 md:p-10 shadow-xl relative overflow-hidden flex flex-col md:flex-row justify-between items-center gap-6">
-      <div class="z-10 text-center md:text-left">
-        <span class="bg-white/20 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-3 inline-block">
-          OFERTA POR TIEMPO LIMITADO
-        </span>
-        <h3 class="font-serif text-2xl md:text-4xl font-bold mb-2">Descuentos Especiales en Favoritos</h3>
-        <p class="text-rosebrand-100 text-xs md:text-sm max-w-md">Resalta tu piel gastando menos. ¡Consiéntete hoy con nuestros productos estrella!</p>
-      </div>
-      <a href="#productos-seccion" class="z-10 bg-white text-rosebrand-700 font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-full shadow-md hover:bg-rosebrand-50 transition-all">
-        Ver Productos
-      </a>
-      <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
-    </section>
-
-    <!-- 7. Lista / Catálogo de Productos -->
-    <section id="productos-seccion">
+    <!-- 6. Productos Más Vendidos -->
+    <section id="productos" class="mb-16">
       <div class="text-center mb-8">
-        <h3 class="font-serif text-2xl md:text-3xl font-bold text-gray-900 uppercase tracking-wider">Los Más Vendidos</h3>
-        <p class="text-xs text-rosebrand-600 uppercase tracking-widest mt-1">Selección Exclusiva</p>
-        <div class="w-12 h-0.5 bg-rosebrand-500 mx-auto mt-2"></div>
+        <h3 class="font-serif text-2xl md:text-3xl font-bold uppercase tracking-wider text-gray-900">Más Vendidos</h3>
+        <div class="w-10 h-0.5 bg-zack-600 mx-auto mt-2"></div>
       </div>
 
       <div id="grid-productos" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-        <p class="col-span-full text-center text-rosebrand-500 py-12 text-sm font-medium">Cargando catálogo desde el servidor...</p>
+        <p class="col-span-full text-center text-zack-600 py-12 text-sm font-medium">Cargando catálogo desde el servidor...</p>
+      </div>
+    </section>
+
+    <!-- 7. Banners Dobles Promocionales -->
+    <section id="ofertas" class="grid md:grid-cols-2 gap-6 mb-16">
+      <!-- Oferta 1 -->
+      <div class="bg-gradient-to-r from-zack-100 to-zack-200 p-8 rounded-2xl flex flex-col justify-between border border-zack-300">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-widest text-zack-700 block mb-1">OFERTA ESPECIAL</span>
+          <h4 class="font-serif text-2xl font-bold text-gray-900 mb-2">Hasta 30% Off en Cuidados de Piel</h4>
+          <p class="text-xs text-gray-600 mb-4">Aprovecha precios reducidos en nuestra línea favorita.</p>
+        </div>
+        <div>
+          <a href="#productos" class="inline-block bg-zack-600 hover:bg-zack-700 text-white text-xs font-bold uppercase px-5 py-2.5 rounded-md shadow-sm transition-all">
+            Comprar Oferta
+          </a>
+        </div>
+      </div>
+
+      <!-- Oferta 2 -->
+      <div class="bg-gradient-to-r from-gray-100 to-zack-100 p-8 rounded-2xl flex flex-col justify-between border border-gray-200">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-widest text-gray-600 block mb-1">NUEVO INGRESO</span>
+          <h4 class="font-serif text-2xl font-bold text-gray-900 mb-2">Línea Tendencia en Maquillaje</h4>
+          <p class="text-xs text-gray-600 mb-4">Descubre los nuevos tonos de temporada.</p>
+        </div>
+        <div>
+          <a href="#productos" class="inline-block bg-gray-900 hover:bg-black text-white text-xs font-bold uppercase px-5 py-2.5 rounded-md shadow-sm transition-all">
+            Descubrir Ahora
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Sección Galería / Redes Sociales -->
+    <section class="text-center mb-12">
+      <h4 class="font-serif text-lg font-bold text-gray-900 uppercase tracking-wider mb-1">Síguenos en Instagram</h4>
+      <p class="text-xs text-zack-600 font-semibold mb-6">@DB.BEAUTY.PARAGUAY</p>
+      <div class="grid grid-cols-3 md:grid-cols-6 gap-2">
+        <div class="bg-zack-100 h-28 rounded-xl flex items-center justify-center text-2xl border border-zack-200">✨</div>
+        <div class="bg-zack-100 h-28 rounded-xl flex items-center justify-center text-2xl border border-zack-200">💄</div>
+        <div class="bg-zack-100 h-28 rounded-xl flex items-center justify-center text-2xl border border-zack-200">🌸</div>
+        <div class="bg-zack-100 h-28 rounded-xl flex items-center justify-center text-2xl border border-zack-200">🌿</div>
+        <div class="bg-zack-100 h-28 rounded-xl flex items-center justify-center text-2xl border border-zack-200">💅</div>
+        <div class="bg-zack-100 h-28 rounded-xl flex items-center justify-center text-2xl border border-zack-200">🎁</div>
       </div>
     </section>
 
   </main>
 
-  <!-- MODAL: DETALLE DEL PRODUCTO Y SELECCIÓN DE TONOS -->
+  <!-- MODAL: DETALLE DE PRODUCTO -->
   <div id="modal-producto-detalle" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 relative shadow-2xl overflow-y-auto max-h-[90vh] border border-rosebrand-100">
-      <button onclick="cerrarModalDetalle()" class="absolute top-4 right-4 bg-rosebrand-50 text-rosebrand-700 rounded-full w-8 h-8 flex items-center justify-center font-bold text-base hover:bg-rosebrand-100 transition-all z-10">✕</button>
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 relative shadow-2xl overflow-y-auto max-h-[90vh] border border-gray-100">
+      <button onclick="cerrarModalDetalle()" class="absolute top-4 right-4 bg-gray-100 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center font-bold text-base hover:bg-gray-200 transition-all z-10">✕</button>
       
-      <div class="mb-4 overflow-hidden rounded-2xl bg-gray-50 border border-rosebrand-100 flex items-center justify-center">
+      <div class="mb-4 overflow-hidden rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center">
         <img id="modal-det-img" src="" class="w-full h-64 object-cover cursor-pointer" onclick="ampliarImg(this.src)">
       </div>
 
       <h3 id="modal-det-nombre" class="font-serif text-xl font-bold text-gray-900 mb-1"></h3>
-      <p id="modal-det-precio" class="text-2xl font-extrabold text-rosebrand-600 mb-3"></p>
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-amber-400 text-xs">★★★★★</span>
+        <span class="text-[10px] text-gray-400">(Reseñas verificadas)</span>
+      </div>
+      <p id="modal-det-precio" class="text-2xl font-extrabold text-zack-600 mb-3"></p>
 
-      <!-- Descripción del producto -->
-      <p id="modal-det-desc" class="text-xs text-gray-600 mb-4 bg-rosebrand-50/50 p-3 rounded-xl border border-rosebrand-100 leading-relaxed hidden"></p>
+      <!-- Descripción -->
+      <p id="modal-det-desc" class="text-xs text-gray-600 mb-4 bg-zack-50/50 p-3 rounded-xl border border-zack-100 leading-relaxed hidden"></p>
 
       <!-- Selector de Tonos / Talles -->
       <div id="modal-det-opciones-container" class="mb-6 hidden">
-        <label class="block text-xs font-bold uppercase tracking-wider text-rosebrand-700 mb-2">Selecciona la opción que prefieres:</label>
+        <label class="block text-xs font-bold uppercase tracking-wider text-zack-700 mb-2">Selecciona la opción que prefieres:</label>
         <div id="modal-det-opciones-list" class="flex flex-wrap gap-2"></div>
       </div>
 
-      <button id="btn-modal-add-cart" class="w-full bg-rosebrand-600 hover:bg-rosebrand-700 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-full shadow-lg transition-all flex items-center justify-center gap-2">
+      <button id="btn-modal-add-cart" class="w-full bg-zack-600 hover:bg-zack-700 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-lg shadow-md transition-all flex items-center justify-center gap-2">
         🛒 Agregar al Carrito
       </button>
     </div>
@@ -228,21 +269,21 @@
     </div>
   </div>
 
-  <!-- DRAWER: Carrito de Compras -->
+  <!-- DRAWER: Carrito -->
   <div id="drawer-carrito" class="fixed inset-y-0 right-0 w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
-    <div class="p-5 bg-rosebrand-50 flex justify-between items-center border-b border-rosebrand-100">
-      <h3 class="font-serif font-bold text-lg text-rosebrand-800 flex items-center gap-2">🛒 Mi Carrito</h3>
-      <button onclick="toggleCarrito()" class="text-rosebrand-600 text-xl font-bold hover:text-rosebrand-800">✕</button>
+    <div class="p-5 bg-zack-50 flex justify-between items-center border-b border-zack-100">
+      <h3 class="font-serif font-bold text-lg text-gray-900 flex items-center gap-2">🛒 Mi Carrito</h3>
+      <button onclick="toggleCarrito()" class="text-gray-500 text-xl font-bold hover:text-gray-800">✕</button>
     </div>
-    <div id="cart-items" class="flex-grow p-4 overflow-y-auto divide-y divide-rosebrand-100">
+    <div id="cart-items" class="flex-grow p-4 overflow-y-auto divide-y divide-gray-100">
       <p class="text-center text-gray-400 py-8 text-sm">Tu carrito está vacío</p>
     </div>
-    <div class="p-5 border-t border-rosebrand-100 bg-rosebrand-50">
+    <div class="p-5 border-t border-gray-100 bg-zack-50">
       <div class="flex justify-between font-bold text-lg text-gray-900 mb-4">
         <span>Total:</span>
-        <span id="cart-total" class="text-rosebrand-600">Gs. 0</span>
+        <span id="cart-total" class="text-zack-600">Gs. 0</span>
       </div>
-      <button onclick="enviarPedidoWhatsApp()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-full shadow-lg flex items-center justify-center gap-2 transition-all">
+      <button onclick="enviarPedidoWhatsApp()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-lg shadow-md flex items-center justify-center gap-2 transition-all">
         🟢 Confirmar pedido por WhatsApp
       </button>
     </div>
@@ -250,84 +291,84 @@
 
   <!-- MODAL: Login Dueña -->
   <div id="modal-login" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl p-6 w-full max-w-sm shadow-xl border border-rosebrand-100">
-      <h3 class="font-serif text-xl font-bold text-rosebrand-800 mb-4 text-center">🔐 Acceso Exclusivo Dueña</h3>
-      <input type="password" id="pass-admin" placeholder="Ingresa contraseña" class="w-full border border-rosebrand-200 p-3 rounded-2xl mb-4 text-center text-sm focus:outline-none focus:ring-2 focus:ring-rosebrand-500">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl border border-gray-100">
+      <h3 class="font-serif text-xl font-bold text-gray-900 mb-4 text-center">🔐 Acceso Exclusivo Dueña</h3>
+      <input type="password" id="pass-admin" placeholder="Ingresa contraseña" class="w-full border border-gray-200 p-3 rounded-xl mb-4 text-center text-sm focus:outline-none focus:ring-2 focus:ring-zack-500">
       <div class="flex gap-2">
-        <button onclick="toggleAdminModal()" class="w-1/2 border border-gray-300 py-2.5 rounded-2xl text-gray-600 text-xs font-bold uppercase">Cancelar</button>
-        <button onclick="verificarPassword()" class="w-1/2 bg-rosebrand-600 text-white py-2.5 rounded-2xl font-bold text-xs uppercase shadow-md hover:bg-rosebrand-700">Ingresar</button>
+        <button onclick="toggleAdminModal()" class="w-1/2 border border-gray-300 py-2.5 rounded-xl text-gray-600 text-xs font-bold uppercase">Cancelar</button>
+        <button onclick="verificarPassword()" class="w-1/2 bg-zack-600 text-white py-2.5 rounded-xl font-bold text-xs uppercase shadow-md hover:bg-zack-700">Ingresar</button>
       </div>
     </div>
   </div>
 
   <!-- PANEL DE ADMINISTRACIÓN -->
   <div id="panel-admin" class="fixed inset-0 bg-gray-900/90 z-50 hidden overflow-y-auto p-4 md:p-8">
-    <div class="max-w-4xl mx-auto bg-white rounded-3xl p-6 shadow-2xl relative border border-rosebrand-200">
+    <div class="max-w-4xl mx-auto bg-white rounded-2xl p-6 shadow-2xl relative border border-gray-200">
       <button onclick="cerrarPanelAdmin()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl">✕</button>
-      <h2 class="font-serif text-2xl font-bold text-rosebrand-800 mb-6 border-b pb-3">🛠️ Panel de Control - Dueña</h2>
+      <h2 class="font-serif text-2xl font-bold text-gray-900 mb-6 border-b pb-3">🛠️ Panel de Control - Dueña</h2>
 
       <!-- Categoría -->
-      <div class="mb-8 bg-rosebrand-50/50 p-4 rounded-2xl border border-rosebrand-100">
-        <h4 class="font-bold text-rosebrand-800 text-sm mb-2">1. Nueva Categoría</h4>
+      <div class="mb-8 bg-zack-50/50 p-4 rounded-xl border border-zack-100">
+        <h4 class="font-bold text-gray-900 text-sm mb-2">1. Nueva Categoría</h4>
         <form id="form-cat" onsubmit="guardarCategoria(event)" class="flex flex-col md:flex-row gap-2">
-          <input type="text" id="admin-cat-nombre" placeholder="Nombre (ej. Perfumes)" class="border p-2.5 rounded-xl text-xs flex-grow" required>
-          <input type="text" id="admin-cat-desc" placeholder="Descripción breve" class="border p-2.5 rounded-xl text-xs flex-grow">
-          <button type="submit" id="btn-guardar-cat" class="bg-rosebrand-600 text-white font-bold text-xs uppercase px-4 py-2.5 rounded-xl hover:bg-rosebrand-700 transition-all">+ Guardar Categoría</button>
+          <input type="text" id="admin-cat-nombre" placeholder="Nombre (ej. Perfumes)" class="border p-2.5 rounded-lg text-xs flex-grow" required>
+          <input type="text" id="admin-cat-desc" placeholder="Descripción breve" class="border p-2.5 rounded-lg text-xs flex-grow">
+          <button type="submit" id="btn-guardar-cat" class="bg-zack-600 text-white font-bold text-xs uppercase px-4 py-2.5 rounded-lg hover:bg-zack-700 transition-all">+ Guardar Categoría</button>
         </form>
 
         <div class="mt-4">
-          <h5 class="text-[10px] font-bold text-rosebrand-700 uppercase tracking-wider mb-2">Categorías Existentes</h5>
+          <h5 class="text-[10px] font-bold text-gray-600 uppercase tracking-wider mb-2">Categorías Existentes</h5>
           <div id="admin-lista-categorias" class="flex flex-wrap gap-2"></div>
         </div>
       </div>
 
       <!-- Producto -->
-      <div class="mb-8 bg-rosebrand-50/50 p-4 rounded-2xl border border-rosebrand-100">
-        <h4 id="form-prod-title" class="font-bold text-rosebrand-800 text-sm mb-2">2. Agregar Producto</h4>
+      <div class="mb-8 bg-zack-50/50 p-4 rounded-xl border border-zack-100">
+        <h4 id="form-prod-title" class="font-bold text-gray-900 text-sm mb-2">2. Agregar Producto</h4>
         <form id="form-prod" onsubmit="guardarProducto(event)" class="grid grid-cols-1 md:grid-cols-2 gap-3">
           <input type="hidden" id="admin-prod-id">
-          <input type="text" id="admin-prod-nombre" placeholder="Nombre del producto" class="border p-2.5 rounded-xl text-xs" required>
-          <input type="number" id="admin-prod-precio" placeholder="Precio (Gs.)" class="border p-2.5 rounded-xl text-xs" required>
+          <input type="text" id="admin-prod-nombre" placeholder="Nombre del producto" class="border p-2.5 rounded-lg text-xs" required>
+          <input type="number" id="admin-prod-precio" placeholder="Precio (Gs.)" class="border p-2.5 rounded-lg text-xs" required>
 
           <!-- CREADOR DE OPCIONES -->
-          <div class="md:col-span-2 border border-rosebrand-200 bg-white p-3.5 rounded-xl flex flex-col gap-2">
-            <label class="text-xs font-bold text-rosebrand-700">🎨 Agregar Tonos / Talles / Medidas (Opcional):</label>
+          <div class="md:col-span-2 border border-zack-200 bg-white p-3.5 rounded-lg flex flex-col gap-2">
+            <label class="text-xs font-bold text-zack-700">🎨 Agregar Tonos / Talles / Medidas (Opcional):</label>
             <div class="flex gap-2">
-              <input type="text" id="input-nueva-opcion" placeholder="Ej: S, M, L o Tono 01" class="border p-2 rounded-xl text-xs flex-grow">
-              <button type="button" onclick="agregarOpcionLista()" class="bg-rosebrand-600 text-white font-bold text-xs px-4 py-2 rounded-xl hover:bg-rosebrand-700">
+              <input type="text" id="input-nueva-opcion" placeholder="Ej: S, M, L o Tono 01" class="border p-2 rounded-lg text-xs flex-grow">
+              <button type="button" onclick="agregarOpcionLista()" class="bg-zack-600 text-white font-bold text-xs px-4 py-2 rounded-lg hover:bg-zack-700">
                 + Agregar
               </button>
             </div>
             <div id="admin-lista-opciones-temp" class="flex flex-wrap gap-1.5 mt-1"></div>
           </div>
 
-          <div class="md:col-span-2 border border-rosebrand-200 bg-white p-3.5 rounded-xl flex flex-col gap-2">
-            <label class="text-xs font-bold text-rosebrand-700">Subir imagen desde el celular:</label>
+          <div class="md:col-span-2 border border-zack-200 bg-white p-3.5 rounded-lg flex flex-col gap-2">
+            <label class="text-xs font-bold text-zack-700">Subir imagen desde el celular:</label>
             <input type="file" id="admin-prod-file" accept="image/*" onchange="convertirImagenABase64(event)" class="text-xs text-gray-600">
             <span class="text-[10px] text-gray-400 text-center font-bold">O PEGA UN ENLACE DE INTERNET</span>
-            <input type="text" id="admin-prod-imagen" placeholder="URL de la Imagen (https://...)" class="border p-2 rounded-xl text-xs">
+            <input type="text" id="admin-prod-imagen" placeholder="URL de la Imagen (https://...)" class="border p-2 rounded-lg text-xs">
           </div>
 
-          <select id="admin-prod-categoria" class="border p-2.5 rounded-xl text-xs" required>
+          <select id="admin-prod-categoria" class="border p-2.5 rounded-lg text-xs" required>
             <option value="">Selecciona Categoría</option>
           </select>
-          <input type="number" id="admin-prod-stock" placeholder="Stock disponible" class="border p-2.5 rounded-xl text-xs" value="10">
-          <textarea id="admin-prod-desc" placeholder="Descripción del producto (Opcional)" class="border p-2.5 rounded-xl text-xs md:col-span-2"></textarea>
+          <input type="number" id="admin-prod-stock" placeholder="Stock disponible" class="border p-2.5 rounded-lg text-xs" value="10">
+          <textarea id="admin-prod-desc" placeholder="Descripción del producto (Opcional)" class="border p-2.5 rounded-lg text-xs md:col-span-2"></textarea>
 
           <div class="md:col-span-2 flex gap-2 mt-2">
-            <button type="submit" id="btn-guardar-prod" class="flex-grow bg-rosebrand-600 text-white font-bold text-xs uppercase py-3 rounded-xl hover:bg-rosebrand-700">Guardar Producto</button>
-            <button type="button" onclick="resetFormProducto()" class="bg-gray-200 text-gray-700 text-xs font-bold uppercase px-4 py-3 rounded-xl">Cancelar</button>
+            <button type="submit" id="btn-guardar-prod" class="flex-grow bg-zack-600 text-white font-bold text-xs uppercase py-3 rounded-lg hover:bg-zack-700">Guardar Producto</button>
+            <button type="button" onclick="resetFormProducto()" class="bg-gray-200 text-gray-700 text-xs font-bold uppercase px-4 py-3 rounded-lg">Cancelar</button>
           </div>
         </form>
       </div>
 
       <!-- Tabla Inventario -->
       <div>
-        <h4 class="font-bold text-rosebrand-800 text-sm mb-3">Gestión de Inventario</h4>
+        <h4 class="font-bold text-gray-900 text-sm mb-3">Gestión de Inventario</h4>
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs border-collapse">
             <thead>
-              <tr class="bg-rosebrand-100 text-rosebrand-900 border-b">
+              <tr class="bg-zack-100 text-gray-900 border-b">
                 <th class="p-2.5">Imagen</th>
                 <th class="p-2.5">Nombre</th>
                 <th class="p-2.5">Precio</th>
@@ -343,48 +384,37 @@
     </div>
   </div>
 
-  <!-- 8. Pie de Página (Footer Elegante Estilo Boutique) -->
-  <footer class="bg-rosebrand-900 text-rosebrand-100 mt-auto pt-12 pb-6 border-t border-rosebrand-800">
-    <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 text-center md:text-left">
+  <!-- 9. Pie de Página Elegante -->
+  <footer class="bg-white border-t border-gray-200 pt-10 pb-6 mt-auto">
+    <div class="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 mb-8 text-center md:text-left">
       <div>
-        <h3 class="font-serif text-xl font-bold text-white mb-2 uppercase">D & B BEAUTY</h3>
-        <p class="text-xs text-rosebrand-200 leading-relaxed">
-          Cosmética y cuidado personal seleccionados con amor para realzar tu belleza natural todos los días.
-        </p>
+        <span class="text-xl block mb-1">🐰</span>
+        <h5 class="text-xs font-bold uppercase text-gray-900">CRUELTY FREE</h5>
+        <p class="text-[10px] text-gray-500">Nunca probado en animales</p>
       </div>
       <div>
-        <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-3">Enlaces Rápidos</h4>
-        <ul class="space-y-2 text-xs text-rosebrand-200">
-          <li><a href="#inicio" class="hover:text-white">Inicio</a></li>
-          <li><a href="#categorias-seccion" class="hover:text-white">Categorías</a></li>
-          <li><a href="#ofertas-seccion" class="hover:text-white">Ofertas</a></li>
-          <li><a href="#productos-seccion" class="hover:text-white">Catálogo</a></li>
-        </ul>
+        <span class="text-xl block mb-1">🌿</span>
+        <h5 class="text-xs font-bold uppercase text-gray-900">INGREDIENTES NATURALES</h5>
+        <p class="text-[10px] text-gray-500">Limpios y seguros para tu piel</p>
       </div>
       <div>
-        <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-3">Atención al Cliente</h4>
-        <ul class="space-y-2 text-xs text-rosebrand-200">
-          <li><span>📱 WhatsApp: +595 982 416860</span></li>
-          <li><span>🚚 Envíos a todo el país</span></li>
-          <li><span>💳 Pagos contra entrega y giros</span></li>
-        </ul>
+        <span class="text-xl block mb-1">🔬</span>
+        <h5 class="text-xs font-bold uppercase text-gray-900">TESTADO DERMATOLÓGICAMENTE</h5>
+        <p class="text-[10px] text-gray-500">Fórmulas suaves e hipoalergénicas</p>
       </div>
       <div>
-        <h4 class="font-bold text-white text-xs uppercase tracking-wider mb-3">Boletín</h4>
-        <p class="text-xs text-rosebrand-200 mb-3">Recibe promociones e ingresos exclusivos.</p>
-        <div class="flex gap-1">
-          <input type="email" placeholder="Tu correo electrónico" class="bg-rosebrand-800 border border-rosebrand-700 text-white text-xs p-2 rounded-l-lg flex-grow focus:outline-none">
-          <button class="bg-rosebrand-600 hover:bg-rosebrand-500 text-white text-xs font-bold px-3 rounded-r-lg">Unirme</button>
-        </div>
+        <span class="text-xl block mb-1">💬</span>
+        <h5 class="text-xs font-bold uppercase text-gray-900">SOPORTE AL CLIENTE</h5>
+        <p class="text-[10px] text-gray-500">Estamos para ayudarte</p>
       </div>
     </div>
-    
-    <div class="max-w-6xl mx-auto px-4 border-t border-rosebrand-800/60 pt-4 text-center text-[10px] text-rosebrand-300">
-      <p>© 2026 D & B Belleza & Cosmética. Todos los derechos reservados.</p>
+
+    <div class="max-w-6xl mx-auto px-4 border-t border-gray-100 pt-4 text-center text-[10px] text-gray-400">
+      <p>© 2026 D & B Beauty. Todos los derechos reservados.</p>
     </div>
   </footer>
 
-  <!-- SCRIPT COMPLETO CON CONEXIÓN RENDER -->
+  <!-- SCRIPT CONEXIÓN RENDER Y LÓGICA -->
   <script>
     const API_URL = 'https://luzdyb-1.onrender.com/api';
     let categorias = [];
@@ -479,9 +509,9 @@
         return;
       }
       cont.innerHTML = opcionesTempForm.map((op, idx) => `
-        <span class="bg-rosebrand-100 text-rosebrand-800 text-xs px-2.5 py-1 rounded-full font-bold flex items-center gap-1.5 border border-rosebrand-200">
+        <span class="bg-zack-100 text-zack-800 text-xs px-2.5 py-1 rounded-full font-bold flex items-center gap-1.5 border border-zack-200">
           ${op}
-          <button type="button" onclick="eliminarOpcionLista(${idx})" class="text-rosebrand-600 hover:text-red-600 font-bold text-xs">✕</button>
+          <button type="button" onclick="eliminarOpcionLista(${idx})" class="text-zack-600 hover:text-red-600 font-bold text-xs">✕</button>
         </span>
       `).join('');
     }
@@ -582,9 +612,9 @@
     function renderBarraCategorias() {
       const bar = document.getElementById('categorias-bar');
       bar.innerHTML = `
-        <button onclick="filtrarProductos('todas')" class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-rosebrand-600 text-white shadow-md transition-all hover:bg-rosebrand-700">Todas</button>
+        <button onclick="filtrarProductos('todas')" class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-zack-600 text-white shadow-md transition-all">Todas</button>
         ${categorias.map(cat => `
-          <button onclick="filtrarProductos('${cat.nombre}')" class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-gray-700 border border-rosebrand-200 hover:bg-rosebrand-50 hover:border-rosebrand-300 transition-all shadow-sm">
+          <button onclick="filtrarProductos('${cat.nombre}')" class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-gray-700 border border-gray-200 hover:bg-zack-50 hover:border-zack-300 transition-all shadow-sm">
             ${cat.nombre}
           </button>
         `).join('')}
@@ -600,7 +630,7 @@
     function renderAdminListaCategorias() {
       const cont = document.getElementById('admin-lista-categorias');
       cont.innerHTML = categorias.map(cat => `
-        <span class="bg-white border border-rosebrand-200 text-rosebrand-800 px-3 py-1 rounded-full text-xs flex items-center gap-2">
+        <span class="bg-white border border-gray-200 text-gray-800 px-3 py-1 rounded-full text-xs flex items-center gap-2">
           ${cat.nombre}
           <button onclick="eliminarCategoria('${cat._id}')" class="text-red-500 font-bold hover:text-red-700">&times;</button>
         </span>
@@ -610,21 +640,23 @@
     function renderGridProductos(prods) {
       const grid = document.getElementById('grid-productos');
       if (!prods || prods.length === 0) {
-        grid.innerHTML = '<p class="col-span-full text-center text-rosebrand-500 py-12">No hay productos disponibles.</p>';
+        grid.innerHTML = '<p class="col-span-full text-center text-zack-600 py-12">No hay productos disponibles.</p>';
         return;
       }
       grid.innerHTML = prods.map(p => `
-        <div class="bg-white rounded-3xl p-3.5 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between border border-rosebrand-100 group cursor-pointer" onclick="abrirModalDetalle('${p._id}')">
+        <div class="bg-white rounded-2xl p-3.5 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between border border-gray-100 group cursor-pointer relative" onclick="abrirModalDetalle('${p._id}')">
+          <span class="absolute top-5 left-5 bg-zack-600 text-white text-[9px] font-bold uppercase px-2 py-0.5 rounded-sm z-10">OFERTA</span>
           <div>
-            <div class="relative overflow-hidden rounded-2xl mb-3 bg-gray-50">
+            <div class="relative overflow-hidden rounded-xl mb-3 bg-gray-50">
               <img src="${p.imagen || 'https://via.placeholder.com/150'}" class="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-500">
             </div>
             <h4 class="font-serif font-bold text-gray-900 text-sm line-clamp-1 mb-1">${p.nombre}</h4>
+            <div class="text-amber-400 text-[10px] mb-2">★★★★★ <span class="text-gray-400">(12)</span></div>
           </div>
 
-          <div class="mt-3 pt-2 border-t border-rosebrand-50 flex flex-col gap-2" onclick="event.stopPropagation()">
-            <span class="font-extrabold text-rosebrand-600 text-base">Gs. ${p.precio.toLocaleString()}</span>
-            <button onclick="abrirModalDetalle('${p._id}')" class="w-full bg-rosebrand-600 hover:bg-rosebrand-700 text-white text-[11px] font-bold uppercase tracking-wider py-2 rounded-xl transition-all shadow-sm">
+          <div class="mt-2 pt-2 border-t border-gray-50 flex flex-col gap-2" onclick="event.stopPropagation()">
+            <span class="font-extrabold text-gray-900 text-base">Gs. ${p.precio.toLocaleString()}</span>
+            <button onclick="abrirModalDetalle('${p._id}')" class="w-full bg-zack-600 hover:bg-zack-700 text-white text-[11px] font-bold uppercase tracking-wider py-2 rounded-lg transition-all shadow-sm">
               + Ver / Añadir
             </button>
           </div>
@@ -635,7 +667,7 @@
     function renderAdminTablaProductos() {
       const tbody = document.getElementById('admin-tabla-productos');
       tbody.innerHTML = productos.map(p => `
-        <tr class="hover:bg-rosebrand-50/50">
+        <tr class="hover:bg-zack-50/50">
           <td class="p-2"><img src="${p.imagen || 'https://via.placeholder.com/50'}" class="w-10 h-10 object-cover rounded-lg"></td>
           <td class="p-2 font-medium">${p.nombre}</td>
           <td class="p-2">Gs. ${p.precio.toLocaleString()}</td>
@@ -666,7 +698,7 @@
       document.getElementById('modal-det-nombre').innerText = prod.nombre;
       document.getElementById('modal-det-precio').innerText = `Gs. ${prod.precio.toLocaleString()}`;
 
-      // Configuración de la descripción
+      // Descripción
       const descElement = document.getElementById('modal-det-desc');
       if (prod.descripcion && prod.descripcion.trim() !== '' && prod.descripcion !== 'Sin descripción disponible.') {
         descElement.innerText = prod.descripcion;
@@ -676,7 +708,7 @@
         descElement.classList.add('hidden');
       }
 
-      // Procesar lista de opciones/tonos
+      // Opciones / Tonos
       let listaOpciones = [];
       if (Array.isArray(prod.opciones)) {
         listaOpciones = prod.opciones.map(o => String(o).trim()).filter(o => o !== '');
@@ -694,9 +726,9 @@
         opList.innerHTML = listaOpciones.map((op, idx) => {
           const val = op;
           const isSelected = idx === 0;
-          const bgClass = isSelected ? 'bg-rosebrand-600 text-white border-rosebrand-600 font-bold' : 'bg-white text-gray-700 border-rosebrand-200 hover:bg-rosebrand-50 font-medium';
+          const bgClass = isSelected ? 'bg-zack-600 text-white border-zack-600 font-bold' : 'bg-white text-gray-700 border-gray-200 hover:bg-zack-50 font-medium';
           return `
-            <button type="button" onclick="seleccionarOpcionModal('${val}', this)" class="op-btn px-3.5 py-1.5 rounded-xl border text-xs transition-all shadow-sm ${bgClass}">
+            <button type="button" onclick="seleccionarOpcionModal('${val}', this)" class="op-btn px-3.5 py-1.5 rounded-lg border text-xs transition-all shadow-sm ${bgClass}">
               ${val}
             </button>
           `;
@@ -716,9 +748,9 @@
     function seleccionarOpcionModal(valor, btn) {
       opcionSeleccionadaModal = valor;
       document.querySelectorAll('.op-btn').forEach(b => {
-        b.className = 'op-btn px-3.5 py-1.5 rounded-xl border text-xs transition-all bg-white text-gray-700 border-rosebrand-200 hover:bg-rosebrand-50 font-medium shadow-sm';
+        b.className = 'op-btn px-3.5 py-1.5 rounded-lg border text-xs transition-all bg-white text-gray-700 border-gray-200 hover:bg-zack-50 font-medium shadow-sm';
       });
-      btn.className = 'op-btn px-3.5 py-1.5 rounded-xl border text-xs transition-all bg-rosebrand-600 text-white border-rosebrand-600 font-bold shadow-sm';
+      btn.className = 'op-btn px-3.5 py-1.5 rounded-lg border text-xs transition-all bg-zack-600 text-white border-zack-600 font-bold shadow-sm';
     }
 
     function cerrarModalDetalle() {
@@ -763,14 +795,14 @@
           <div class="py-3 flex justify-between items-center">
             <div>
               <h5 class="font-bold text-sm text-gray-900">
-                ${item.nombre} ${item.opcion ? `<span class="text-rosebrand-600 text-xs font-semibold">(${item.opcion})</span>` : ''}
+                ${item.nombre} ${item.opcion ? `<span class="text-zack-600 text-xs font-semibold">(${item.opcion})</span>` : ''}
               </h5>
-              <p class="text-xs text-rosebrand-600 font-bold">Gs. ${item.precio.toLocaleString()} x ${item.cantidad}</p>
+              <p class="text-xs text-zack-600 font-bold">Gs. ${item.precio.toLocaleString()} x ${item.cantidad}</p>
             </div>
             <div class="flex items-center gap-2">
-              <button onclick="cambiarCantidad('${item.itemKey}', -1)" class="bg-rosebrand-100 text-rosebrand-800 px-2 rounded-lg font-bold">-</button>
+              <button onclick="cambiarCantidad('${item.itemKey}', -1)" class="bg-gray-100 text-gray-800 px-2 rounded-lg font-bold">-</button>
               <span class="text-xs font-bold">${item.cantidad}</span>
-              <button onclick="cambiarCantidad('${item.itemKey}', 1)" class="bg-rosebrand-100 text-rosebrand-800 px-2 rounded-lg font-bold">+</button>
+              <button onclick="cambiarCantidad('${item.itemKey}', 1)" class="bg-gray-100 text-gray-800 px-2 rounded-lg font-bold">+</button>
             </div>
           </div>
         `).join('');
