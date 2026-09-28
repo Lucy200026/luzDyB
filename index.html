@@ -79,7 +79,7 @@
       <h3 id="modal-det-nombre" class="text-xl font-bold text-gray-900 mb-1"></h3>
       <p id="modal-det-precio" class="text-2xl font-extrabold text-pink-600 mb-2"></p>
 
-      <!-- Descripción (Solo si existe) -->
+      <!-- Descripción (Se oculta si está vacía) -->
       <p id="modal-det-desc" class="text-sm text-gray-600 mb-4 bg-pink-50/50 p-3 rounded-xl border border-pink-100 hidden"></p>
 
       <!-- Selector de Tonos / Talles -->
@@ -163,10 +163,17 @@
           <input type="text" id="admin-prod-nombre" placeholder="Nombre del producto" class="border p-2 rounded-lg" required>
           <input type="number" id="admin-prod-precio" placeholder="Precio (Gs.)" class="border p-2 rounded-lg" required>
 
-          <div class="md:col-span-2 border border-pink-200 bg-white p-3 rounded-lg flex flex-col gap-1">
-            <label class="text-xs font-bold text-pink-700">🎨 Tonos / Talles / Medidas (Opcional):</label>
-            <input type="text" id="admin-prod-opciones" placeholder="Ej: comeback, red carpet  ó  01, 02, 03" class="border p-2 rounded-lg text-xs">
-            <span class="text-[10px] text-gray-500">Separar por comas cada opción.</span>
+          <!-- NUEVO CREADOR DINÁMICO DE OPCIONES/TONOS -->
+          <div class="md:col-span-2 border border-pink-200 bg-white p-3 rounded-lg flex flex-col gap-2">
+            <label class="text-xs font-bold text-pink-700">🎨 Agregar Tonos / Talles / Medidas (Opcional):</label>
+            <div class="flex gap-2">
+              <input type="text" id="input-nueva-opcion" placeholder="Ej: Tono 01" class="border p-2 rounded-lg text-xs flex-grow">
+              <button type="button" onclick="agregarOpcionLista()" class="bg-pink-600 text-white font-bold text-xs px-3 py-2 rounded-lg hover:bg-pink-700">
+                + Agregar
+              </button>
+            </div>
+            <!-- Lista visual de opciones agregadas -->
+            <div id="admin-lista-opciones-temp" class="flex flex-wrap gap-1.5 mt-1"></div>
           </div>
 
           <div class="md:col-span-2 border border-pink-200 bg-white p-3 rounded-lg flex flex-col gap-2">
@@ -218,6 +225,7 @@
     let productos = [];
     let carrito = [];
     let opcionSeleccionadaModal = null;
+    let opcionesTempForm = []; // Almacena las opciones temporales del formulario
 
     document.addEventListener('DOMContentLoaded', () => {
       cargarCategorias();
@@ -281,6 +289,38 @@
       }
     }
 
+    // --- MANEJO DE OPCIONES / TONOS EN EL PANEL ---
+    function agregarOpcionLista() {
+      const input = document.getElementById('input-nueva-opcion');
+      const val = input.value.trim();
+      if (!val) return;
+      
+      if (!opcionesTempForm.includes(val)) {
+        opcionesTempForm.push(val);
+        renderOpcionesTempAdmin();
+      }
+      input.value = '';
+    }
+
+    function eliminarOpcionLista(idx) {
+      opcionesTempForm.splice(idx, 1);
+      renderOpcionesTempAdmin();
+    }
+
+    function renderOpcionesTempAdmin() {
+      const cont = document.getElementById('admin-lista-opciones-temp');
+      if (opcionesTempForm.length === 0) {
+        cont.innerHTML = '<span class="text-[10px] text-gray-400">No hay tonos o talles agregados.</span>';
+        return;
+      }
+      cont.innerHTML = opcionesTempForm.map((op, idx) => `
+        <span class="bg-pink-100 text-pink-800 text-xs px-2.5 py-1 rounded-full font-bold flex items-center gap-1.5 border border-pink-200">
+          ${op}
+          <button type="button" onclick="eliminarOpcionLista(${idx})" class="text-pink-600 hover:text-red-600 font-bold text-xs">✕</button>
+        </span>
+      `).join('');
+    }
+
     async function guardarProducto(e) {
       e.preventDefault();
       const id = document.getElementById('admin-prod-id').value;
@@ -289,14 +329,8 @@
       const categoria = document.getElementById('admin-prod-categoria').value;
       const descripcion = document.getElementById('admin-prod-desc').value;
       const imagen = document.getElementById('admin-prod-imagen').value;
-      const opcionesRaw = document.getElementById('admin-prod-opciones').value;
 
-      let opciones = [];
-      if (opcionesRaw) {
-        opciones = opcionesRaw.split(',').map(o => o.trim()).filter(o => o !== '');
-      }
-
-      const payload = { nombre, precio, categoria, descripcion, imagen, opciones };
+      const payload = { nombre, precio, categoria, descripcion, imagen, opciones: opcionesTempForm };
       const url = id ? `${API_URL}/productos/${id}` : `${API_URL}/productos`;
       const method = id ? 'PUT' : 'POST';
 
@@ -308,11 +342,11 @@
         });
 
         if (res.ok) {
-          alert('✅ Producto guardado');
+          alert('✅ Producto guardado correctamente');
           resetFormProducto();
-          cargarProductos();
+          await cargarProductos();
         } else {
-          alert('❌ Error al guardar');
+          alert('❌ Error al guardar producto');
         }
       } catch (e) {
         alert('❌ Error de conexión');
@@ -329,13 +363,15 @@
       document.getElementById('admin-prod-desc').value = prod.descripcion || '';
       document.getElementById('admin-prod-imagen').value = prod.imagen || '';
       
-      let ops = '';
       if (Array.isArray(prod.opciones)) {
-        ops = prod.opciones.join(', ');
-      } else if (typeof prod.opciones === 'string') {
-        ops = prod.opciones;
+        opcionesTempForm = [...prod.opciones];
+      } else if (typeof prod.opciones === 'string' && prod.opciones.trim() !== '') {
+        opcionesTempForm = prod.opciones.split(',').map(o => o.trim()).filter(o => o !== '');
+      } else {
+        opcionesTempForm = [];
       }
-      document.getElementById('admin-prod-opciones').value = ops;
+
+      renderOpcionesTempAdmin();
       document.getElementById('form-prod-title').innerText = '✏️ Editar Producto';
     }
 
@@ -355,7 +391,8 @@
     function resetFormProducto() {
       document.getElementById('form-prod').reset();
       document.getElementById('admin-prod-id').value = '';
-      document.getElementById('admin-prod-opciones').value = '';
+      opcionesTempForm = [];
+      renderOpcionesTempAdmin();
       document.getElementById('form-prod-title').innerText = '2. Agregar Producto';
     }
 
@@ -399,7 +436,7 @@
 
     function renderGridProductos(prods) {
       const grid = document.getElementById('grid-productos');
-      if (prods.length === 0) {
+      if (!prods || prods.length === 0) {
         grid.innerHTML = '<p class="col-span-full text-center text-pink-400 py-8">No hay productos disponibles.</p>';
         return;
       }
@@ -408,7 +445,6 @@
           <div>
             <img src="${p.imagen || 'https://via.placeholder.com/150'}" class="w-full h-36 object-cover rounded-xl mb-2">
             <h4 class="font-bold text-gray-800 text-sm line-clamp-1">${p.nombre}</h4>
-            <p class="text-xs text-gray-500 line-clamp-2 mb-2">${p.descripcion || ''}</p>
           </div>
 
           <div class="flex justify-between items-center mt-2 pt-2 border-t border-gray-50" onclick="event.stopPropagation()">
@@ -453,9 +489,9 @@
       document.getElementById('modal-det-nombre').innerText = prod.nombre;
       document.getElementById('modal-det-precio').innerText = `Gs. ${prod.precio.toLocaleString()}`;
 
-      // Configuración de la descripción (Solo se muestra si la dueña le agrega un texto)
+      // Configuración de la descripción (Solo si le pones texto)
       const descElement = document.getElementById('modal-det-desc');
-      if (prod.descripcion && prod.descripcion.trim() !== '') {
+      if (prod.descripcion && prod.descripcion.trim() !== '' && prod.descripcion !== 'Sin descripción disponible.') {
         descElement.innerText = prod.descripcion;
         descElement.classList.remove('hidden');
       } else {
@@ -463,12 +499,12 @@
         descElement.classList.add('hidden');
       }
 
-      // Obtener lista de opciones limpia
+      // Procesar lista de opciones/tonos
       let listaOpciones = [];
       if (Array.isArray(prod.opciones)) {
-        listaOpciones = prod.opciones;
+        listaOpciones = prod.opciones.map(o => String(o).trim()).filter(o => o !== '');
       } else if (typeof prod.opciones === 'string' && prod.opciones.trim() !== '') {
-        listaOpciones = prod.opciones.split(',').map(o => o.trim());
+        listaOpciones = prod.opciones.split(',').map(o => o.trim()).filter(o => o !== '');
       }
 
       const opContainer = document.getElementById('modal-det-opciones-container');
@@ -476,14 +512,14 @@
 
       if (listaOpciones.length > 0) {
         opContainer.classList.remove('hidden');
-        opcionSeleccionadaModal = listaOpciones[0]; // Opción 1 seleccionada por defecto
+        opcionSeleccionadaModal = listaOpciones[0]; // Selecciona la opción 1 por defecto
 
         opList.innerHTML = listaOpciones.map((op, idx) => {
-          const val = op.trim();
+          const val = op;
           const isSelected = idx === 0;
-          const bgClass = isSelected ? 'bg-pink-600 text-white border-pink-600' : 'bg-white text-gray-700 border-pink-200 hover:bg-pink-50';
+          const bgClass = isSelected ? 'bg-pink-600 text-white border-pink-600 font-bold' : 'bg-white text-gray-700 border-pink-200 hover:bg-pink-50 font-medium';
           return `
-            <button type="button" onclick="seleccionarOpcionModal('${val}', this)" class="op-btn px-3.5 py-1.5 rounded-xl border text-xs font-bold transition-all ${bgClass}">
+            <button type="button" onclick="seleccionarOpcionModal('${val}', this)" class="op-btn px-3.5 py-1.5 rounded-xl border text-xs transition-all shadow-sm ${bgClass}">
               ${val}
             </button>
           `;
@@ -503,9 +539,9 @@
     function seleccionarOpcionModal(valor, btn) {
       opcionSeleccionadaModal = valor;
       document.querySelectorAll('.op-btn').forEach(b => {
-        b.className = 'op-btn px-3.5 py-1.5 rounded-xl border text-xs font-bold transition-all bg-white text-gray-700 border-pink-200 hover:bg-pink-50';
+        b.className = 'op-btn px-3.5 py-1.5 rounded-xl border text-xs transition-all bg-white text-gray-700 border-pink-200 hover:bg-pink-50 font-medium shadow-sm';
       });
-      btn.className = 'op-btn px-3.5 py-1.5 rounded-xl border text-xs font-bold transition-all bg-pink-600 text-white border-pink-600';
+      btn.className = 'op-btn px-3.5 py-1.5 rounded-xl border text-xs transition-all bg-pink-600 text-white border-pink-600 font-bold shadow-sm';
     }
 
     function cerrarModalDetalle() {
