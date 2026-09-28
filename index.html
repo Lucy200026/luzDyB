@@ -82,9 +82,9 @@
       <!-- Precio del Producto -->
       <p id="modal-det-precio" class="text-2xl font-extrabold text-pink-600 mb-3"></p>
 
-      <!-- Selector de Tonos / Talles -->
-      <div id="modal-det-opciones-container" class="mb-4 bg-pink-50/60 p-3 rounded-2xl border border-pink-100 hidden">
-        <label class="block text-xs font-bold text-pink-700 mb-2">Selecciona una opción:</label>
+      <!-- Selector de Tonos / Talles / Medidas -->
+      <div id="modal-det-opciones-container" class="mb-4 bg-pink-50 p-3 rounded-2xl border border-pink-200 hidden">
+        <label class="block text-xs font-bold text-pink-700 mb-2">Selecciona un Tono / Opción:</label>
         <div id="modal-det-opciones-list" class="flex flex-wrap gap-2"></div>
       </div>
 
@@ -171,7 +171,7 @@
           <div class="md:col-span-2 border border-pink-200 bg-white p-3 rounded-lg flex flex-col gap-2">
             <label class="text-xs font-bold text-pink-700">🎨 Agregar Tonos / Talles / Medidas (Opcional):</label>
             <div class="flex gap-2">
-              <input type="text" id="input-nueva-opcion" placeholder="Ej: S, M, L o Tono 01" class="border p-2 rounded-lg text-xs flex-grow">
+              <input type="text" id="input-nueva-opcion" placeholder="Ej: comeback, red carpet, o Tono 01" class="border p-2 rounded-lg text-xs flex-grow">
               <button type="button" onclick="agregarOpcionLista()" class="bg-pink-600 text-white font-bold text-xs px-3 py-2 rounded-lg hover:bg-pink-700">
                 + Agregar
               </button>
@@ -494,81 +494,76 @@
         renderGridProductos(productos.filter(p => p.categoria === catNombre));
       }
     }
-// MODAL DE DETALLE (CORREGIDO)
-function abrirModalDetalle(id) {
-  const prod = productos.find(p => p._id === id);
-  if (!prod) return;
 
-  opcionSeleccionadaModal = null;
+    // MODAL DE DETALLE DE PRODUCTO
+    function abrirModalDetalle(id) {
+      const prod = productos.find(p => p._id === id);
+      if (!prod) return;
 
-  document.getElementById('modal-det-img').src = prod.imagen || 'https://via.placeholder.com/300';
-  document.getElementById('modal-det-nombre').innerText = prod.nombre;
-  document.getElementById('modal-det-precio').innerText = `Gs. ${prod.precio.toLocaleString()}`;
+      opcionSeleccionadaModal = null;
 
-  // Configuración de la descripción
-  const descElement = document.getElementById('modal-det-desc');
-  if (prod.descripcion && prod.descripcion.trim() !== '' && prod.descripcion !== 'Sin descripción disponible.') {
-    descElement.innerText = prod.descripcion;
-    descElement.classList.remove('hidden');
-  } else {
-    descElement.innerText = '';
-    descElement.classList.add('hidden');
-  }
+      document.getElementById('modal-det-img').src = prod.imagen || 'https://via.placeholder.com/300';
+      document.getElementById('modal-det-nombre').innerText = prod.nombre;
+      document.getElementById('modal-det-precio').innerText = `Gs. ${prod.precio.toLocaleString()}`;
 
-  // Procesar lista de opciones/tonos/números
-  let listaOpciones = [];
-  if (Array.isArray(prod.opciones)) {
-    listaOpciones = prod.opciones.map(o => String(o).trim()).filter(o => o !== '');
-  } else if (typeof prod.opciones === 'string' && prod.opciones.trim() !== '') {
-    listaOpciones = prod.opciones.split(',').map(o => o.trim()).filter(o => o !== '');
-  }
+      // Configuración de la descripción
+      const descElement = document.getElementById('modal-det-desc');
+      if (prod.descripcion && prod.descripcion.trim() !== '' && prod.descripcion !== 'Sin descripción disponible.') {
+        descElement.innerText = prod.descripcion;
+        descElement.classList.remove('hidden');
+      } else {
+        descElement.innerText = '';
+        descElement.classList.add('hidden');
+      }
 
-  const opContainer = document.getElementById('modal-det-opciones-container');
-  const opList = document.getElementById('modal-det-opciones-list');
+      // Procesar lista de opciones/tonos
+      let listaOpciones = [];
+      if (Array.isArray(prod.opciones)) {
+        listaOpciones = prod.opciones.map(o => String(o).trim()).filter(o => o !== '');
+      } else if (typeof prod.opciones === 'string' && prod.opciones.trim() !== '') {
+        listaOpciones = prod.opciones.split(',').map(o => o.trim()).filter(o => o !== '');
+      }
 
-  if (listaOpciones.length > 0) {
-    opContainer.classList.remove('hidden');
-    opcionSeleccionadaModal = listaOpciones[0]; // Selecciona la primera opción por defecto
+      const opContainer = document.getElementById('modal-det-opciones-container');
+      const opList = document.getElementById('modal-det-opciones-list');
 
-    // AQUÍ ESTABA EL ERROR: Agregamos op-btn a la lista de clases para que querySelectorAll lo encuentre
-    opList.innerHTML = listaOpciones.map((op, idx) => {
-      const isSelected = idx === 0;
-      const bgClass = isSelected 
-        ? 'bg-pink-600 text-white border-pink-600 font-bold shadow-sm' 
-        : 'bg-white text-gray-700 border-pink-200 hover:bg-pink-50 font-medium';
+      if (listaOpciones.length > 0) {
+        opContainer.classList.remove('hidden');
+        opcionSeleccionadaModal = listaOpciones[0]; // Selecciona la primera opción por defecto
+
+        opList.innerHTML = listaOpciones.map((op, idx) => {
+          const isSelected = idx === 0;
+          const bgClass = isSelected 
+            ? 'bg-pink-600 text-white border-pink-600 font-bold shadow-sm' 
+            : 'bg-white text-gray-700 border-pink-200 hover:bg-pink-50 font-medium';
+          
+          return `
+            <button type="button" onclick="seleccionarOpcionModal('${op}', this)" class="op-btn px-3 py-1.5 rounded-xl border text-xs transition-all ${bgClass}">
+              ${op}
+            </button>
+          `;
+        }).join('');
+      } else {
+        opContainer.classList.add('hidden');
+      }
+
+      document.getElementById('btn-modal-add-cart').onclick = () => {
+        agregarAlCarritoModal(prod._id, opcionSeleccionadaModal);
+        cerrarModalDetalle();
+      };
+
+      document.getElementById('modal-producto-detalle').classList.remove('hidden');
+    }
+
+    function seleccionarOpcionModal(valor, btn) {
+      opcionSeleccionadaModal = valor;
       
-      return `
-        <button type="button" onclick="seleccionarOpcionModal('${op}', this)" class="op-btn px-3 py-1.5 rounded-xl border text-xs transition-all ${bgClass}">
-          ${op}
-        </button>
-      `;
-    }).join('');
-  } else {
-    opContainer.classList.add('hidden');
-  }
-
-  document.getElementById('btn-modal-add-cart').onclick = () => {
-    agregarAlCarritoModal(prod._id, opcionSeleccionadaModal);
-    cerrarModalDetalle();
-  };
-
-  document.getElementById('modal-producto-detalle').classList.remove('hidden');
-}
-
-// SELECCIONAR OPCIÓN (CORREGIDO)
-function seleccionarOpcionModal(valor, btn) {
-  opcionSeleccionadaModal = valor;
-  
-  // Resetea el estilo de todos los botones con la clase .op-btn
-  document.querySelectorAll('.op-btn').forEach(b => {
-    b.className = 'op-btn px-3 py-1.5 rounded-xl border text-xs transition-all bg-white text-gray-700 border-pink-200 hover:bg-pink-50 font-medium';
-  });
-  
-  // Resalta el botón seleccionado en rosa
-  btn.className = 'op-btn px-3 py-1.5 rounded-xl border text-xs transition-all bg-pink-600 text-white border-pink-600 font-bold shadow-sm';
-}
-
-    
+      document.querySelectorAll('.op-btn').forEach(b => {
+        b.className = 'op-btn px-3 py-1.5 rounded-xl border text-xs transition-all bg-white text-gray-700 border-pink-200 hover:bg-pink-50 font-medium';
+      });
+      
+      btn.className = 'op-btn px-3 py-1.5 rounded-xl border text-xs transition-all bg-pink-600 text-white border-pink-600 font-bold shadow-sm';
+    }
 
     function cerrarModalDetalle() {
       document.getElementById('modal-producto-detalle').classList.add('hidden');
@@ -597,7 +592,7 @@ function seleccionarOpcionModal(valor, btn) {
       }
 
       actualizarCarrito();
-      const detalleOp = opcion ? ` (${opcion})` : '';
+      const detalleOp = opcion ? ` (Tono: ${opcion})` : '';
       alert(`✅ "${prod.nombre}${detalleOp}" agregado al carrito`);
     }
 
@@ -643,7 +638,7 @@ function seleccionarOpcionModal(valor, btn) {
       if (carrito.length === 0) return alert('El carrito está vacío');
       let msg = '¡Hola D & B Belleza! 👋 Quisiera realizar el siguiente pedido:\n\n';
       carrito.forEach(i => {
-        const detalleOp = i.opcion ? ` [${i.opcion}]` : '';
+        const detalleOp = i.opcion ? ` [Tono/Opción: ${i.opcion}]` : '';
         msg += `• ${i.nombre}${detalleOp} (x${i.cantidad}) - Gs. ${(i.precio * i.cantidad).toLocaleString()}\n`;
       });
       const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
