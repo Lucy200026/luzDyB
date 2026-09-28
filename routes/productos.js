@@ -21,8 +21,9 @@ router.post('/', async (req, res) => {
     imagen: req.body.imagen,
     stock: req.body.stock,
     categoria: req.body.categoria,
-    opciones: req.body.opciones // <--- ¡AQUÍ ESTABA HACIENDO FALTA!
+    opciones: req.body.opciones || [] // <--- Guarda el arreglo de opciones
   });
+
   try {
     const nuevoProducto = await producto.save();
     res.status(201).json(nuevoProducto);
@@ -34,7 +35,12 @@ router.post('/', async (req, res) => {
 // Editar producto
 router.put('/:id', async (req, res) => {
   try {
-    const productoActualizado = await Producto.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    // Al pasar req.body directamente, asegura la actualización de todos los campos incluidos req.body.opciones
+    const productoActualizado = await Producto.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
     res.json(productoActualizado);
   } catch (err) {
     res.status(400).json({ mensaje: err.message });
