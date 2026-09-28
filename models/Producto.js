@@ -16,7 +16,11 @@ const productoSchema = new mongoose.Schema({
     default: 10
   },
   categoria: String,
-  opciones: [String]
+  // Permite números y letras guardados como texto (ej: ["38", "40", "M", "Tono 01"])
+  opciones: {
+    type: [String],
+    default: []
+  }
 }, {
   timestamps: true
 });
