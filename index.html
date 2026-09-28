@@ -3,34 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>D & B - Belleza & Cosmética Premium</title>
-  <!-- Tailwind CSS -->
+  <title>D&B - Belleza & Cosmética</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Fuentes Elegantes -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..800;1,400..800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: {
-            serif: ['"Playfair Display"', 'serif'],
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-          },
           colors: {
-            zack: {
-              50: '#fdf2f4',
-              100: '#fce7eb',
-              200: '#f9d2dc',
-              300: '#f4adc0',
-              400: '#ec7b9b',
-              500: '#e14d79',
-              600: '#c22c5e',
-              700: '#a31f4a',
-              800: '#871d41',
-              900: '#400a1d',
+            brand: {
+              light: '#fce7f3',
+              DEFAULT: '#f472b6',
+              dark: '#db2777',
+              accent: '#fbcfe8'
             }
           }
         }
@@ -38,205 +22,79 @@
     }
   </script>
 </head>
-<body class="bg-[#faf7f7] font-sans text-gray-800 min-h-screen flex flex-col">
+<body class="bg-pink-50 font-sans text-gray-800 min-h-screen flex flex-col">
 
-  <!-- 1. Encabezado de la Tienda -->
-  <header class="bg-white sticky top-0 z-30 border-b border-gray-100 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 py-3.5 flex justify-between items-center">
-      
-      <!-- Menú Superior -->
-      <nav class="hidden md:flex items-center space-x-6 text-xs font-semibold uppercase tracking-wider text-gray-600">
-        <a href="#inicio" class="hover:text-zack-600 transition-colors">Inicio</a>
-        <a href="#categorias" class="hover:text-zack-600 transition-colors">Categorías</a>
-        <a href="#productos" class="hover:text-zack-600 transition-colors">Productos</a>
-        <a href="#ofertas" class="hover:text-zack-600 transition-colors">Ofertas</a>
-      </nav>
+  <!-- Encabezado -->
+  <header class="bg-white shadow-sm sticky top-0 z-30">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-pink-600 tracking-wide">🌷🌷 D&B</h1>
 
-      <!-- Logo Estilo ZACK Beauty -->
-      <div class="text-center">
-        <h1 class="font-serif text-2xl md:text-3xl font-bold tracking-tight text-gray-900">
-          <span class="text-zack-600">D & B</span> BEAUTY
-        </h1>
-      </div>
-
-      <!-- Iconos y Botones -->
-      <div class="flex items-center space-x-3">
-        <!-- Acceso Dueña -->
-        <button onclick="toggleAdminModal()" class="text-xs text-zack-700 bg-zack-50 hover:bg-zack-100 px-3 py-1.5 rounded-full border border-zack-200 transition-all font-semibold flex items-center gap-1">
-          🔐 <span>Dueña</span>
+      <div class="flex items-center space-x-4">
+        <button onclick="toggleAdminModal()" class="text-xs text-pink-500 hover:underline bg-pink-50 px-2.5 py-1 rounded-full border border-pink-200">
+          🔐 Acceso Dueña
         </button>
 
-        <!-- Carrito -->
-        <button onclick="toggleCarrito()" class="relative p-2 text-gray-700 hover:text-zack-600 transition-all">
-          <span class="text-xl">🛒</span>
-          <span id="cart-count" class="absolute top-0 right-0 bg-zack-600 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">0</span>
+        <button onclick="toggleCarrito()" class="relative bg-pink-100 p-2 rounded-full text-pink-600 hover:bg-pink-200">
+          🛒
+          <span id="cart-count" class="absolute -top-1 -right-1 bg-pink-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- 2. Banner Hero Principal -->
-  <section id="inicio" class="bg-gradient-to-r from-[#fcf2f4] via-[#fbebee] to-[#f7e4e8] py-12 md:py-20 px-4 border-b border-zack-100">
-    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center">
-      <div class="text-center md:text-left">
-        <h2 class="font-serif text-3xl md:text-5xl font-bold text-gray-900 leading-tight mb-4">
-          Resplandece con <br><span class="text-zack-600 italic">Productos Premium</span>
-        </h2>
-        <div class="flex justify-center md:justify-start gap-3">
-          <a href="#categorias" class="bg-white hover:bg-zack-50 text-gray-800 border border-gray-200 text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-md transition-all">
-            Ver Colecciones →
-          </a>
-        </div>
-      </div>
-
-      <!-- Tarjeta Ilustrativa Banner -->
-      <div class="flex justify-center">
-        <div class="bg-white/80 p-6 rounded-2xl border border-zack-200 shadow-xl max-w-sm text-center backdrop-blur-sm">
-          <h3 class="font-serif font-bold text-lg text-gray-900">Colección D & B</h3>
-          <p class="text-xs text-gray-500 mt-1">Formulaciones pensadas para cuidar y resaltar lo mejor de ti.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3. Cinta de Características e Iconos -->
-  <section class="bg-white py-6 border-b border-gray-100 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-      <div class="flex items-center justify-center gap-3 p-2">
-        <span class="text-2xl">🚀</span>
-        <div class="text-left">
-          <h4 class="text-xs font-bold uppercase text-gray-800">ENVÍO RÁPIDO</h4>
-          <p class="text-[10px] text-gray-500">En todos los pedidos</p>
-        </div>
-      </div>
-      <div class="flex items-center justify-center gap-3 p-2">
-        <span class="text-2xl">💎</span>
-        <div class="text-left">
-          <h4 class="text-xs font-bold uppercase text-gray-800">ALTA CALIDAD</h4>
-          <p class="text-[10px] text-gray-500">Productos seleccionados</p>
-        </div>
-      </div>
-      <div class="flex items-center justify-center gap-3 p-2">
-        <span class="text-2xl">🔄</span>
-        <div class="text-left">
-          <h4 class="text-xs font-bold uppercase text-gray-800">CAMBIOS FÁCILES</h4>
-          <p class="text-[10px] text-gray-500">Atención personalizada</p>
-        </div>
-      </div>
-      <div class="flex items-center justify-center gap-3 p-2">
-        <span class="text-2xl">🔒</span>
-        <div class="text-left">
-          <h4 class="text-xs font-bold uppercase text-gray-800">PAGO SEGURO</h4>
-          <p class="text-[10px] text-gray-500">100% garantizado</p>
-        </div>
-      </div>
-    </div>
+  <!-- Banner Hero Original -->
+  <section class="bg-pink-100 text-center py-8 px-4 mb-6 border-b border-pink-200">
+    <h2 class="text-3xl font-extrabold text-pink-700 mb-2">Tienda Online</h2>
+    <p class="text-pink-600 text-sm max-w-md mx-auto">Explora nuestra gama de productos seleccionados para el cuidado personal y cosmética de la máxima calidad.</p>
   </section>
 
   <!-- Contenedor Principal -->
-  <main class="max-w-6xl mx-auto px-4 flex-grow w-full py-12">
+  <main class="max-w-6xl mx-auto px-4 flex-grow w-full pb-12">
 
-    <!-- 4. Comprar por Categoría -->
-    <section id="categorias" class="mb-14 text-center">
-      <h3 class="font-serif text-2xl font-bold uppercase tracking-wider text-gray-900 mb-2">Comprar por Categoría</h3>
-      <div class="w-10 h-0.5 bg-zack-600 mx-auto mb-8"></div>
-
-      <div id="categorias-bar" class="flex flex-wrap justify-center gap-3">
-        <button onclick="filtrarProductos('todas')" class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-zack-600 text-white shadow-md transition-all">
-          Todas
-        </button>
+    <!-- Categorías -->
+    <div class="mb-6">
+      <h3 class="text-lg font-bold text-pink-700 mb-3">Categorías</h3>
+      <div id="categorias-bar" class="flex flex-wrap gap-2">
+        <button onclick="filtrarProductos('todas')" class="px-4 py-1.5 rounded-full text-sm font-medium bg-pink-600 text-white shadow-sm">Todas</button>
       </div>
-    </section>
+    </div>
 
-    <!-- 5. Productos Más Vendidos -->
-    <section id="productos" class="mb-16">
-      <div class="text-center mb-8">
-        <h3 class="font-serif text-2xl md:text-3xl font-bold uppercase tracking-wider text-gray-900">Más Vendidos</h3>
-        <div class="w-10 h-0.5 bg-zack-600 mx-auto mt-2"></div>
-      </div>
-
-      <div id="grid-productos" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-        <p class="col-span-full text-center text-zack-600 py-12 text-sm font-medium">Cargando catálogo desde el servidor...</p>
-      </div>
-    </section>
-
-    <!-- 6. Banners Dobles Promocionales -->
-    <section id="ofertas" class="grid md:grid-cols-2 gap-6 mb-16">
-      <div class="bg-gradient-to-r from-zack-100 to-zack-200 p-8 rounded-2xl flex flex-col justify-between border border-zack-300">
-        <div>
-          <span class="text-[10px] font-bold uppercase tracking-widest text-zack-700 block mb-1">OFERTA ESPECIAL</span>
-          <h4 class="font-serif text-2xl font-bold text-gray-900 mb-2">Hasta 30% Off en Cuidados de Piel</h4>
-          <p class="text-xs text-gray-600 mb-4">Aprovecha precios reducidos en nuestra línea favorita.</p>
-        </div>
-        <div>
-          <a href="#productos" class="inline-block bg-zack-600 hover:bg-zack-700 text-white text-xs font-bold uppercase px-5 py-2.5 rounded-md shadow-sm transition-all">
-            Comprar Oferta
-          </a>
-        </div>
-      </div>
-
-      <div class="bg-gradient-to-r from-gray-100 to-zack-100 p-8 rounded-2xl flex flex-col justify-between border border-gray-200">
-        <div>
-          <span class="text-[10px] font-bold uppercase tracking-widest text-gray-600 block mb-1">NUEVO INGRESO</span>
-          <h4 class="font-serif text-2xl font-bold text-gray-900 mb-2">Línea Tendencia en Maquillaje</h4>
-          <p class="text-xs text-gray-600 mb-4">Descubre los nuevos tonos de temporada.</p>
-        </div>
-        <div>
-          <a href="#productos" class="inline-block bg-gray-900 hover:bg-black text-white text-xs font-bold uppercase px-5 py-2.5 rounded-md shadow-sm transition-all">
-            Descubrir Ahora
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- 7. Sección Galería / Redes Sociales (SECCIÓN FINAL) -->
-    <section class="text-center mb-8">
-      <h4 class="font-serif text-lg font-bold text-gray-900 uppercase tracking-wider mb-1">Síguenos en Instagram</h4>
-      <p class="text-xs text-zack-600 font-semibold mb-6">@DB.BEAUTY.PARAGUAY</p>
-      <div class="grid grid-cols-3 md:grid-cols-6 gap-2">
-        <div class="bg-zack-100 h-28 rounded-xl flex items-center justify-center text-2xl border border-zack-200">✨</div>
-        <div class="bg-zack-100 h-28 rounded-xl flex items-center justify-center text-2xl border border-zack-200">💄</div>
-        <div class="bg-zack-100 h-28 rounded-xl flex items-center justify-center text-2xl border border-zack-200">🌸</div>
-        <div class="bg-zack-100 h-28 rounded-xl flex items-center justify-center text-2xl border border-zack-200">🌿</div>
-        <div class="bg-zack-100 h-28 rounded-xl flex items-center justify-center text-2xl border border-zack-200">💅</div>
-        <div class="bg-zack-100 h-28 rounded-xl flex items-center justify-center text-2xl border border-zack-200">🎁</div>
-      </div>
-    </section>
+    <!-- Lista de Productos -->
+    <h3 class="text-xl font-bold text-pink-800 mb-4">Nuestros Productos</h3>
+    <div id="grid-productos" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <p class="col-span-full text-center text-pink-400 py-8">Cargando catálogo desde el servidor...</p>
+    </div>
 
   </main>
 
   <!-- MODAL: DETALLE DE PRODUCTO -->
-  <div id="modal-producto-detalle" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 relative shadow-2xl overflow-y-auto max-h-[90vh] border border-gray-100">
-      <button onclick="cerrarModalDetalle()" class="absolute top-4 right-4 bg-gray-100 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center font-bold text-base hover:bg-gray-200 transition-all z-10">✕</button>
+  <div id="modal-producto-detalle" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-5 relative shadow-2xl overflow-y-auto max-h-[90vh]">
+      <button onclick="cerrarModalDetalle()" class="absolute top-3 right-3 bg-pink-100 text-pink-700 rounded-full w-8 h-8 flex items-center justify-center font-bold text-lg hover:bg-pink-200 z-10">✕</button>
       
-      <div class="mb-4 overflow-hidden rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center">
+      <div class="mb-4 overflow-hidden rounded-2xl bg-gray-50 border border-pink-100 flex items-center justify-center">
         <img id="modal-det-img" src="" class="w-full h-64 object-cover cursor-pointer" onclick="ampliarImg(this.src)">
       </div>
 
-      <h3 id="modal-det-nombre" class="font-serif text-xl font-bold text-gray-900 mb-1"></h3>
-      <div class="flex items-center gap-2 mb-2">
-        <span class="text-amber-400 text-xs">★★★★★</span>
-        <span class="text-[10px] text-gray-400">(Reseñas verificadas)</span>
-      </div>
-      <p id="modal-det-precio" class="text-2xl font-extrabold text-zack-600 mb-3"></p>
+      <h3 id="modal-det-nombre" class="text-xl font-bold text-gray-900 mb-1"></h3>
+      <p id="modal-det-precio" class="text-2xl font-extrabold text-pink-600 mb-2"></p>
 
       <!-- Descripción -->
-      <p id="modal-det-desc" class="text-xs text-gray-600 mb-4 bg-zack-50/50 p-3 rounded-xl border border-zack-100 leading-relaxed hidden"></p>
+      <p id="modal-det-desc" class="text-sm text-gray-600 mb-4 bg-pink-50/50 p-3 rounded-xl border border-pink-100 hidden"></p>
 
       <!-- Selector de Tonos / Talles -->
       <div id="modal-det-opciones-container" class="mb-6 hidden">
-        <label class="block text-xs font-bold uppercase tracking-wider text-zack-700 mb-2">Selecciona la opción que prefieres:</label>
+        <label class="block text-sm font-bold text-pink-700 mb-2">Selecciona el que más te gusta</label>
         <div id="modal-det-opciones-list" class="flex flex-wrap gap-2"></div>
       </div>
 
-      <button id="btn-modal-add-cart" class="w-full bg-zack-600 hover:bg-zack-700 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-lg shadow-md transition-all flex items-center justify-center gap-2">
+      <button id="btn-modal-add-cart" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-3.5 rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2">
         🛒 Agregar al Carrito
       </button>
     </div>
   </div>
 
-  <!-- MODAL: Imagen Solo Ampliada -->
+  <!-- MODAL: Imagen Ampliada -->
   <div id="modal-img" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" onclick="cerrarModalImg()">
     <div class="relative max-w-lg w-full bg-white rounded-2xl overflow-hidden p-2">
       <img id="img-ampliada" src="" class="w-full h-auto max-h-[80vh] object-contain rounded-xl">
@@ -246,19 +104,19 @@
 
   <!-- DRAWER: Carrito -->
   <div id="drawer-carrito" class="fixed inset-y-0 right-0 w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
-    <div class="p-5 bg-zack-50 flex justify-between items-center border-b border-zack-100">
-      <h3 class="font-serif font-bold text-lg text-gray-900 flex items-center gap-2">🛒 Mi Carrito</h3>
-      <button onclick="toggleCarrito()" class="text-gray-500 text-xl font-bold hover:text-gray-800">✕</button>
+    <div class="p-4 bg-pink-100 flex justify-between items-center border-b border-pink-200">
+      <h3 class="text-lg font-bold text-pink-800">🛒 Mi Carrito</h3>
+      <button onclick="toggleCarrito()" class="text-pink-600 text-xl font-bold">✕</button>
     </div>
-    <div id="cart-items" class="flex-grow p-4 overflow-y-auto divide-y divide-gray-100">
-      <p class="text-center text-gray-400 py-8 text-sm">Tu carrito está vacío</p>
+    <div id="cart-items" class="flex-grow p-4 overflow-y-auto divide-y divide-pink-100">
+      <p class="text-center text-gray-400 py-6">Tu carrito está vacío</p>
     </div>
-    <div class="p-5 border-t border-gray-100 bg-zack-50">
-      <div class="flex justify-between font-bold text-lg text-gray-900 mb-4">
+    <div class="p-4 border-t border-pink-100 bg-pink-50">
+      <div class="flex justify-between font-bold text-lg text-pink-900 mb-4">
         <span>Total:</span>
-        <span id="cart-total" class="text-zack-600">Gs. 0</span>
+        <span id="cart-total">Gs. 0</span>
       </div>
-      <button onclick="enviarPedidoWhatsApp()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold text-xs uppercase tracking-wider py-3.5 rounded-lg shadow-md flex items-center justify-center gap-2 transition-all">
+      <button onclick="enviarPedidoWhatsApp()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-xl shadow-lg flex items-center justify-center gap-2">
         🟢 Confirmar pedido por WhatsApp
       </button>
     </div>
@@ -266,88 +124,88 @@
 
   <!-- MODAL: Login Dueña -->
   <div id="modal-login" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl border border-gray-100">
-      <h3 class="font-serif text-xl font-bold text-gray-900 mb-4 text-center">🔐 Acceso Exclusivo Dueña</h3>
-      <input type="password" id="pass-admin" placeholder="Ingresa contraseña" class="w-full border border-gray-200 p-3 rounded-xl mb-4 text-center text-sm focus:outline-none focus:ring-2 focus:ring-zack-500">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl">
+      <h3 class="text-xl font-bold text-pink-700 mb-4 text-center">🔐 Acceso Exclusivo Dueña</h3>
+      <input type="password" id="pass-admin" placeholder="Ingresa contraseña" class="w-full border border-pink-200 p-2.5 rounded-xl mb-4 text-center focus:outline-none focus:ring-2 focus:ring-pink-500">
       <div class="flex gap-2">
-        <button onclick="toggleAdminModal()" class="w-1/2 border border-gray-300 py-2.5 rounded-xl text-gray-600 text-xs font-bold uppercase">Cancelar</button>
-        <button onclick="verificarPassword()" class="w-1/2 bg-zack-600 text-white py-2.5 rounded-xl font-bold text-xs uppercase shadow-md hover:bg-zack-700">Ingresar</button>
+        <button onclick="toggleAdminModal()" class="w-1/2 border border-gray-300 py-2 rounded-xl text-gray-600">Cancelar</button>
+        <button onclick="verificarPassword()" class="w-1/2 bg-pink-600 text-white py-2 rounded-xl font-semibold">Ingresar</button>
       </div>
     </div>
   </div>
 
   <!-- PANEL DE ADMINISTRACIÓN -->
   <div id="panel-admin" class="fixed inset-0 bg-gray-900/90 z-50 hidden overflow-y-auto p-4 md:p-8">
-    <div class="max-w-4xl mx-auto bg-white rounded-2xl p-6 shadow-2xl relative border border-gray-200">
+    <div class="max-w-4xl mx-auto bg-white rounded-2xl p-6 shadow-2xl relative">
       <button onclick="cerrarPanelAdmin()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl">✕</button>
-      <h2 class="font-serif text-2xl font-bold text-gray-900 mb-6 border-b pb-3">🛠️ Panel de Control - Dueña</h2>
+      <h2 class="text-2xl font-bold text-pink-700 mb-6 border-b pb-2">🛠️ Panel de Control - Dueña</h2>
 
       <!-- Categoría -->
-      <div class="mb-8 bg-zack-50/50 p-4 rounded-xl border border-zack-100">
-        <h4 class="font-bold text-gray-900 text-sm mb-2">1. Nueva Categoría</h4>
+      <div class="mb-8 bg-pink-50 p-4 rounded-xl">
+        <h4 class="font-bold text-pink-800 mb-2">1. Nueva Categoría</h4>
         <form id="form-cat" onsubmit="guardarCategoria(event)" class="flex flex-col md:flex-row gap-2">
-          <input type="text" id="admin-cat-nombre" placeholder="Nombre (ej. Perfumes)" class="border p-2.5 rounded-lg text-xs flex-grow" required>
-          <input type="text" id="admin-cat-desc" placeholder="Descripción breve" class="border p-2.5 rounded-lg text-xs flex-grow">
-          <button type="submit" id="btn-guardar-cat" class="bg-zack-600 text-white font-bold text-xs uppercase px-4 py-2.5 rounded-lg hover:bg-zack-700 transition-all">+ Guardar Categoría</button>
+          <input type="text" id="admin-cat-nombre" placeholder="Nombre (ej. Perfumes)" class="border p-2 rounded-lg flex-grow" required>
+          <input type="text" id="admin-cat-desc" placeholder="Descripción breve" class="border p-2 rounded-lg flex-grow">
+          <button type="submit" id="btn-guardar-cat" class="bg-pink-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-pink-700">+ Guardar Categoría</button>
         </form>
 
         <div class="mt-4">
-          <h5 class="text-[10px] font-bold text-gray-600 uppercase tracking-wider mb-2">Categorías Existentes</h5>
+          <h5 class="text-xs font-bold text-pink-700 uppercase mb-2">Categorías Existentes</h5>
           <div id="admin-lista-categorias" class="flex flex-wrap gap-2"></div>
         </div>
       </div>
 
       <!-- Producto -->
-      <div class="mb-8 bg-zack-50/50 p-4 rounded-xl border border-zack-100">
-        <h4 id="form-prod-title" class="font-bold text-gray-900 text-sm mb-2">2. Agregar Producto</h4>
+      <div class="mb-8 bg-pink-50 p-4 rounded-xl">
+        <h4 id="form-prod-title" class="font-bold text-pink-800 mb-2">2. Agregar Producto</h4>
         <form id="form-prod" onsubmit="guardarProducto(event)" class="grid grid-cols-1 md:grid-cols-2 gap-3">
           <input type="hidden" id="admin-prod-id">
-          <input type="text" id="admin-prod-nombre" placeholder="Nombre del producto" class="border p-2.5 rounded-lg text-xs" required>
-          <input type="number" id="admin-prod-precio" placeholder="Precio (Gs.)" class="border p-2.5 rounded-lg text-xs" required>
+          <input type="text" id="admin-prod-nombre" placeholder="Nombre del producto" class="border p-2 rounded-lg" required>
+          <input type="number" id="admin-prod-precio" placeholder="Precio (Gs.)" class="border p-2 rounded-lg" required>
 
           <!-- CREADOR DE OPCIONES -->
-          <div class="md:col-span-2 border border-zack-200 bg-white p-3.5 rounded-lg flex flex-col gap-2">
-            <label class="text-xs font-bold text-zack-700">🎨 Agregar Tonos / Talles / Medidas (Opcional):</label>
+          <div class="md:col-span-2 border border-pink-200 bg-white p-3 rounded-lg flex flex-col gap-2">
+            <label class="text-xs font-bold text-pink-700">🎨 Agregar Tonos / Talles / Medidas (Opcional):</label>
             <div class="flex gap-2">
               <input type="text" id="input-nueva-opcion" placeholder="Ej: S, M, L o Tono 01" class="border p-2 rounded-lg text-xs flex-grow">
-              <button type="button" onclick="agregarOpcionLista()" class="bg-zack-600 text-white font-bold text-xs px-4 py-2 rounded-lg hover:bg-zack-700">
+              <button type="button" onclick="agregarOpcionLista()" class="bg-pink-600 text-white font-bold text-xs px-3 py-2 rounded-lg hover:bg-pink-700">
                 + Agregar
               </button>
             </div>
             <div id="admin-lista-opciones-temp" class="flex flex-wrap gap-1.5 mt-1"></div>
           </div>
 
-          <div class="md:col-span-2 border border-zack-200 bg-white p-3.5 rounded-lg flex flex-col gap-2">
-            <label class="text-xs font-bold text-zack-700">Subir imagen desde el celular:</label>
+          <div class="md:col-span-2 border border-pink-200 bg-white p-3 rounded-lg flex flex-col gap-2">
+            <label class="text-xs font-bold text-pink-700">Subir imagen desde el celular:</label>
             <input type="file" id="admin-prod-file" accept="image/*" onchange="convertirImagenABase64(event)" class="text-xs text-gray-600">
             <span class="text-[10px] text-gray-400 text-center font-bold">O PEGA UN ENLACE DE INTERNET</span>
-            <input type="text" id="admin-prod-imagen" placeholder="URL de la Imagen (https://...)" class="border p-2.5 rounded-lg text-xs">
+            <input type="text" id="admin-prod-imagen" placeholder="URL de la Imagen (https://...)" class="border p-2 rounded-lg text-xs">
           </div>
 
-          <select id="admin-prod-categoria" class="border p-2.5 rounded-lg text-xs" required>
+          <select id="admin-prod-categoria" class="border p-2 rounded-lg" required>
             <option value="">Selecciona Categoría</option>
           </select>
-          <input type="number" id="admin-prod-stock" placeholder="Stock disponible" class="border p-2.5 rounded-lg text-xs" value="10">
-          <textarea id="admin-prod-desc" placeholder="Descripción del producto (Opcional)" class="border p-2.5 rounded-lg text-xs md:col-span-2"></textarea>
+          <input type="number" id="admin-prod-stock" placeholder="Stock disponible" class="border p-2 rounded-lg" value="10">
+          <textarea id="admin-prod-desc" placeholder="Descripción del producto (Opcional)" class="border p-2 rounded-lg md:col-span-2"></textarea>
 
-          <div class="md:col-span-2 flex gap-2 mt-2">
-            <button type="submit" id="btn-guardar-prod" class="flex-grow bg-zack-600 text-white font-bold text-xs uppercase py-3 rounded-lg hover:bg-zack-700">Guardar Producto</button>
-            <button type="button" onclick="resetFormProducto()" class="bg-gray-200 text-gray-700 text-xs font-bold uppercase px-4 py-3 rounded-lg">Cancelar</button>
+          <div class="md:col-span-2 flex gap-2">
+            <button type="submit" id="btn-guardar-prod" class="flex-grow bg-pink-600 text-white font-bold py-2 rounded-lg hover:bg-pink-700">Guardar Producto</button>
+            <button type="button" onclick="resetFormProducto()" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg">Cancelar</button>
           </div>
         </form>
       </div>
 
       <!-- Tabla Inventario -->
       <div>
-        <h4 class="font-bold text-gray-900 text-sm mb-3">Gestión de Inventario</h4>
+        <h4 class="font-bold text-pink-800 mb-3">Gestión de Inventario</h4>
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs border-collapse">
+          <table class="w-full text-left text-sm border-collapse">
             <thead>
-              <tr class="bg-zack-100 text-gray-900 border-b">
-                <th class="p-2.5">Imagen</th>
-                <th class="p-2.5">Nombre</th>
-                <th class="p-2.5">Precio</th>
-                <th class="p-2.5">Acciones</th>
+              <tr class="bg-pink-100 text-pink-900 border-b">
+                <th class="p-2">Imagen</th>
+                <th class="p-2">Nombre</th>
+                <th class="p-2">Precio</th>
+                <th class="p-2">Acciones</th>
               </tr>
             </thead>
             <tbody id="admin-tabla-productos" class="divide-y divide-gray-100">
@@ -454,9 +312,9 @@
         return;
       }
       cont.innerHTML = opcionesTempForm.map((op, idx) => `
-        <span class="bg-zack-100 text-zack-800 text-xs px-2.5 py-1 rounded-full font-bold flex items-center gap-1.5 border border-zack-200">
+        <span class="bg-pink-100 text-pink-800 text-xs px-2.5 py-1 rounded-full font-bold flex items-center gap-1.5 border border-pink-200">
           ${op}
-          <button type="button" onclick="eliminarOpcionLista(${idx})" class="text-zack-600 hover:text-red-600 font-bold text-xs">✕</button>
+          <button type="button" onclick="eliminarOpcionLista(${idx})" class="text-pink-600 hover:text-red-600 font-bold text-xs">✕</button>
         </span>
       `).join('');
     }
@@ -557,9 +415,9 @@
     function renderBarraCategorias() {
       const bar = document.getElementById('categorias-bar');
       bar.innerHTML = `
-        <button onclick="filtrarProductos('todas')" class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-zack-600 text-white shadow-md transition-all">Todas</button>
+        <button onclick="filtrarProductos('todas')" class="px-4 py-1.5 rounded-full text-sm font-medium bg-pink-600 text-white shadow-sm">Todas</button>
         ${categorias.map(cat => `
-          <button onclick="filtrarProductos('${cat.nombre}')" class="px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-gray-700 border border-gray-200 hover:bg-zack-50 hover:border-zack-300 transition-all shadow-sm">
+          <button onclick="filtrarProductos('${cat.nombre}')" class="px-4 py-1.5 rounded-full text-sm font-medium bg-white text-pink-700 border border-pink-200 hover:bg-pink-100">
             ${cat.nombre}
           </button>
         `).join('')}
@@ -575,7 +433,7 @@
     function renderAdminListaCategorias() {
       const cont = document.getElementById('admin-lista-categorias');
       cont.innerHTML = categorias.map(cat => `
-        <span class="bg-white border border-gray-200 text-gray-800 px-3 py-1 rounded-full text-xs flex items-center gap-2">
+        <span class="bg-white border border-pink-200 text-pink-800 px-3 py-1 rounded-full text-xs flex items-center gap-2">
           ${cat.nombre}
           <button onclick="eliminarCategoria('${cat._id}')" class="text-red-500 font-bold hover:text-red-700">&times;</button>
         </span>
@@ -585,25 +443,19 @@
     function renderGridProductos(prods) {
       const grid = document.getElementById('grid-productos');
       if (!prods || prods.length === 0) {
-        grid.innerHTML = '<p class="col-span-full text-center text-zack-600 py-12">No hay productos disponibles.</p>';
+        grid.innerHTML = '<p class="col-span-full text-center text-pink-400 py-8">No hay productos disponibles.</p>';
         return;
       }
       grid.innerHTML = prods.map(p => `
-        <div class="bg-white rounded-2xl p-3.5 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between border border-gray-100 group cursor-pointer relative" onclick="abrirModalDetalle('${p._id}')">
-          <span class="absolute top-5 left-5 bg-zack-600 text-white text-[9px] font-bold uppercase px-2 py-0.5 rounded-sm z-10">OFERTA</span>
+        <div class="bg-white rounded-2xl p-3 shadow-sm flex flex-col justify-between border border-pink-100 hover:shadow-md transition-all cursor-pointer" onclick="abrirModalDetalle('${p._id}')">
           <div>
-            <div class="relative overflow-hidden rounded-xl mb-3 bg-gray-50">
-              <img src="${p.imagen || 'https://via.placeholder.com/150'}" class="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-500">
-            </div>
-            <h4 class="font-serif font-bold text-gray-900 text-sm line-clamp-1 mb-1">${p.nombre}</h4>
-            <div class="text-amber-400 text-[10px] mb-2">★★★★★ <span class="text-gray-400">(12)</span></div>
+            <img src="${p.imagen || 'https://via.placeholder.com/150'}" class="w-full h-36 object-cover rounded-xl mb-2">
+            <h4 class="font-bold text-gray-800 text-sm line-clamp-1">${p.nombre}</h4>
           </div>
 
-          <div class="mt-2 pt-2 border-t border-gray-50 flex flex-col gap-2" onclick="event.stopPropagation()">
-            <span class="font-extrabold text-gray-900 text-base">Gs. ${p.precio.toLocaleString()}</span>
-            <button onclick="abrirModalDetalle('${p._id}')" class="w-full bg-zack-600 hover:bg-zack-700 text-white text-[11px] font-bold uppercase tracking-wider py-2 rounded-lg transition-all shadow-sm">
-              + Ver / Añadir
-            </button>
+          <div class="flex justify-between items-center mt-2 pt-2 border-t border-gray-50" onclick="event.stopPropagation()">
+            <span class="font-bold text-pink-600">Gs. ${p.precio.toLocaleString()}</span>
+            <button onclick="abrirModalDetalle('${p._id}')" class="bg-pink-100 text-pink-700 px-2.5 py-1 rounded-lg text-xs font-bold hover:bg-pink-200">+ Ver / Carrito</button>
           </div>
         </div>
       `).join('');
@@ -612,7 +464,7 @@
     function renderAdminTablaProductos() {
       const tbody = document.getElementById('admin-tabla-productos');
       tbody.innerHTML = productos.map(p => `
-        <tr class="hover:bg-zack-50/50">
+        <tr class="hover:bg-pink-50/50">
           <td class="p-2"><img src="${p.imagen || 'https://via.placeholder.com/50'}" class="w-10 h-10 object-cover rounded-lg"></td>
           <td class="p-2 font-medium">${p.nombre}</td>
           <td class="p-2">Gs. ${p.precio.toLocaleString()}</td>
@@ -643,7 +495,7 @@
       document.getElementById('modal-det-nombre').innerText = prod.nombre;
       document.getElementById('modal-det-precio').innerText = `Gs. ${prod.precio.toLocaleString()}`;
 
-      // Descripción
+      // Configuración de la descripción
       const descElement = document.getElementById('modal-det-desc');
       if (prod.descripcion && prod.descripcion.trim() !== '' && prod.descripcion !== 'Sin descripción disponible.') {
         descElement.innerText = prod.descripcion;
@@ -653,7 +505,7 @@
         descElement.classList.add('hidden');
       }
 
-      // Opciones / Tonos
+      // Procesar lista de opciones/tonos
       let listaOpciones = [];
       if (Array.isArray(prod.opciones)) {
         listaOpciones = prod.opciones.map(o => String(o).trim()).filter(o => o !== '');
@@ -671,9 +523,9 @@
         opList.innerHTML = listaOpciones.map((op, idx) => {
           const val = op;
           const isSelected = idx === 0;
-          const bgClass = isSelected ? 'bg-zack-600 text-white border-zack-600 font-bold' : 'bg-white text-gray-700 border-gray-200 hover:bg-zack-50 font-medium';
+          const bgClass = isSelected ? 'bg-pink-600 text-white border-pink-600 font-bold' : 'bg-white text-gray-700 border-pink-200 hover:bg-pink-50 font-medium';
           return `
-            <button type="button" onclick="seleccionarOpcionModal('${val}', this)" class="op-btn px-3.5 py-1.5 rounded-lg border text-xs transition-all shadow-sm ${bgClass}">
+            <button type="button" onclick="seleccionarOpcionModal('${val}', this)" class="op-btn px-3.5 py-1.5 rounded-xl border text-xs transition-all shadow-sm ${bgClass}">
               ${val}
             </button>
           `;
@@ -693,9 +545,9 @@
     function seleccionarOpcionModal(valor, btn) {
       opcionSeleccionadaModal = valor;
       document.querySelectorAll('.op-btn').forEach(b => {
-        b.className = 'op-btn px-3.5 py-1.5 rounded-lg border text-xs transition-all bg-white text-gray-700 border-gray-200 hover:bg-zack-50 font-medium shadow-sm';
+        b.className = 'op-btn px-3.5 py-1.5 rounded-xl border text-xs transition-all bg-white text-gray-700 border-pink-200 hover:bg-pink-50 font-medium shadow-sm';
       });
-      btn.className = 'op-btn px-3.5 py-1.5 rounded-lg border text-xs transition-all bg-zack-600 text-white border-zack-600 font-bold shadow-sm';
+      btn.className = 'op-btn px-3.5 py-1.5 rounded-xl border text-xs transition-all bg-pink-600 text-white border-pink-600 font-bold shadow-sm';
     }
 
     function cerrarModalDetalle() {
@@ -734,20 +586,20 @@
       const itemsCont = document.getElementById('cart-items');
 
       if (carrito.length === 0) {
-        itemsCont.innerHTML = '<p class="text-center text-gray-400 py-8 text-sm">Tu carrito está vacío</p>';
+        itemsCont.innerHTML = '<p class="text-center text-gray-400 py-6">Tu carrito está vacío</p>';
       } else {
         itemsCont.innerHTML = carrito.map(item => `
           <div class="py-3 flex justify-between items-center">
             <div>
-              <h5 class="font-bold text-sm text-gray-900">
-                ${item.nombre} ${item.opcion ? `<span class="text-zack-600 text-xs font-semibold">(${item.opcion})</span>` : ''}
+              <h5 class="font-bold text-sm text-pink-900">
+                ${item.nombre} ${item.opcion ? `<span class="text-pink-600 text-xs font-semibold">(${item.opcion})</span>` : ''}
               </h5>
-              <p class="text-xs text-zack-600 font-bold">Gs. ${item.precio.toLocaleString()} x ${item.cantidad}</p>
+              <p class="text-xs text-pink-600">Gs. ${item.precio.toLocaleString()} x ${item.cantidad}</p>
             </div>
             <div class="flex items-center gap-2">
-              <button onclick="cambiarCantidad('${item.itemKey}', -1)" class="bg-gray-100 text-gray-800 px-2 rounded-lg font-bold">-</button>
+              <button onclick="cambiarCantidad('${item.itemKey}', -1)" class="bg-pink-100 text-pink-700 px-2 rounded font-bold">-</button>
               <span class="text-xs font-bold">${item.cantidad}</span>
-              <button onclick="cambiarCantidad('${item.itemKey}', 1)" class="bg-gray-100 text-gray-800 px-2 rounded-lg font-bold">+</button>
+              <button onclick="cambiarCantidad('${item.itemKey}', 1)" class="bg-pink-100 text-pink-700 px-2 rounded font-bold">+</button>
             </div>
           </div>
         `).join('');
