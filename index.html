@@ -76,18 +76,22 @@
         <img id="modal-det-img" src="" class="w-full h-64 object-cover cursor-pointer" onclick="ampliarImg(this.src)">
       </div>
 
+      <!-- Nombre del Producto -->
       <h3 id="modal-det-nombre" class="text-xl font-bold text-gray-900 mb-1"></h3>
-      <p id="modal-det-precio" class="text-2xl font-extrabold text-pink-600 mb-2"></p>
+      
+      <!-- Precio del Producto -->
+      <p id="modal-det-precio" class="text-2xl font-extrabold text-pink-600 mb-3"></p>
 
-      <!-- Descripción -->
-      <p id="modal-det-desc" class="text-sm text-gray-600 mb-4 bg-pink-50/50 p-3 rounded-xl border border-pink-100 hidden"></p>
-
-      <!-- Selector de Tonos / Talles -->
-      <div id="modal-det-opciones-container" class="mb-6 hidden">
-        <label class="block text-sm font-bold text-pink-700 mb-2">Selecciona el que más te gusta</label>
+      <!-- Selector de Tonos / Talles DEBAJO del nombre y precio -->
+      <div id="modal-det-opciones-container" class="mb-4 bg-pink-50/60 p-3 rounded-2xl border border-pink-100 hidden">
+        <label class="block text-xs font-bold text-pink-700 mb-2">Selecciona una opción:</label>
         <div id="modal-det-opciones-list" class="flex flex-wrap gap-2"></div>
       </div>
 
+      <!-- Descripción (Opcional) -->
+      <p id="modal-det-desc" class="text-sm text-gray-600 mb-4 bg-gray-50 p-3 rounded-xl border border-gray-100 hidden"></p>
+
+      <!-- Botón Agregar al Carrito -->
       <button id="btn-modal-add-cart" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-3.5 rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2">
         🛒 Agregar al Carrito
       </button>
@@ -523,9 +527,9 @@
         opList.innerHTML = listaOpciones.map((op, idx) => {
           const val = op;
           const isSelected = idx === 0;
-          const bgClass = isSelected ? 'bg-pink-600 text-white border-pink-600 font-bold' : 'bg-white text-gray-700 border-pink-200 hover:bg-pink-50 font-medium';
+          const bgClass = isSelected ? 'bg-pink-600 text-white border-pink-600 font-bold shadow-sm' : 'bg-white text-gray-700 border-pink-200 hover:bg-pink-50 font-medium';
           return `
-            <button type="button" onclick="seleccionarOpcionModal('${val}', this)" class="op-btn px-3.5 py-1.5 rounded-xl border text-xs transition-all shadow-sm ${bgClass}">
+            <button type="button" onclick="seleccionarOpcionModal('${val}', this)" class="op-btn px-3 py-1.5 rounded-xl border text-xs transition-all ${bgClass}">
               ${val}
             </button>
           `;
@@ -545,9 +549,9 @@
     function seleccionarOpcionModal(valor, btn) {
       opcionSeleccionadaModal = valor;
       document.querySelectorAll('.op-btn').forEach(b => {
-        b.className = 'op-btn px-3.5 py-1.5 rounded-xl border text-xs transition-all bg-white text-gray-700 border-pink-200 hover:bg-pink-50 font-medium shadow-sm';
+        b.className = 'op-btn px-3 py-1.5 rounded-xl border text-xs transition-all bg-white text-gray-700 border-pink-200 hover:bg-pink-50 font-medium';
       });
-      btn.className = 'op-btn px-3.5 py-1.5 rounded-xl border text-xs transition-all bg-pink-600 text-white border-pink-600 font-bold shadow-sm';
+      btn.className = 'op-btn px-3 py-1.5 rounded-xl border text-xs transition-all bg-pink-600 text-white border-pink-600 font-bold shadow-sm';
     }
 
     function cerrarModalDetalle() {
