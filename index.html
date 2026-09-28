@@ -325,7 +325,7 @@
     }
 
     async function guardarProducto(e) {
-      e.preventDefault();
+      if (e) e.preventDefault();
       const id = document.getElementById('admin-prod-id').value;
       const nombre = document.getElementById('admin-prod-nombre').value;
       const precio = parseFloat(document.getElementById('admin-prod-precio').value);
@@ -341,7 +341,7 @@
         descripcion, 
         imagen, 
         stock,
-        opciones: opcionesTempForm 
+        opciones: [...opcionesTempForm] 
       };
 
       const url = id ? `${API_URL}/productos/${id}` : `${API_URL}/productos`;
@@ -349,7 +349,7 @@
 
       try {
         const res = await fetch(url, {
-          method,
+          method: method,
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
@@ -370,8 +370,8 @@
       const prod = productos.find(p => p._id === id);
       if (!prod) return;
       document.getElementById('admin-prod-id').value = prod._id;
-      document.getElementById('admin-prod-nombre').value = prod.nombre;
-      document.getElementById('admin-prod-precio').value = prod.precio;
+      document.getElementById('admin-prod-nombre').value = prod.nombre || '';
+      document.getElementById('admin-prod-precio').value = prod.precio || '';
       document.getElementById('admin-prod-categoria').value = prod.categoria || '';
       document.getElementById('admin-prod-desc').value = prod.descripcion || '';
       document.getElementById('admin-prod-imagen').value = prod.imagen || '';
@@ -405,6 +405,7 @@
     function resetFormProducto() {
       document.getElementById('form-prod').reset();
       document.getElementById('admin-prod-id').value = '';
+      document.getElementById('admin-prod-imagen').value = '';
       const fileInput = document.getElementById('admin-prod-file');
       if (fileInput) fileInput.value = '';
       opcionesTempForm = [];
