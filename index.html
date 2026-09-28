@@ -27,10 +27,10 @@
   <!-- Encabezado -->
   <header class="bg-white shadow-sm sticky top-0 z-30">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-pink-600 tracking-wide">🌷D&B🌷</h1>
+      <h1 class="text-2xl font-bold text-pink-600 tracking-wide">🌷D&B2🌷</h1>
 
       <div class="flex items-center space-x-4">
-        <button onclick="toggleAdminModal()" class="text-xs text-pink-500 hover:underline bg-pink-50 px-2.5 py-1 rounded-full border border-pink-200">
+        <button onclick="toggleAdminModal()" class="text-xs text-pink-500 hover:underline bg-pink-50 px-2.5 py-1 rounded-full border border-pink-200 font-medium">
           🔐 Acceso Dueña
         </button>
 
@@ -51,11 +51,18 @@
   <!-- Contenedor Principal -->
   <main class="max-w-6xl mx-auto px-4 flex-grow w-full pb-12">
 
+    <!-- Buscador en Tiempo Real -->
+    <div class="mb-6">
+      <div class="relative max-w-md mx-auto md:mx-0">
+        <input type="search" id="input-busqueda" oninput="aplicarFiltros()" placeholder="🔍 Buscar por producto o descripción..." class="w-full pl-4 pr-10 py-2.5 rounded-2xl border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-500 bg-white text-sm shadow-sm">
+      </div>
+    </div>
+
     <!-- Categorías -->
     <div class="mb-6">
       <h3 class="text-lg font-bold text-pink-700 mb-3">Categorías</h3>
       <div id="categorias-bar" class="flex flex-wrap gap-2">
-        <button onclick="filtrarProductos('todas')" class="px-4 py-1.5 rounded-full text-sm font-medium bg-pink-600 text-white shadow-sm">Todas</button>
+        <button onclick="filtrarProductos('todas')" class="px-4 py-1.5 rounded-full text-sm transition-all bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-md font-bold">Todas</button>
       </div>
     </div>
 
@@ -98,7 +105,7 @@
       <p id="modal-det-desc" class="text-sm text-gray-600 mb-4 bg-gray-50 p-3 rounded-xl border border-gray-100 hidden"></p>
 
       <!-- Botón Agregar al Carrito -->
-      <button id="btn-modal-add-cart" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-3.5 rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2">
+      <button id="btn-modal-add-cart" class="w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold py-3.5 rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2">
         🛒 Agregar al Carrito
       </button>
     </div>
@@ -122,6 +129,16 @@
       <p class="text-center text-gray-400 py-6">Tu carrito está vacío</p>
     </div>
     <div class="p-4 border-t border-pink-100 bg-pink-50">
+      
+      <!-- Selector de Método de Entrega -->
+      <div class="mb-3">
+        <label class="block text-xs font-bold text-pink-800 mb-1">🚚 Método de Entrega:</label>
+        <select id="select-entrega" class="w-full p-2 text-xs rounded-xl border border-pink-200 bg-white font-semibold focus:outline-none">
+          <option value="Retiro en local">Retiro en Local</option>
+          <option value="Envío a Domicilio">Envío a Domicilio (Delivery)</option>
+        </select>
+      </div>
+
       <div class="flex justify-between font-bold text-lg text-pink-900 mb-4">
         <span>Total:</span>
         <span id="cart-total">Gs. 0</span>
@@ -215,6 +232,7 @@
                 <th class="p-2">Imagen</th>
                 <th class="p-2">Nombre</th>
                 <th class="p-2">Precio</th>
+                <th class="p-2">Stock</th>
                 <th class="p-2">Acciones</th>
               </tr>
             </thead>
@@ -227,19 +245,23 @@
     </div>
   </div>
 
-  <!-- SCRIPT -->
+  <!-- SCRIPT COMPLETO -->
   <script>
     const API_URL = 'https://luzdyb-1.onrender.com/api';
     let categorias = [];
     let productos = [];
-    let carrito = [];
+    let carrito = JSON.parse(localStorage.getItem('carrito_luzdyb')) || [];
     let opcionesTempForm = [];
+    let categoriaActual = 'todas';
 
+    // Al cargar la página
     document.addEventListener('DOMContentLoaded', () => {
       cargarCategorias();
       cargarProductos();
+      actualizarCarrito();
     });
 
+    // --- OBTENER DATOS DE LA API ---
     async function cargarCategorias() {
       try {
         const res = await fetch(`${API_URL}/categorias`);
@@ -256,13 +278,41 @@
       try {
         const res = await fetch(`${API_URL}/productos`);
         productos = await res.json();
-        renderGridProductos(productos);
+        aplicarFiltros();
         renderAdminTablaProductos();
       } catch (e) {
         console.error('Error al cargar productos:', e);
       }
     }
 
+    // --- BUSCADOR Y FILTROS ---
+    function aplicarFiltros() {
+      const inputSearch = document.getElementById('input-busqueda');
+      const query = inputSearch ? inputSearch.value.toLowerCase().trim() : '';
+
+      let filtrados = productos;
+
+      if (categoriaActual !== 'todas') {
+        filtrados = filtrados.filter(p => p.categoria === categoriaActual);
+      }
+
+      if (query !== '') {
+        filtrados = filtrados.filter(p => 
+          (p.nombre && p.nombre.toLowerCase().includes(query)) ||
+          (p.descripcion && p.descripcion.toLowerCase().includes(query))
+        );
+      }
+
+      renderGridProductos(filtrados);
+    }
+
+    function filtrarProductos(catNombre) {
+      categoriaActual = catNombre;
+      renderBarraCategorias();
+      aplicarFiltros();
+    }
+
+    // --- PANEL DE CONTROL: CATEGORÍAS ---
     async function guardarCategoria(e) {
       e.preventDefault();
       const nombre = document.getElementById('admin-cat-nombre').value;
@@ -297,6 +347,7 @@
       }
     }
 
+    // --- PANEL DE CONTROL: OPCIONES / TONOS ---
     function agregarOpcionLista() {
       const input = document.getElementById('input-nueva-opcion');
       if (!input) return;
@@ -328,6 +379,7 @@
       `).join('');
     }
 
+    // --- PANEL DE CONTROL: PRODUCTOS ---
     async function guardarProducto(e) {
       if (e) e.preventDefault();
       const id = document.getElementById('admin-prod-id').value;
@@ -379,7 +431,7 @@
       document.getElementById('admin-prod-categoria').value = prod.categoria || '';
       document.getElementById('admin-prod-desc').value = prod.descripcion || '';
       document.getElementById('admin-prod-imagen').value = prod.imagen || '';
-      document.getElementById('admin-prod-stock').value = prod.stock || 10;
+      document.getElementById('admin-prod-stock').value = prod.stock ?? 10;
       
       if (Array.isArray(prod.opciones)) {
         opcionesTempForm = [...prod.opciones];
@@ -427,26 +479,41 @@
       reader.readAsDataURL(file);
     }
 
+    // --- RENDERIZADO EN PANTALLA ---
     function renderBarraCategorias() {
       const bar = document.getElementById('categorias-bar');
+      if (!bar) return;
+      
+      const btnTodasClass = categoriaActual === 'todas'
+        ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-md font-bold'
+        : 'bg-white text-pink-700 border border-pink-200 hover:bg-pink-100 font-medium';
+
       bar.innerHTML = `
-        <button onclick="filtrarProductos('todas')" class="px-4 py-1.5 rounded-full text-sm font-medium bg-pink-600 text-white shadow-sm">Todas</button>
-        ${categorias.map(cat => `
-          <button onclick="filtrarProductos('${cat.nombre}')" class="px-4 py-1.5 rounded-full text-sm font-medium bg-white text-pink-700 border border-pink-200 hover:bg-pink-100">
-            ${cat.nombre}
-          </button>
-        `).join('')}
+        <button onclick="filtrarProductos('todas')" class="px-4 py-1.5 rounded-full text-sm transition-all ${btnTodasClass}">Todas</button>
+        ${categorias.map(cat => {
+          const isSelected = categoriaActual === cat.nombre;
+          const catClass = isSelected
+            ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-md font-bold'
+            : 'bg-white text-pink-700 border border-pink-200 hover:bg-pink-100 font-medium';
+          return `
+            <button onclick="filtrarProductos('${cat.nombre}')" class="px-4 py-1.5 rounded-full text-sm transition-all ${catClass}">
+              ${cat.nombre}
+            </button>
+          `;
+        }).join('')}
       `;
     }
 
     function renderSelectCategorias() {
       const select = document.getElementById('admin-prod-categoria');
+      if (!select) return;
       select.innerHTML = '<option value="">Selecciona Categoría</option>' +
         categorias.map(cat => `<option value="${cat.nombre}">${cat.nombre}</option>`).join('');
     }
 
     function renderAdminListaCategorias() {
       const cont = document.getElementById('admin-lista-categorias');
+      if (!cont) return;
       cont.innerHTML = categorias.map(cat => `
         <span class="bg-white border border-pink-200 text-pink-800 px-3 py-1 rounded-full text-xs flex items-center gap-2">
           ${cat.nombre}
@@ -457,32 +524,46 @@
 
     function renderGridProductos(prods) {
       const grid = document.getElementById('grid-productos');
+      if (!grid) return;
       if (!prods || prods.length === 0) {
-        grid.innerHTML = '<p class="col-span-full text-center text-pink-400 py-8">No hay productos disponibles.</p>';
+        grid.innerHTML = '<p class="col-span-full text-center text-pink-400 py-8">No se encontraron productos.</p>';
         return;
       }
-      grid.innerHTML = prods.map(p => `
-        <div class="bg-white rounded-2xl p-3 shadow-sm flex flex-col justify-between border border-pink-100 hover:shadow-md transition-all cursor-pointer" onclick="abrirModalDetalle('${p._id}')">
-          <div>
-            <img src="${p.imagen || 'https://via.placeholder.com/150'}" class="w-full h-36 object-cover rounded-xl mb-2">
-            <h4 class="font-bold text-gray-800 text-sm line-clamp-1">${p.nombre}</h4>
-          </div>
 
-          <div class="flex justify-between items-center mt-2 pt-2 border-t border-gray-50" onclick="event.stopPropagation()">
-            <span class="font-bold text-pink-600">Gs. ${p.precio.toLocaleString()}</span>
-            <button onclick="abrirModalDetalle('${p._id}')" class="bg-pink-100 text-pink-700 px-2.5 py-1 rounded-lg text-xs font-bold hover:bg-pink-200">+ Ver / Carrito</button>
+      grid.innerHTML = prods.map(p => {
+        const sinStock = p.stock !== undefined && p.stock <= 0;
+        const stockBadge = sinStock 
+          ? `<span class="absolute top-2 right-2 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">Agotado</span>`
+          : p.stock < 5 ? `<span class="absolute top-2 right-2 bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">Últimas unidades</span>` : '';
+
+        return `
+          <div class="relative group bg-white rounded-2xl p-3 shadow-sm flex flex-col justify-between border border-pink-100 hover:shadow-md transition-all cursor-pointer ${sinStock ? 'opacity-75' : ''}" onclick="abrirModalDetalle('${p._id}')">
+            ${stockBadge}
+            <div class="overflow-hidden rounded-xl mb-2">
+              <img src="${p.imagen || 'https://via.placeholder.com/150'}" class="w-full h-36 object-cover group-hover:scale-105 transition-transform duration-300">
+              <h4 class="font-bold text-gray-800 text-sm line-clamp-1 mt-2">${p.nombre}</h4>
+            </div>
+
+            <div class="flex justify-between items-center mt-2 pt-2 border-t border-gray-50" onclick="event.stopPropagation()">
+              <span class="font-bold text-pink-600">Gs. ${p.precio.toLocaleString()}</span>
+              <button onclick="abrirModalDetalle('${p._id}')" class="bg-pink-100 text-pink-700 px-2.5 py-1 rounded-lg text-xs font-bold hover:bg-pink-200">
+                ${sinStock ? 'Ver Detalle' : '+ Ver / Carrito'}
+              </button>
+            </div>
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     function renderAdminTablaProductos() {
       const tbody = document.getElementById('admin-tabla-productos');
+      if (!tbody) return;
       tbody.innerHTML = productos.map(p => `
         <tr class="hover:bg-pink-50/50">
           <td class="p-2"><img src="${p.imagen || 'https://via.placeholder.com/50'}" class="w-10 h-10 object-cover rounded-lg"></td>
           <td class="p-2 font-medium">${p.nombre}</td>
           <td class="p-2">Gs. ${p.precio.toLocaleString()}</td>
+          <td class="p-2"><span class="px-2 py-0.5 rounded-full text-xs font-bold ${p.stock <= 0 ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}">${p.stock ?? 10}</span></td>
           <td class="p-2">
             <button onclick="editarProducto('${p._id}')" class="text-blue-600 font-semibold hover:underline mr-2">✏️ Editar</button>
             <button onclick="eliminarProducto('${p._id}')" class="text-red-600 font-semibold hover:underline">🗑️ Eliminar</button>
@@ -491,15 +572,7 @@
       `).join('');
     }
 
-    function filtrarProductos(catNombre) {
-      if (catNombre === 'todas') {
-        renderGridProductos(productos);
-      } else {
-        renderGridProductos(productos.filter(p => p.categoria === catNombre));
-      }
-    }
-
-    // MODAL DE DETALLE DE PRODUCTO
+    // --- MODAL DE DETALLE Y ELECCIÓN DE TONOS ---
     function abrirModalDetalle(id) {
       const prod = productos.find(p => p._id === id);
       if (!prod) return;
@@ -508,7 +581,6 @@
       document.getElementById('modal-det-nombre').innerText = prod.nombre;
       document.getElementById('modal-det-precio').innerText = `Gs. ${prod.precio.toLocaleString()}`;
 
-      // Configuración de la descripción
       const descElement = document.getElementById('modal-det-desc');
       if (prod.descripcion && prod.descripcion.trim() !== '' && prod.descripcion !== 'Sin descripción disponible.') {
         descElement.innerText = prod.descripcion;
@@ -518,9 +590,8 @@
         descElement.classList.add('hidden');
       }
 
-      // Procesar lista de opciones/tonos si existen
       let listaOpciones = [];
-      if (Array.isArray(prod.opciones)) {
+      if (Array.isArray(prod.opciones) && prod.opciones.length > 0) {
         listaOpciones = prod.opciones.map(o => String(o).trim()).filter(o => o !== '');
       } else if (typeof prod.opciones === 'string' && prod.opciones.trim() !== '') {
         listaOpciones = prod.opciones.split(',').map(o => o.trim()).filter(o => o !== '');
@@ -530,52 +601,60 @@
       const opList = document.getElementById('modal-det-opciones-list');
       const inputTono = document.getElementById('modal-input-tono');
 
-      // Limpia la caja de texto
-      inputTono.value = '';
-
       if (listaOpciones.length > 0) {
         opContainer.classList.remove('hidden');
-        inputTono.value = listaOpciones[0]; // Rellena el input con la primera opción por defecto
+        inputTono.value = listaOpciones[0];
 
         opList.innerHTML = listaOpciones.map((op, idx) => {
           const isSelected = idx === 0;
           const bgClass = isSelected 
-            ? 'bg-pink-600 text-white border-pink-600 font-bold shadow-sm' 
-            : 'bg-white text-gray-700 border-pink-200 hover:bg-pink-50 font-medium';
+            ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold shadow-md border-none' 
+            : 'bg-white text-gray-700 border-pink-200 hover:bg-pink-50 font-medium border';
           
           return `
-            <button type="button" onclick="seleccionarOpcionBoton('${op}', this)" class="op-btn px-3 py-1.5 rounded-xl border text-xs transition-all ${bgClass}">
+            <button type="button" onclick="seleccionarOpcionBoton('${op}', this)" class="op-btn px-3.5 py-1.5 rounded-xl text-xs transition-all ${bgClass}">
               ${op}
             </button>
           `;
         }).join('');
       } else {
         opContainer.classList.add('hidden');
+        inputTono.value = '';
       }
 
-      document.getElementById('btn-modal-add-cart').onclick = () => {
-        agregarAlCarritoModal(prod._id);
-        cerrarModalDetalle();
-      };
+      const btnAdd = document.getElementById('btn-modal-add-cart');
+      if (prod.stock !== undefined && prod.stock <= 0) {
+        btnAdd.disabled = true;
+        btnAdd.innerText = '🚫 Producto Agotado';
+        btnAdd.className = 'w-full bg-gray-300 text-gray-500 font-bold py-3.5 rounded-2xl cursor-not-allowed';
+      } else {
+        btnAdd.disabled = false;
+        btnAdd.innerText = '🛒 Agregar al Carrito';
+        btnAdd.className = 'w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold py-3.5 rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2';
+        btnAdd.onclick = () => {
+          agregarAlCarritoModal(prod._id);
+          cerrarModalDetalle();
+        };
+      }
 
       document.getElementById('modal-producto-detalle').classList.remove('hidden');
     }
 
     function seleccionarOpcionBoton(valor, btn) {
-      // Escribe automáticamente la opción dentro del input
       document.getElementById('modal-input-tono').value = valor;
       
       document.querySelectorAll('.op-btn').forEach(b => {
-        b.className = 'op-btn px-3 py-1.5 rounded-xl border text-xs transition-all bg-white text-gray-700 border-pink-200 hover:bg-pink-50 font-medium';
+        b.className = 'op-btn px-3.5 py-1.5 rounded-xl text-xs transition-all bg-white text-gray-700 border border-pink-200 hover:bg-pink-50 font-medium';
       });
       
-      btn.className = 'op-btn px-3 py-1.5 rounded-xl border text-xs transition-all bg-pink-600 text-white border-pink-600 font-bold shadow-sm';
+      btn.className = 'op-btn px-3.5 py-1.5 rounded-xl text-xs transition-all bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold shadow-md border-none';
     }
 
     function cerrarModalDetalle() {
       document.getElementById('modal-producto-detalle').classList.add('hidden');
     }
 
+    // --- CARRITO DE COMPRAS CON LOCALSTORAGE ---
     function toggleCarrito() {
       document.getElementById('drawer-carrito').classList.toggle('translate-x-full');
     }
@@ -585,7 +664,6 @@
       if (!prod) return;
 
       const tonoEscribio = document.getElementById('modal-input-tono').value.trim();
-
       const itemKey = tonoEscribio ? `${id}-${tonoEscribio}` : id;
       const item = carrito.find(i => i.itemKey === itemKey);
 
@@ -601,19 +679,25 @@
       }
 
       actualizarCarrito();
-      const detalleOp = tonoEscribio ? ` (Tono/Opción: ${tonoEscribio})` : '';
+      const detalleOp = tonoEscribio ? ` (Tono: ${tonoEscribio})` : '';
       alert(`✅ "${prod.nombre}${detalleOp}" agregado al carrito`);
     }
 
     function actualizarCarrito() {
-      document.getElementById('cart-count').innerText = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+      localStorage.setItem('carrito_luzdyb', JSON.stringify(carrito));
+
+      const totalCount = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+      const cartCountEl = document.getElementById('cart-count');
+      if (cartCountEl) cartCountEl.innerText = totalCount;
+
       const itemsCont = document.getElementById('cart-items');
+      if (!itemsCont) return;
 
       if (carrito.length === 0) {
-        itemsCont.innerHTML = '<p class="text-center text-gray-400 py-6">Tu carrito está vacío</p>';
+        itemsCont.innerHTML = '<p class="text-center text-gray-400 py-6 text-sm">Tu carrito está vacío</p>';
       } else {
         itemsCont.innerHTML = carrito.map(item => `
-          <div class="py-3 flex justify-between items-center">
+          <div class="py-3 flex justify-between items-center border-b border-gray-100">
             <div>
               <h5 class="font-bold text-sm text-pink-900">
                 ${item.nombre} ${item.opcion ? `<span class="text-pink-600 text-xs font-semibold">(${item.opcion})</span>` : ''}
@@ -621,16 +705,17 @@
               <p class="text-xs text-pink-600">Gs. ${item.precio.toLocaleString()} x ${item.cantidad}</p>
             </div>
             <div class="flex items-center gap-2">
-              <button onclick="cambiarCantidad('${item.itemKey}', -1)" class="bg-pink-100 text-pink-700 px-2 rounded font-bold">-</button>
+              <button onclick="cambiarCantidad('${item.itemKey}', -1)" class="bg-pink-100 text-pink-700 px-2.5 py-0.5 rounded-lg font-bold hover:bg-pink-200">-</button>
               <span class="text-xs font-bold">${item.cantidad}</span>
-              <button onclick="cambiarCantidad('${item.itemKey}', 1)" class="bg-pink-100 text-pink-700 px-2 rounded font-bold">+</button>
+              <button onclick="cambiarCantidad('${item.itemKey}', 1)" class="bg-pink-100 text-pink-700 px-2.5 py-0.5 rounded-lg font-bold hover:bg-pink-200">+</button>
             </div>
           </div>
         `).join('');
       }
 
       const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-      document.getElementById('cart-total').innerText = `Gs. ${total.toLocaleString()}`;
+      const totalEl = document.getElementById('cart-total');
+      if (totalEl) totalEl.innerText = `Gs. ${total.toLocaleString()}`;
     }
 
     function cambiarCantidad(itemKey, delta) {
@@ -645,17 +730,24 @@
 
     function enviarPedidoWhatsApp() {
       if (carrito.length === 0) return alert('El carrito está vacío');
+
+      const metodoEntregaSelect = document.getElementById('select-entrega');
+      const metodoEntrega = metodoEntregaSelect ? metodoEntregaSelect.value : 'Retiro en local';
+
       let msg = '¡Hola D & B Belleza! 👋 Quisiera realizar el siguiente pedido:\n\n';
       carrito.forEach(i => {
         const detalleOp = i.opcion ? ` [Tono/Opción: ${i.opcion}]` : '';
         msg += `• ${i.nombre}${detalleOp} (x${i.cantidad}) - Gs. ${(i.precio * i.cantidad).toLocaleString()}\n`;
       });
+
       const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
       msg += `\n*Total a pagar: Gs. ${total.toLocaleString()}*`;
+      msg += `\n🚚 *Método de Entrega:* ${metodoEntrega}`;
 
       window.open(`https://wa.me/595982416860?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
+    // --- ADMINISTRACIÓN ---
     function toggleAdminModal() {
       document.getElementById('modal-login').classList.toggle('hidden');
     }
