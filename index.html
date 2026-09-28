@@ -494,72 +494,81 @@
         renderGridProductos(productos.filter(p => p.categoria === catNombre));
       }
     }
+// MODAL DE DETALLE (CORREGIDO)
+function abrirModalDetalle(id) {
+  const prod = productos.find(p => p._id === id);
+  if (!prod) return;
 
-    // MODAL DE DETALLE
-    function abrirModalDetalle(id) {
-      const prod = productos.find(p => p._id === id);
-      if (!prod) return;
+  opcionSeleccionadaModal = null;
 
-      opcionSeleccionadaModal = null;
+  document.getElementById('modal-det-img').src = prod.imagen || 'https://via.placeholder.com/300';
+  document.getElementById('modal-det-nombre').innerText = prod.nombre;
+  document.getElementById('modal-det-precio').innerText = `Gs. ${prod.precio.toLocaleString()}`;
 
-      document.getElementById('modal-det-img').src = prod.imagen || 'https://via.placeholder.com/300';
-      document.getElementById('modal-det-nombre').innerText = prod.nombre;
-      document.getElementById('modal-det-precio').innerText = `Gs. ${prod.precio.toLocaleString()}`;
+  // Configuración de la descripción
+  const descElement = document.getElementById('modal-det-desc');
+  if (prod.descripcion && prod.descripcion.trim() !== '' && prod.descripcion !== 'Sin descripción disponible.') {
+    descElement.innerText = prod.descripcion;
+    descElement.classList.remove('hidden');
+  } else {
+    descElement.innerText = '';
+    descElement.classList.add('hidden');
+  }
 
-      // Configuración de la descripción
-      const descElement = document.getElementById('modal-det-desc');
-      if (prod.descripcion && prod.descripcion.trim() !== '' && prod.descripcion !== 'Sin descripción disponible.') {
-        descElement.innerText = prod.descripcion;
-        descElement.classList.remove('hidden');
-      } else {
-        descElement.innerText = '';
-        descElement.classList.add('hidden');
-      }
+  // Procesar lista de opciones/tonos/números
+  let listaOpciones = [];
+  if (Array.isArray(prod.opciones)) {
+    listaOpciones = prod.opciones.map(o => String(o).trim()).filter(o => o !== '');
+  } else if (typeof prod.opciones === 'string' && prod.opciones.trim() !== '') {
+    listaOpciones = prod.opciones.split(',').map(o => o.trim()).filter(o => o !== '');
+  }
 
-      // Procesar lista de opciones/tonos
-      let listaOpciones = [];
-      if (Array.isArray(prod.opciones)) {
-        listaOpciones = prod.opciones.map(o => String(o).trim()).filter(o => o !== '');
-      } else if (typeof prod.opciones === 'string' && prod.opciones.trim() !== '') {
-        listaOpciones = prod.opciones.split(',').map(o => o.trim()).filter(o => o !== '');
-      }
+  const opContainer = document.getElementById('modal-det-opciones-container');
+  const opList = document.getElementById('modal-det-opciones-list');
 
-      const opContainer = document.getElementById('modal-det-opciones-container');
-      const opList = document.getElementById('modal-det-opciones-list');
+  if (listaOpciones.length > 0) {
+    opContainer.classList.remove('hidden');
+    opcionSeleccionadaModal = listaOpciones[0]; // Selecciona la primera opción por defecto
 
-      if (listaOpciones.length > 0) {
-        opContainer.classList.remove('hidden');
-        opcionSeleccionadaModal = listaOpciones[0];
+    // AQUÍ ESTABA EL ERROR: Agregamos op-btn a la lista de clases para que querySelectorAll lo encuentre
+    opList.innerHTML = listaOpciones.map((op, idx) => {
+      const isSelected = idx === 0;
+      const bgClass = isSelected 
+        ? 'bg-pink-600 text-white border-pink-600 font-bold shadow-sm' 
+        : 'bg-white text-gray-700 border-pink-200 hover:bg-pink-50 font-medium';
+      
+      return `
+        <button type="button" onclick="seleccionarOpcionModal('${op}', this)" class="op-btn px-3 py-1.5 rounded-xl border text-xs transition-all ${bgClass}">
+          ${op}
+        </button>
+      `;
+    }).join('');
+  } else {
+    opContainer.classList.add('hidden');
+  }
 
-        opList.innerHTML = listaOpciones.map((op, idx) => {
-          const val = op;
-          const isSelected = idx === 0;
-          const bgClass = isSelected ? 'bg-pink-600 text-white border-pink-600 font-bold shadow-sm' : 'bg-white text-gray-700 border-pink-200 hover:bg-pink-50 font-medium';
-          return `
-            <button type="button" onclick="seleccionarOpcionModal('${val}', this)" class="op-btn px-3 py-1.5 rounded-xl border text-xs transition-all ${bgClass}">
-              ${val}
-            </button>
-          `;
-        }).join('');
-      } else {
-        opContainer.classList.add('hidden');
-      }
+  document.getElementById('btn-modal-add-cart').onclick = () => {
+    agregarAlCarritoModal(prod._id, opcionSeleccionadaModal);
+    cerrarModalDetalle();
+  };
 
-      document.getElementById('btn-modal-add-cart').onclick = () => {
-        agregarAlCarritoModal(prod._id, opcionSeleccionadaModal);
-        cerrarModalDetalle();
-      };
+  document.getElementById('modal-producto-detalle').classList.remove('hidden');
+}
 
-      document.getElementById('modal-producto-detalle').classList.remove('hidden');
-    }
+// SELECCIONAR OPCIÓN (CORREGIDO)
+function seleccionarOpcionModal(valor, btn) {
+  opcionSeleccionadaModal = valor;
+  
+  // Resetea el estilo de todos los botones con la clase .op-btn
+  document.querySelectorAll('.op-btn').forEach(b => {
+    b.className = 'op-btn px-3 py-1.5 rounded-xl border text-xs transition-all bg-white text-gray-700 border-pink-200 hover:bg-pink-50 font-medium';
+  });
+  
+  // Resalta el botón seleccionado en rosa
+  btn.className = 'op-btn px-3 py-1.5 rounded-xl border text-xs transition-all bg-pink-600 text-white border-pink-600 font-bold shadow-sm';
+}
 
-    function seleccionarOpcionModal(valor, btn) {
-      opcionSeleccionadaModal = valor;
-      document.querySelectorAll('.op-btn').forEach(b => {
-        b.className = 'op-btn px-3 py-1.5 rounded-xl border text-xs transition-all bg-white text-gray-700 border-pink-200 hover:bg-pink-50 font-medium';
-      });
-      btn.className = 'op-btn px-3 py-1.5 rounded-xl border text-xs transition-all bg-pink-600 text-white border-pink-600 font-bold shadow-sm';
-    }
+    
 
     function cerrarModalDetalle() {
       document.getElementById('modal-producto-detalle').classList.add('hidden');
