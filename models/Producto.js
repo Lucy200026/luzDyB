@@ -18,7 +18,8 @@ const productoSchema = new mongoose.Schema({
   categoria: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Categoria'
-  }
+  },
+  opciones: [String] // <--- ¡AÑADE ESTA LÍNEA AQUÍ!
 }, {
   timestamps: true
 });
