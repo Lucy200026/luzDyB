@@ -13,13 +13,10 @@ const productoSchema = new mongoose.Schema({
   imagen: String,
   stock: {
     type: Number,
-    default: 0
+    default: 10
   },
-  categoria: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Categoria'
-  },
-  opciones: [String] // <--- ¡AÑADE ESTA LÍNEA AQUÍ!
+  categoria: String,
+  opciones: [String]
 }, {
   timestamps: true
 });
