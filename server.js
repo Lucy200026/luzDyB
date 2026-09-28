@@ -4,118 +4,102 @@ const cors = require('cors');
 
 const app = express();
 app.use(cors());
-app.use(express.json({ limit: '100mb' }));
-app.use(express.urlencoded({ limit: '100mb', extended: true }));
+app.use(express.json({ limit: '10mb' }));
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://lucy200026_db:Luz200026@cluster0.p75st.mongodb.net/tienda?retryWrites=true&w=majority';
+// Conexión a MongoDB Atlas
+const MONGO_URI = process.env.MONGO_URI || "tu_link_de_mongodb_aqui";
 
 mongoose.connect(MONGO_URI)
-  .then(() => console.log('MongoDB Conectado'))
-  .catch(err => console.error('Error MongoDB:', err));
+  .then(() => console.log('MongoDB conectado exitosamente'))
+  .catch(err => console.error('Error al conectar MongoDB:', err));
 
+// Esquemas
 const CategoriaSchema = new mongoose.Schema({
-  nombre: String,
+  nombre: { type: String, required: true },
   descripcion: String
 });
 
 const ProductoSchema = new mongoose.Schema({
-  nombre: String,
-  precio: Number,
+  nombre: { type: String, required: true },
+  precio: { type: Number, required: true },
   categoria: String,
   descripcion: String,
   imagen: String,
-  stock: Number,
+  stock: { type: Number, default: 10 },
   opciones: { type: [String], default: [] }
-}, { strict: false });
+});
 
 const Categoria = mongoose.model('Categoria', CategoriaSchema);
 const Producto = mongoose.model('Producto', ProductoSchema);
 
-// Rutas Categorías
+// RUTAS CATEGORÍAS
 app.get('/api/categorias', async (req, res) => {
   try {
     const cats = await Categoria.find();
     res.json(cats);
-  } catch (e) {
-    res.status(500).json({ error: e.message });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
 app.post('/api/categorias', async (req, res) => {
   try {
-    const nueva = new Categoria(req.body);
-    await nueva.save();
-    res.json(nueva);
-  } catch (e) {
-    res.status(500).json({ error: e.message });
+    const cat = new Categoria(req.body);
+    await cat.save();
+    res.json(cat);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
 app.delete('/api/categorias/:id', async (req, res) => {
   try {
     await Categoria.findByIdAndDelete(req.params.id);
-    res.json({ mensaje: 'Categoría eliminada' });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
+    res.json({ message: 'Categoría eliminada' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Rutas Productos
+// RUTAS PRODUCTOS
 app.get('/api/productos', async (req, res) => {
   try {
     const prods = await Producto.find();
     res.json(prods);
-  } catch (e) {
-    res.status(500).json({ error: e.message });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
 app.post('/api/productos', async (req, res) => {
   try {
-    const { nombre, precio, categoria, descripcion, imagen, stock, opciones } = req.body;
-    const nuevo = new Producto({
-      nombre,
-      precio,
-      categoria,
-      descripcion,
-      imagen,
-      stock,
-      opciones: Array.isArray(opciones) ? opciones : []
-    });
-    await nuevo.save();
-    res.json(nuevo);
-  } catch (e) {
-    res.status(500).json({ error: e.message });
+    const prod = new Producto(req.body);
+    await prod.save();
+    res.json(prod);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
 app.put('/api/productos/:id', async (req, res) => {
   try {
-    const { nombre, precio, categoria, descripcion, imagen, stock, opciones } = req.body;
-    const datosActualizar = {
-      nombre,
-      precio,
-      categoria,
-      descripcion,
-      imagen,
-      stock,
-      opciones: Array.isArray(opciones) ? opciones : []
-    };
-    const actualizado = await Producto.findByIdAndUpdate(req.params.id, datosActualizar, { new: true });
-    res.json(actualizado);
-  } catch (e) {
-    res.status(500).json({ error: e.message });
+    const prod = await Producto.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(prod);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
 app.delete('/api/productos/:id', async (req, res) => {
   try {
     await Producto.findByIdAndDelete(req.params.id);
-    res.json({ mensaje: 'Producto eliminado' });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
+    res.json({ message: 'Producto eliminado' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => console.log(`Servidor escuchando en puerto ${PORT}`));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
+});
