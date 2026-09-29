@@ -7,28 +7,30 @@ router.get('/', async (req, res) => {
   try {
     const productos = await Producto.find();
     res.json(productos);
-  } catch (err) {
-    res.status(500).json({ mensaje: err.message });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener productos' });
   }
 });
 
 // Crear nuevo producto
 router.post('/', async (req, res) => {
-  const producto = new Producto({
-    nombre: req.body.nombre,
-    precio: req.body.precio,
-    descripcion: req.body.descripcion,
-    imagen: req.body.imagen,
-    stock: req.body.stock,
-    categoria: req.body.categoria,
-    opciones: req.body.opciones || []
-  });
-
   try {
-    const nuevoProducto = await producto.save();
+    const { nombre, precio, categoriaGeneral, subcategoria, tituloOpcion, opciones, stock, imagen, descripcion } = req.body;
+    const nuevoProducto = new Producto({
+      nombre,
+      precio,
+      categoriaGeneral,
+      subcategoria,
+      tituloOpcion,
+      opciones,
+      stock,
+      imagen,
+      descripcion
+    });
+    await nuevoProducto.save();
     res.status(201).json(nuevoProducto);
-  } catch (err) {
-    res.status(400).json({ mensaje: err.message });
+  } catch (error) {
+    res.status(400).json({ error: 'Error al crear producto' });
   }
 });
 
@@ -41,8 +43,8 @@ router.put('/:id', async (req, res) => {
       { new: true }
     );
     res.json(productoActualizado);
-  } catch (err) {
-    res.status(400).json({ mensaje: err.message });
+  } catch (error) {
+    res.status(400).json({ error: 'Error al actualizar producto' });
   }
 });
 
@@ -51,8 +53,8 @@ router.delete('/:id', async (req, res) => {
   try {
     await Producto.findByIdAndDelete(req.params.id);
     res.json({ mensaje: 'Producto eliminado' });
-  } catch (err) {
-    res.status(500).json({ mensaje: err.message });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al eliminar producto' });
   }
 });
 
