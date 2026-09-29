@@ -11,7 +11,7 @@
   <!-- Header -->
   <header class="bg-white shadow-sm sticky top-0 z-30">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-pink-600 tracking-wide cursor-pointer" onclick="seleccionarCatGeneral('todas')">🌷 D&B 🌷</h1>
+      <h1 class="text-2xl font-bold text-pink-600 tracking-wide cursor-pointer" onclick="filtrarCategoria('todas')">🌷 D&B 🌷</h1>
 
       <div class="flex items-center space-x-3">
         <button onclick="toggleAdminModal()" class="text-xs text-pink-600 bg-pink-50 hover:bg-pink-100 border border-pink-200 px-3 py-1.5 rounded-full font-bold">
@@ -25,21 +25,16 @@
       </div>
     </div>
 
-    <!-- Navegación Categorías Generales -->
+    <!-- Navegación Categorías -->
     <nav class="bg-pink-100/60 border-t border-b border-pink-100 overflow-x-auto">
-      <div id="nav-cat-generales" class="max-w-6xl mx-auto px-4 flex gap-2 py-2 text-xs font-bold whitespace-nowrap"></div>
+      <div id="nav-categorias" class="max-w-6xl mx-auto px-4 flex gap-2 py-2 text-xs font-bold whitespace-nowrap"></div>
     </nav>
-
-    <!-- Navegación Subcategorías -->
-    <div id="nav-subcategorias-container" class="bg-white border-b border-pink-100 px-4 py-2 hidden overflow-x-auto">
-      <div id="nav-subcategorias" class="max-w-6xl mx-auto flex gap-2 text-xs font-semibold whitespace-nowrap"></div>
-    </div>
   </header>
 
   <!-- Banner Dinámico -->
   <section id="hero-banner" class="bg-gradient-to-r from-pink-100 via-pink-50 to-pink-100 text-center py-6 px-4 border-b border-pink-200">
     <h2 id="banner-titulo" class="text-2xl font-black text-pink-700 mb-1">Tienda Online</h2>
-    <p id="banner-subtitulo" class="text-pink-600 text-xs">Explora nuestro catálogo completo de belleza y cuidado personal.</p>
+    <p id="banner-subtitulo" class="text-pink-600 text-xs">🤍🌷 Explora nuestro catálogo completo de belleza y cuidado personal.🌷🤍 </p>
   </section>
 
   <!-- Contenido Principal -->
@@ -58,45 +53,22 @@
 
   </main>
 
-  <!-- MODAL ZOOM DE IMAGEN -->
-  <div id="modal-zoom-img" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 cursor-pointer" onclick="cerrarZoomImagen()">
-    <div class="relative max-w-3xl max-h-[90vh] flex flex-col items-center">
-      <button onclick="cerrarZoomImagen()" class="absolute -top-10 right-0 text-white font-bold text-2xl hover:text-pink-300">✕ Cerrar</button>
-      <img id="img-zoom-src" class="max-w-full max-h-[80vh] rounded-lg shadow-2xl object-contain border-2 border-white">
-      <p id="img-zoom-caption" class="text-white text-sm font-semibold mt-3 text-center"></p>
-    </div>
-  </div>
-
   <!-- PANEL DE ADMINISTRACIÓN -->
   <div id="panel-admin" class="fixed inset-0 bg-gray-900/90 z-40 hidden overflow-y-auto p-3 md:p-6 text-xs">
     <div class="max-w-4xl mx-auto bg-white rounded-2xl p-4 md:p-6 shadow-2xl relative">
       <button onclick="cerrarPanelAdmin()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-xl font-bold">✕</button>
       <h2 class="text-lg font-bold text-pink-700 mb-4 border-b pb-2">🛠️ Panel de Control - Dueña</h2>
 
-      <!-- GESTOR DE CATEGORÍAS CLARO Y SEPARADO -->
+      <!-- GESTOR DE CATEGORÍAS -->
       <div class="mb-6 bg-pink-50/80 border border-pink-200 p-4 rounded-xl">
-        <h3 class="font-bold text-pink-800 text-sm mb-3">📁 1. Gestor de Categorías y Subcategorías</h3>
+        <h3 class="font-bold text-pink-800 text-sm mb-3">📁 Gestor de Categorías</h3>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Crear Categoría General -->
-          <form onsubmit="guardarCategoriaGeneral(event)" class="bg-white p-3 rounded-lg border border-pink-100 flex flex-col gap-2">
-            <span class="font-bold text-pink-700">➕ Crear Categoría General</span>
-            <input type="text" id="admin-catgen-nombre" placeholder="Ej: Maquillajes, Cremas" class="border p-2 rounded-lg bg-gray-50" required>
-            <button type="submit" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 rounded-lg">Guardar Cat. General</button>
-          </form>
+        <form onsubmit="guardarCategoria(event)" class="bg-white p-3 rounded-lg border border-pink-100 flex gap-2 mb-3">
+          <input type="text" id="admin-cat-nombre" placeholder="Nombre de categoría (Ej: Labiales)" class="border p-2 rounded-lg bg-gray-50 flex-grow" required>
+          <button type="submit" class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-4 rounded-lg">Guardar</button>
+        </form>
 
-          <!-- Crear Subcategoría vinculada -->
-          <form onsubmit="guardarSubcategoria(event)" class="bg-white p-3 rounded-lg border border-pink-100 flex flex-col gap-2">
-            <span class="font-bold text-pink-700">🔗 Crear Subcategoría</span>
-            <select id="admin-subcat-padre" class="border p-2 rounded-lg bg-gray-50" required>
-              <option value="">Seleccione Categoría Padre...</option>
-            </select>
-            <input type="text" id="admin-subcat-nombre" placeholder="Ej: Labial, Protector Solar" class="border p-2 rounded-lg bg-gray-50" required>
-            <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded-lg">Guardar Subcategoría</button>
-          </form>
-        </div>
-
-        <div class="mt-3">
+        <div>
           <label class="font-bold text-gray-600 block mb-1">Categorías Registradas:</label>
           <div id="admin-lista-categorias" class="flex flex-wrap gap-2 pt-1 border-t border-pink-200"></div>
         </div>
@@ -104,30 +76,28 @@
 
       <!-- FORMULARIO DE PRODUCTO -->
       <div class="mb-6 bg-gray-50 border p-4 rounded-xl">
-        <h3 id="form-prod-title" class="font-bold text-pink-800 text-sm mb-3">📦 2. Agregar / Editar Producto</h3>
+        <h3 id="form-prod-title" class="font-bold text-pink-800 text-sm mb-3">📦 Agregar / Editar Producto</h3>
         
         <form id="form-prod" onsubmit="guardarProducto(event)" class="grid grid-cols-1 md:grid-cols-2 gap-3">
           <input type="hidden" id="admin-prod-id">
           
           <div>
             <label class="block font-bold text-gray-600 mb-1">Nombre del producto:</label>
-            <input type="text" id="admin-prod-nombre" placeholder="Ej: Labial Matte Lola" class="w-full border p-2 rounded-lg bg-white" required>
+            <input type="text" id="admin-prod-nombre" placeholder="Ej: Polvo traslúcido MC beauty" class="w-full border p-2 rounded-lg bg-white" required>
           </div>
 
           <div>
             <label class="block font-bold text-gray-600 mb-1">Precio (Gs.):</label>
-            <input type="number" id="admin-prod-precio" placeholder="Ej: 63800" class="w-full border p-2 rounded-lg bg-white" required>
+            <input type="number" id="admin-prod-precio" placeholder="Ej: 32000" class="w-full border p-2 rounded-lg bg-white" required>
           </div>
 
-          <!-- CATEGORÍA GENERAL -->
           <div>
             <label class="block font-bold text-gray-600 mb-1">Categoría General:</label>
-            <select id="admin-prod-catgen" onchange="actualizarSubcatFormProd()" class="w-full border p-2 rounded-lg bg-white" required>
-              <option value="">Seleccione Categoría General</option>
+            <select id="admin-prod-catgen" class="w-full border p-2 rounded-lg bg-white" required>
+              <option value="">Seleccione Categoría</option>
             </select>
           </div>
 
-          <!-- SUBCATEGORÍA -->
           <div>
             <label class="block font-bold text-gray-600 mb-1">Subcategoría (Opcional):</label>
             <select id="admin-prod-subcat" class="w-full border p-2 rounded-lg bg-white">
@@ -141,17 +111,17 @@
           </div>
 
           <div>
-            <label class="block font-bold text-gray-600 mb-1">Título para opciones (Opcional):</label>
-            <input type="text" id="admin-prod-titulo-opcion" placeholder="Ej: Talles, Tipo de piel, Tonalidad" class="w-full border p-2 rounded-lg bg-white">
+            <label class="block font-bold text-gray-600 mb-1">Título Opciones (ej: Tipo de piel / Talles):</label>
+            <input type="text" id="admin-prod-titulo-opcion" placeholder="Ej: Tipo de piel" class="w-full border p-2 rounded-lg bg-white">
           </div>
 
           <!-- OPCIONES -->
           <div class="md:col-span-2 border border-pink-200 bg-white p-3 rounded-lg flex flex-col gap-2">
-            <label class="font-bold text-pink-700">🎨 Opciones disponibles del producto:</label>
+            <label class="font-bold text-pink-700">🎨 Opciones disponibles (Ej: 38, M, Grasa, Seca):</label>
             <div class="flex gap-2">
-              <input type="text" id="input-nueva-opcion" placeholder="Escribe una opción (Ej: Tono 01, Seca, M) y presiona →" class="border p-2 rounded-lg flex-grow">
-              <button type="button" onclick="agregarOpcionLista()" class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-4 py-2 rounded-lg text-xs flex items-center gap-1">
-                <span>+</span> Agregar Opción
+              <input type="text" id="input-nueva-opcion" placeholder="Escribe una opción y presiona +" class="border p-2 rounded-lg flex-grow">
+              <button type="button" onclick="agregarOpcionLista()" class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-4 py-2 rounded-lg text-xs">
+                + Agregar
               </button>
             </div>
             <div id="admin-lista-opciones-temp" class="flex flex-wrap gap-1.5 mt-2 min-h-[30px] p-2 bg-gray-50 rounded-lg border border-dashed border-gray-200">
@@ -159,22 +129,22 @@
             </div>
           </div>
 
-          <!-- SUBIR FOTO DESDE CELULAR -->
+          <!-- FOTO DEL PRODUCTO -->
           <div class="md:col-span-2 border border-pink-200 bg-white p-3 rounded-lg flex flex-col gap-2">
-            <label class="font-bold text-pink-700">📸 Foto del producto (Galería del teléfono):</label>
+            <label class="font-bold text-pink-700">📸 Foto del producto:</label>
             <input type="file" id="input-foto-file" accept="image/*" onchange="procesarFotoCelular(this)" class="block w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100 cursor-pointer">
             
             <input type="hidden" id="admin-prod-imagen">
             
             <div id="preview-imagen-container" class="mt-2 hidden flex items-center gap-2">
               <img id="preview-imagen" class="w-16 h-16 object-cover rounded-lg border">
-              <span class="text-[11px] text-green-600 font-bold">✓ Imagen seleccionada y lista</span>
+              <span class="text-[11px] text-green-600 font-bold">✓ Imagen cargada</span>
             </div>
           </div>
 
-          <div>
+          <div class="md:col-span-2">
             <label class="block font-bold text-gray-600 mb-1">Descripción breve:</label>
-            <textarea id="admin-prod-desc" placeholder="Detalles del producto..." class="w-full border p-2 rounded-lg bg-white h-20 md:col-span-2"></textarea>
+            <textarea id="admin-prod-desc" placeholder="Detalles del producto..." class="w-full border p-2 rounded-lg bg-white h-20"></textarea>
           </div>
 
           <div class="md:col-span-2 flex gap-2 mt-2">
@@ -186,15 +156,14 @@
 
       <!-- INVENTARIO -->
       <div>
-        <h3 class="font-bold text-pink-800 text-sm mb-2">📋 3. Inventario Registrado</h3>
+        <h3 class="font-bold text-pink-800 text-sm mb-2">📋 Inventario Registrado</h3>
         <div class="overflow-x-auto border rounded-xl">
           <table class="w-full text-left border-collapse bg-white">
             <thead>
               <tr class="bg-pink-100 text-pink-900 border-b">
                 <th class="p-2">Imagen</th>
                 <th class="p-2">Nombre</th>
-                <th class="p-2">Cat. General</th>
-                <th class="p-2">Subcategoría</th>
+                <th class="p-2">Categoría</th>
                 <th class="p-2">Precio</th>
                 <th class="p-2">Acciones</th>
               </tr>
@@ -212,8 +181,7 @@
     
     let productos = [];
     let categorias = [];
-    let catGeneralActual = 'todas';
-    let subcatActual = 'todas';
+    let categoriaActual = 'todas';
     let opcionesTempForm = [];
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -226,7 +194,7 @@
         const res = await fetch(`${API_URL}/categorias`);
         categorias = await res.json();
       } catch (e) { console.error(e); }
-      renderNavCatGenerales();
+      renderNavCategorias();
       renderAdminCategorias();
     }
 
@@ -239,18 +207,6 @@
       renderAdminTablaProductos();
     }
 
-    // ZOOM IMAGEN CLIENTE
-    function abrirZoomImagen(src, nombre) {
-      document.getElementById('img-zoom-src').src = src;
-      document.getElementById('img-zoom-caption').innerText = nombre || '';
-      document.getElementById('modal-zoom-img').classList.remove('hidden');
-    }
-
-    function cerrarZoomImagen() {
-      document.getElementById('modal-zoom-img').classList.add('hidden');
-    }
-
-    // ABRIR/CERRAR ADMIN
     function toggleAdminModal() {
       document.getElementById('panel-admin').classList.toggle('hidden');
     }
@@ -259,22 +215,20 @@
       document.getElementById('panel-admin').classList.add('hidden');
     }
 
-    // NAVEGACIÓN CLIENTE
-    function renderNavCatGenerales() {
-      const container = document.getElementById('nav-cat-generales');
-      const generales = categorias.filter(c => !c.categoriaPadre);
+    function renderNavCategorias() {
+      const container = document.getElementById('nav-categorias');
 
       let html = `
-        <button onclick="seleccionarCatGeneral('todas')" class="px-3 py-1 rounded-full ${catGeneralActual === 'todas' ? 'bg-pink-600 text-white' : 'bg-white text-pink-600 border border-pink-200'}">
+        <button onclick="filtrarCategoria('todas')" class="px-3 py-1 rounded-full ${categoriaActual === 'todas' ? 'bg-pink-600 text-white' : 'bg-white text-pink-600 border border-pink-200'}">
           Todas
         </button>
       `;
 
-      generales.forEach(c => {
-        const activo = catGeneralActual === c.nombre;
+      categorias.forEach(c => {
+        const activo = categoriaActual.toLowerCase() === c.nombre.toLowerCase();
         html += `
-          <button onclick="seleccionarCatGeneral('${c.nombre}')" class="px-3 py-1 rounded-full ${activo ? 'bg-pink-600 text-white' : 'bg-white text-pink-600 border border-pink-200'}">
-            ${c.nombre}
+          <button onclick="filtrarCategoria('${c.nombre}')" class="px-3 py-1 rounded-full ${activo ? 'bg-pink-600 text-white' : 'bg-white text-pink-600 border border-pink-200'}">
+            📁 ${c.nombre}
           </button>
         `;
       });
@@ -282,53 +236,9 @@
       container.innerHTML = html;
     }
 
-    function seleccionarCatGeneral(nombreCat) {
-      catGeneralActual = nombreCat;
-      subcatActual = 'todas';
-      renderNavCatGenerales();
-      renderNavSubcategorias();
-      aplicarFiltros();
-    }
-
-    function renderNavSubcategorias() {
-      const containerParent = document.getElementById('nav-subcategorias-container');
-      const container = document.getElementById('nav-subcategorias');
-
-      if (catGeneralActual === 'todas') {
-        containerParent.classList.add('hidden');
-        return;
-      }
-
-      const subcats = categorias.filter(c => c.categoriaPadre && c.categoriaPadre.toLowerCase() === catGeneralActual.toLowerCase());
-
-      if (subcats.length === 0) {
-        containerParent.classList.add('hidden');
-        return;
-      }
-
-      containerParent.classList.remove('hidden');
-
-      let html = `
-        <button onclick="seleccionarSubcat('todas')" class="px-2.5 py-1 rounded-md ${subcatActual === 'todas' ? 'bg-pink-200 text-pink-800' : 'text-gray-600 hover:bg-gray-100'}">
-          Todas en ${catGeneralActual}
-        </button>
-      `;
-
-      subcats.forEach(s => {
-        const activo = subcatActual === s.nombre;
-        html += `
-          <button onclick="seleccionarSubcat('${s.nombre}')" class="px-2.5 py-1 rounded-md ${activo ? 'bg-pink-600 text-white' : 'text-pink-600 bg-pink-50 hover:bg-pink-100'}">
-            ${s.nombre}
-          </button>
-        `;
-      });
-
-      container.innerHTML = html;
-    }
-
-    function seleccionarSubcat(nombreSub) {
-      subcatActual = nombreSub;
-      renderNavSubcategorias();
+    function filtrarCategoria(cat) {
+      categoriaActual = cat;
+      renderNavCategorias();
       aplicarFiltros();
     }
 
@@ -338,17 +248,13 @@
       let filtrados = productos.filter(p => {
         const matchBusqueda = (p.nombre && p.nombre.toLowerCase().includes(busqueda)) || (p.descripcion && p.descripcion.toLowerCase().includes(busqueda));
         
-        let matchCatGen = true;
-        if (catGeneralActual !== 'todas') {
-          matchCatGen = p.categoriaGeneral && p.categoriaGeneral.toLowerCase() === catGeneralActual.toLowerCase();
+        let matchCat = true;
+        if (categoriaActual !== 'todas') {
+          matchCat = (p.categoriaGeneral && p.categoriaGeneral.toLowerCase() === categoriaActual.toLowerCase()) ||
+                     (p.subcategoria && p.subcategoria.toLowerCase() === categoriaActual.toLowerCase());
         }
 
-        let matchSubcat = true;
-        if (subcatActual !== 'todas') {
-          matchSubcat = p.subcategoria && p.subcategoria.toLowerCase() === subcatActual.toLowerCase();
-        }
-
-        return matchBusqueda && matchCatGen && matchSubcat;
+        return matchBusqueda && matchCat;
       });
 
       renderProductosGrid(filtrados);
@@ -358,18 +264,13 @@
       const grid = document.getElementById('grid-productos');
       
       if (lista.length === 0) {
-        grid.innerHTML = `<p class="col-span-full text-center text-pink-400 py-8 text-xs font-semibold">No se encontraron productos en esta sección.</p>`;
+        grid.innerHTML = `<p class="col-span-full text-center text-pink-400 py-8 text-xs font-semibold">No se encontraron productos.</p>`;
         return;
       }
 
       grid.innerHTML = lista.map(p => `
         <div class="bg-white rounded-xl shadow-sm border border-pink-100 overflow-hidden flex flex-col justify-between hover:shadow-md transition">
-          <div class="relative group cursor-pointer" onclick="abrirZoomImagen('${p.imagen || ''}', '${p.nombre}')">
-            <img src="${p.imagen || 'https://via.placeholder.com/150'}" class="w-full h-36 object-cover">
-            <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-bold">
-              🔍 Ver Grande
-            </div>
-          </div>
+          <img src="${p.imagen || 'https://via.placeholder.com/150'}" class="w-full h-36 object-cover">
           <div class="p-2.5 flex flex-col flex-grow justify-between">
             <div>
               <span class="text-[9px] bg-pink-50 text-pink-600 px-1.5 py-0.5 rounded font-bold uppercase">${p.categoriaGeneral || 'General'}</span>
@@ -385,68 +286,41 @@
       `).join('');
     }
 
-    // FUNCIONES DEL PANEL ADMIN
     function renderAdminCategorias() {
-      const selectSubcatPadre = document.getElementById('admin-subcat-padre');
-      const selectCatGenProd = document.getElementById('admin-prod-catgen');
+      const selectCatGen = document.getElementById('admin-prod-catgen');
+      const selectSubcat = document.getElementById('admin-prod-subcat');
       const listaAdmin = document.getElementById('admin-lista-categorias');
 
-      const generales = categorias.filter(c => !c.categoriaPadre);
-
-      let optionsSubcatPadre = '<option value="">Seleccione Categoría Padre...</option>';
-      let optionsProdCatGen = '<option value="">Seleccione Categoría General</option>';
-      
-      generales.forEach(g => {
-        optionsSubcatPadre += `<option value="${g.nombre}">${g.nombre}</option>`;
-        optionsProdCatGen += `<option value="${g.nombre}">${g.nombre}</option>`;
+      let options = '<option value="">Seleccione Categoría</option>';
+      categorias.forEach(c => {
+        options += `<option value="${c.nombre}">${c.nombre}</option>`;
       });
 
-      selectSubcatPadre.innerHTML = optionsSubcatPadre;
-      selectCatGenProd.innerHTML = optionsProdCatGen;
+      selectCatGen.innerHTML = options;
+      selectSubcat.innerHTML = options;
 
       listaAdmin.innerHTML = categorias.map(c => `
         <span class="bg-white border border-pink-200 text-pink-800 text-[11px] px-2.5 py-1 rounded-full font-bold flex items-center gap-1.5 shadow-sm">
-          ${c.categoriaPadre ? `<span class="text-purple-600 font-semibold">${c.categoriaPadre} ➔</span>` : '📁'} ${c.nombre}
+          📁 ${c.nombre}
           <button type="button" onclick="eliminarCategoria('${c._id}')" class="text-red-500 font-bold hover:text-red-700">✕</button>
         </span>
       `).join('');
     }
 
-    async function guardarCategoriaGeneral(e) {
+    async function guardarCategoria(e) {
       e.preventDefault();
-      const nombre = document.getElementById('admin-catgen-nombre').value.trim();
+      const nombre = document.getElementById('admin-cat-nombre').value.trim();
       if (!nombre) return;
 
       try {
         await fetch(`${API_URL}/categorias`, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ nombre, categoriaPadre: null })
+          body: JSON.stringify({ nombre })
         });
-        document.getElementById('admin-catgen-nombre').value = '';
+        document.getElementById('admin-cat-nombre').value = '';
         cargarCategorias();
-      } catch (e) { alert('Error al guardar categoría general'); }
-    }
-
-    async function guardarSubcategoria(e) {
-      e.preventDefault();
-      const padre = document.getElementById('admin-subcat-padre').value;
-      const nombre = document.getElementById('admin-subcat-nombre').value.trim();
-
-      if (!padre || !nombre) {
-        alert('Por favor selecciona una categoría padre y escribe el nombre de la subcategoría');
-        return;
-      }
-
-      try {
-        await fetch(`${API_URL}/categorias`, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ nombre, categoriaPadre: padre })
-        });
-        document.getElementById('admin-subcat-nombre').value = '';
-        cargarCategorias();
-      } catch (e) { alert('Error al guardar subcategoría'); }
+      } catch (e) { alert('Error al guardar categoría'); }
     }
 
     async function eliminarCategoria(id) {
@@ -457,25 +331,6 @@
       } catch(e) {}
     }
 
-    function actualizarSubcatFormProd() {
-      const catGen = document.getElementById('admin-prod-catgen').value;
-      const selectSubcat = document.getElementById('admin-prod-subcat');
-
-      const subcats = categorias.filter(c => c.categoriaPadre && c.categoriaPadre.toLowerCase() === catGen.toLowerCase());
-
-      let html = '<option value="">Seleccione Subcategoría</option>';
-      if (subcats.length > 0) {
-        subcats.forEach(s => {
-          html += `<option value="${s.nombre}">${s.nombre}</option>`;
-        });
-      } else {
-        html = '<option value="">No hay subcategorías asignadas</option>';
-      }
-
-      selectSubcat.innerHTML = html;
-    }
-
-    // AGREGAR Y RENDERIZAR OPCIONES PRODUCTO
     function agregarOpcionLista() {
       const input = document.getElementById('input-nueva-opcion');
       const valor = input.value.trim();
@@ -506,7 +361,6 @@
       `).join('');
     }
 
-    // PROCESAR FOTO CELULAR EN BASE64
     function procesarFotoCelular(input) {
       const file = input.files[0];
       if (!file) return;
@@ -523,7 +377,6 @@
       reader.readAsDataURL(file);
     }
 
-    // GUARDAR PRODUCTO (CREAR / EDITAR)
     async function guardarProducto(e) {
       e.preventDefault();
       const payload = {
@@ -557,11 +410,8 @@
       document.getElementById('admin-prod-id').value = p._id;
       document.getElementById('admin-prod-nombre').value = p.nombre || '';
       document.getElementById('admin-prod-precio').value = p.precio || '';
-      
       document.getElementById('admin-prod-catgen').value = p.categoriaGeneral || '';
-      actualizarSubcatFormProd();
       document.getElementById('admin-prod-subcat').value = p.subcategoria || '';
-
       document.getElementById('admin-prod-stock').value = p.stock || 10;
       document.getElementById('admin-prod-titulo-opcion').value = p.tituloOpcion || '';
       document.getElementById('admin-prod-desc').value = p.descripcion || '';
@@ -576,7 +426,6 @@
       renderOpcionesTempAdmin();
 
       document.getElementById('form-prod-title').innerText = '✏️ Editando Producto';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function resetFormProducto() {
@@ -584,7 +433,7 @@
       document.getElementById('admin-prod-id').value = '';
       document.getElementById('admin-prod-imagen').value = '';
       document.getElementById('preview-imagen-container').classList.add('hidden');
-      document.getElementById('form-prod-title').innerText = '📦 2. Agregar / Editar Producto';
+      document.getElementById('form-prod-title').innerText = '📦 Agregar / Editar Producto';
       opcionesTempForm = [];
       renderOpcionesTempAdmin();
     }
@@ -603,7 +452,6 @@
           <td class="p-2"><img src="${p.imagen || 'https://via.placeholder.com/50'}" class="w-8 h-8 object-cover rounded border"></td>
           <td class="p-2 font-bold">${p.nombre}</td>
           <td class="p-2">${p.categoriaGeneral || '-'}</td>
-          <td class="p-2">${p.subcategoria || '-'}</td>
           <td class="p-2 font-bold text-pink-600">Gs. ${p.precio ? p.precio.toLocaleString() : '0'}</td>
           <td class="p-2 flex gap-2">
             <button onclick="cargarProductoParaEditar('${p._id}')" class="text-blue-600 font-bold hover:underline">✏️ Editar</button>
