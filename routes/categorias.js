@@ -1,49 +1,36 @@
-const express = require('express');
-const router = express.Router();
-const Categoria = require('../models/Categoria');
+const Categoria = require('./models/Categoria');
 
-// Obtener todas las categorías
-router.get('/', async (req, res) => {
+// Obtener todas las categorías y subcategorías
+app.get('/api/categorias', async (req, res) => {
   try {
-    const categorias = await Categoria.find();
+    const categorias = await Categoria.find().sort({ nombre: 1 });
     res.json(categorias);
   } catch (err) {
-    res.status(500).json({ mensaje: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Crear nueva categoría
-router.post('/', async (req, res) => {
-  const categoria = new Categoria({
-    nombre: req.body.nombre,
-    descripcion: req.body.descripcion
-  });
+// Crear categoría o subcategoría
+app.post('/api/categorias', async (req, res) => {
   try {
-    const nuevaCategoria = await categoria.save();
-    res.status(201).json(nuevaCategoria);
+    const { nombre, categoriaPadre } = req.body;
+    const nuevaCat = new Categoria({ 
+      nombre, 
+      categoriaPadre: categoriaPadre || null 
+    });
+    await nuevaCat.save();
+    res.json(nuevaCat);
   } catch (err) {
-    res.status(400).json({ mensaje: err.message });
-  }
-});
-
-// Editar categoría
-router.put('/:id', async (req, res) => {
-  try {
-    const categoria = await Categoria.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(categoria);
-  } catch (err) {
-    res.status(400).json({ mensaje: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
 
 // Eliminar categoría
-router.delete('/:id', async (req, res) => {
+app.delete('/api/categorias/:id', async (req, res) => {
   try {
     await Categoria.findByIdAndDelete(req.params.id);
     res.json({ mensaje: 'Categoría eliminada' });
   } catch (err) {
-    res.status(500).json({ mensaje: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
-
-module.exports = router;
