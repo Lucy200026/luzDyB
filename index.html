@@ -170,7 +170,7 @@
       <div class="mb-6 bg-pink-50 p-4 rounded-xl border border-pink-100">
         <h4 class="font-bold text-pink-800 mb-2">1. Nueva Categoría</h4>
         <form id="form-cat" onsubmit="guardarCategoria(event)" class="flex gap-2">
-          <input type="text" id="admin-cat-nombre" placeholder="Nombre (ej. Hombres, Perfumes)" class="border p-2 rounded-lg flex-grow" required>
+          <input type="text" id="admin-cat-nombre" placeholder="Nombre (ej. Hombre, Joyas)" class="border p-2 rounded-lg flex-grow" required>
           <button type="submit" class="bg-pink-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-pink-700">+ Guardar Categoría</button>
         </form>
 
@@ -189,7 +189,7 @@
           <input type="number" id="admin-prod-precio" placeholder="Precio (Gs.)" class="border p-2 rounded-lg" required>
 
           <select id="admin-prod-categoria" class="border p-2 rounded-lg md:col-span-2" required>
-            <option value="">Selecciona Categoría General</option>
+            <option value="">Selecciona Categoría</option>
           </select>
 
           <!-- FOTO DE CELULAR -->
@@ -295,7 +295,7 @@
 
       if (categoriaActual !== 'todas') {
         filtrados = filtrados.filter(p => {
-          const catP = p.categoriaGeneral || p.categoria || '';
+          const catP = p.categoria || p.categoriaGeneral || '';
           return catP.toLowerCase() === categoriaActual.toLowerCase();
         });
       }
@@ -347,7 +347,7 @@
           <img src="${p.imagen || 'https://via.placeholder.com/150'}" class="w-full h-36 object-cover rounded-lg">
           <div class="p-1.5 flex flex-col flex-grow justify-between mt-1">
             <div>
-              <span class="text-[9px] bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded font-bold uppercase">${p.categoriaGeneral || p.categoria || 'General'}</span>
+              <span class="text-[9px] bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded font-bold uppercase">${p.categoria || p.categoriaGeneral || 'General'}</span>
               <h4 class="font-bold text-xs text-gray-800 mt-1 leading-tight line-clamp-1">${p.nombre}</h4>
             </div>
             <div class="mt-2 pt-1.5 border-t border-gray-100 flex items-center justify-between">
@@ -367,7 +367,7 @@
       document.getElementById('modal-det-img').src = prod.imagen || 'https://via.placeholder.com/300';
       document.getElementById('modal-det-nombre').innerText = prod.nombre;
       document.getElementById('modal-det-precio').innerText = `Gs. ${prod.precio ? prod.precio.toLocaleString() : '0'}`;
-      document.getElementById('modal-det-categoria').innerText = prod.categoriaGeneral || prod.categoria || 'General';
+      document.getElementById('modal-det-categoria').innerText = prod.categoria || prod.categoriaGeneral || 'General';
 
       const descElement = document.getElementById('modal-det-desc');
       if (prod.descripcion && prod.descripcion.trim() !== '') {
@@ -495,10 +495,13 @@
     async function guardarProducto(e) {
       e.preventDefault();
       const id = document.getElementById('admin-prod-id').value;
+      const catValor = document.getElementById('admin-prod-categoria').value;
+
       const payload = {
         nombre: document.getElementById('admin-prod-nombre').value,
         precio: parseFloat(document.getElementById('admin-prod-precio').value),
-        categoriaGeneral: document.getElementById('admin-prod-categoria').value,
+        categoria: catValor,
+        categoriaGeneral: catValor,
         descripcion: document.getElementById('admin-prod-desc').value,
         imagen: document.getElementById('admin-prod-imagen').value
       };
@@ -521,7 +524,7 @@
       document.getElementById('admin-prod-id').value = p._id;
       document.getElementById('admin-prod-nombre').value = p.nombre || '';
       document.getElementById('admin-prod-precio').value = p.precio || '';
-      document.getElementById('admin-prod-categoria').value = p.categoriaGeneral || p.categoria || '';
+      document.getElementById('admin-prod-categoria').value = p.categoria || p.categoriaGeneral || '';
       document.getElementById('admin-prod-imagen').value = p.imagen || '';
       document.getElementById('admin-prod-desc').value = p.descripcion || '';
 
@@ -546,7 +549,7 @@
     }
 
     function renderSelectCategorias() {
-      document.getElementById('admin-prod-categoria').innerHTML = '<option value="">Selecciona Categoría General</option>' +
+      document.getElementById('admin-prod-categoria').innerHTML = '<option value="">Selecciona Categoría</option>' +
         categorias.map(c => `<option value="${c.nombre}">${c.nombre}</option>`).join('');
     }
 
@@ -583,7 +586,7 @@
         <tr class="hover:bg-gray-50">
           <td class="p-2"><img src="${p.imagen || 'https://via.placeholder.com/50'}" class="w-8 h-8 object-cover rounded"></td>
           <td class="p-2 font-bold">${p.nombre}</td>
-          <td class="p-2">${p.categoriaGeneral || p.categoria || '-'}</td>
+          <td class="p-2">${p.categoria || p.categoriaGeneral || '-'}</td>
           <td class="p-2 font-bold text-pink-600">Gs. ${p.precio ? p.precio.toLocaleString() : '0'}</td>
           <td class="p-2 text-center space-x-2">
             <button onclick="editarProducto('${p._id}')" class="text-blue-600 font-bold bg-blue-50 hover:bg-blue-100 p-1 rounded" title="Editar">✏️</button>
