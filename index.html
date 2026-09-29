@@ -27,16 +27,12 @@
 
     <!-- Categorías Generales Superior -->
     <nav class="bg-pink-100/60 border-t border-b border-pink-100 overflow-x-auto">
-      <div id="nav-cat-generales" class="max-w-6xl mx-auto px-4 flex gap-2 py-2 text-xs font-bold whitespace-nowrap">
-        <!-- Renderizado dinámicamente -->
-      </div>
+      <div id="nav-cat-generales" class="max-w-6xl mx-auto px-4 flex gap-2 py-2 text-xs font-bold whitespace-nowrap"></div>
     </nav>
 
-    <!-- Subcategorías (Se activa al elegir una Categoría General) -->
+    <!-- Subcategorías -->
     <div id="nav-subcategorias-container" class="bg-white border-b border-pink-100 px-4 py-2 hidden overflow-x-auto">
-      <div id="nav-subcategorias" class="max-w-6xl mx-auto flex gap-2 text-xs font-semibold whitespace-nowrap">
-        <!-- Renderizado dinámicamente -->
-      </div>
+      <div id="nav-subcategorias" class="max-w-6xl mx-auto flex gap-2 text-xs font-semibold whitespace-nowrap"></div>
     </div>
   </header>
 
@@ -127,30 +123,26 @@
       <button onclick="cerrarPanelAdmin()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-xl font-bold">✕</button>
       <h2 class="text-lg font-bold text-pink-700 mb-4 border-b pb-2">🛠️ Panel de Control - Dueña</h2>
 
-      <!-- SECCIÓN 1: CREAR CATEGORÍAS / SUBCATEGORÍAS -->
+      <!-- GESTOR DE CATEGORÍAS Y SUBCATEGORÍAS -->
       <div class="mb-6 bg-pink-50 border border-pink-200 p-4 rounded-xl">
         <h3 class="font-bold text-pink-800 text-sm mb-2">📁 Gestor de Categorías y Subcategorías</h3>
         
         <form onsubmit="guardarCategoriaAdmin(event)" class="grid grid-cols-1 md:grid-cols-3 gap-2 mb-3">
           <select id="admin-cat-padre-select" class="border p-2 rounded-lg bg-white">
             <option value="">-- Es Categoría General --</option>
-            <!-- Se llena dinámicamente con las categorías generales existentes -->
           </select>
           
-          <input type="text" id="admin-cat-nombre" placeholder="Nombre (ej: Maquillaje o Lápiz Labial)" class="border p-2 rounded-lg bg-white" required>
+          <input type="text" id="admin-cat-nombre" placeholder="Nombre (ej: Maquillajes o Labial)" class="border p-2 rounded-lg bg-white" required>
           
           <button type="submit" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 rounded-lg">
             + Agregar Categoría
           </button>
         </form>
 
-        <!-- Lista de Categorías Creadas -->
-        <div id="admin-lista-categorias" class="flex flex-wrap gap-2 pt-2 border-t border-pink-200">
-          <!-- Renderizado dinámico -->
-        </div>
+        <div id="admin-lista-categorias" class="flex flex-wrap gap-2 pt-2 border-t border-pink-200"></div>
       </div>
 
-      <!-- SECCIÓN 2: FORMULARIO DE PRODUCTO -->
+      <!-- FORMULARIO DE PRODUCTO -->
       <div class="mb-6 bg-gray-50 border p-4 rounded-xl">
         <h3 id="form-prod-title" class="font-bold text-pink-800 text-sm mb-3">📦 Agregar / Editar Producto</h3>
         
@@ -160,7 +152,7 @@
           <input type="text" id="admin-prod-nombre" placeholder="Nombre del producto" class="border p-2 rounded-lg bg-white" required>
           <input type="number" id="admin-prod-precio" placeholder="Precio (Gs.)" class="border p-2 rounded-lg bg-white" required>
 
-          <!-- SELECCIÓN DE CATEGORÍA GENERAL Y SUBCATEGORÍA -->
+          <!-- SELECTOR DE CATEGORÍA GENERAL -->
           <div>
             <label class="block font-bold text-gray-600 mb-1">Categoría General:</label>
             <select id="admin-prod-catgen" onchange="actualizarSubcatFormProd()" class="w-full border p-2 rounded-lg bg-white" required>
@@ -168,6 +160,7 @@
             </select>
           </div>
 
+          <!-- SELECTOR DE SUBCATEGORÍA -->
           <div>
             <label class="block font-bold text-gray-600 mb-1">Subcategoría (Opcional):</label>
             <select id="admin-prod-subcat" class="w-full border p-2 rounded-lg bg-white">
@@ -178,7 +171,7 @@
           <input type="number" id="admin-prod-stock" placeholder="Stock disponible" class="border p-2 rounded-lg bg-white" value="10">
           <input type="text" id="admin-prod-titulo-opcion" placeholder="Título Opciones (ej: Tipo de piel / Talles)" class="border p-2 rounded-lg bg-white">
 
-          <!-- OPCIONES DINÁMICAS (Letras y Números) -->
+          <!-- OPCIONES DINÁMICAS -->
           <div class="md:col-span-2 border border-pink-200 bg-white p-3 rounded-lg flex flex-col gap-2">
             <label class="font-bold text-pink-700">🎨 Opciones disponibles (Ej: 38, M, Grasa, Seca):</label>
             <div class="flex gap-2">
@@ -188,7 +181,19 @@
             <div id="admin-lista-opciones-temp" class="flex flex-wrap gap-1.5 mt-1"></div>
           </div>
 
-          <input type="text" id="admin-prod-imagen" placeholder="URL de la Imagen (https://...)" class="border p-2 rounded-lg bg-white md:col-span-2">
+          <!-- SUBIR IMAGEN DESDE EL CELULAR -->
+          <div class="md:col-span-2 border border-pink-200 bg-white p-3 rounded-lg flex flex-col gap-2">
+            <label class="font-bold text-pink-700">📸 Foto del producto:</label>
+            <input type="file" id="input-foto-file" accept="image/*" onchange="procesarFotoCelular(this)" class="block w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100 cursor-pointer">
+            
+            <input type="hidden" id="admin-prod-imagen">
+            
+            <div id="preview-imagen-container" class="mt-2 hidden flex items-center gap-2">
+              <img id="preview-imagen" class="w-16 h-16 object-cover rounded-lg border">
+              <span class="text-[10px] text-green-600 font-bold">✓ Imagen cargada</span>
+            </div>
+          </div>
+
           <textarea id="admin-prod-desc" placeholder="Descripción breve" class="border p-2 rounded-lg bg-white md:col-span-2"></textarea>
 
           <div class="md:col-span-2 flex gap-2">
@@ -198,7 +203,7 @@
         </form>
       </div>
 
-      <!-- SECCIÓN 3: INVENTARIO -->
+      <!-- INVENTARIO CON BOTÓN EDITAR -->
       <div>
         <h3 class="font-bold text-pink-800 text-sm mb-2">📋 Inventario</h3>
         <div class="overflow-x-auto">
@@ -239,23 +244,11 @@
       actualizarCarrito();
     });
 
-    // --- CARGA DE DATOS DESDE BACKEND ---
     async function cargarCategorias() {
       try {
         const res = await fetch(`${API_URL}/categorias`);
         categorias = await res.json();
-      } catch (e) {
-        // Mock fallback si aún no creas el endpoint de categorías
-        categorias = [
-          { _id: '1', nombre: 'Maquillajes', categoriaPadre: null },
-          { _id: '2', nombre: 'Perfumes', categoriaPadre: null },
-          { _id: '3', nombre: 'Ropas', categoriaPadre: null },
-          { _id: '4', nombre: 'Cremas', categoriaPadre: null },
-          { _id: '5', nombre: 'Lápiz Labial', categoriaPadre: 'Maquillajes' },
-          { _id: '6', nombre: 'Máscara de pestañas', categoriaPadre: 'Maquillajes' },
-          { _id: '7', nombre: 'Polvos', categoriaPadre: 'Maquillajes' }
-        ];
-      }
+      } catch (e) { console.error('Error al cargar categorías:', e); }
       renderNavCatGenerales();
       renderAdminCategorias();
     }
@@ -264,11 +257,26 @@
       try {
         const res = await fetch(`${API_URL}/productos`);
         productos = await res.json();
-      } catch (e) {
-        console.error('Error cargando productos:', e);
-      }
+      } catch (e) { console.error('Error cargando productos:', e); }
       aplicarFiltros();
       renderAdminTablaProductos();
+    }
+
+    // --- SUBIR FOTO DESDE EL CELULAR ---
+    function procesarFotoCelular(input) {
+      const file = input.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const base64String = e.target.result;
+        document.getElementById('admin-prod-imagen').value = base64String;
+        
+        const preview = document.getElementById('preview-imagen');
+        preview.src = base64String;
+        document.getElementById('preview-imagen-container').classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
     }
 
     // --- GESTIÓN DE CATEGORÍAS (PANEL DUEÑA) ---
@@ -287,20 +295,14 @@
         });
       } catch (e) {}
 
-      // Actualización local rápida
-      categorias.push({ _id: Date.now().toString(), nombre, categoriaPadre: padre });
       document.getElementById('admin-cat-nombre').value = '';
-      
-      renderNavCatGenerales();
-      renderAdminCategorias();
+      await cargarCategorias();
     }
 
     async function eliminarCategoria(id) {
       if (confirm('¿Deseas eliminar esta categoría?')) {
         try { await fetch(`${API_URL}/categorias/${id}`, { method: 'DELETE' }); } catch(e){}
-        categorias = categorias.filter(c => c._id !== id);
-        renderNavCatGenerales();
-        renderAdminCategorias();
+        await cargarCategorias();
       }
     }
 
@@ -311,7 +313,6 @@
 
       const generales = categorias.filter(c => !c.categoriaPadre);
 
-      // Llenar selectores
       let optionsHtml = '<option value="">-- Es Categoría General --</option>';
       let optionsProdHtml = '<option value="">Seleccione Categoría General</option>';
       
@@ -323,7 +324,6 @@
       selectPadreForm.innerHTML = optionsHtml;
       selectCatGenProd.innerHTML = optionsProdHtml;
 
-      // Render chips
       listaAdmin.innerHTML = categorias.map(c => `
         <span class="bg-white border border-pink-200 text-pink-800 text-[11px] px-2.5 py-1 rounded-full font-bold flex items-center gap-1.5 shadow-sm">
           ${c.categoriaPadre ? `<span class="text-gray-400">${c.categoriaPadre} ➔</span>` : '📁'} ${c.nombre}
@@ -440,7 +440,6 @@
       renderGridProductos(res);
     }
 
-    // --- RENDER GRID PRODUCTOS Y MODAL OPCIONES ---
     function renderGridProductos(prods) {
       const grid = document.getElementById('grid-productos');
       if (!prods || prods.length === 0) {
@@ -515,7 +514,7 @@
       document.getElementById('modal-producto-detalle').classList.add('hidden');
     }
 
-    // --- CARRITO DE COMPRAS ---
+    // --- CARRITO ---
     function toggleCarrito() { document.getElementById('drawer-carrito').classList.toggle('translate-x-full'); }
 
     function agregarAlCarritoModal(prod, opcion) {
@@ -523,9 +522,7 @@
       const item = carrito.find(i => i.itemKey === itemKey);
 
       if (item) { item.cantidad++; } 
-      else {
-        carrito.push({ ...prod, itemKey, opcion, cantidad: 1 });
-      }
+      else { carrito.push({ ...prod, itemKey, opcion, cantidad: 1 }); }
       actualizarCarrito();
     }
 
@@ -631,9 +628,42 @@
       cargarProductos();
     }
 
+    // FUNCIÓN PARA EDITAR PRODUCTO (CARGA LOS DATOS EN EL FORMULARIO)
+    function cargarProductoParaEditar(id) {
+      const p = productos.find(item => item._id === id);
+      if (!p) return;
+
+      document.getElementById('admin-prod-id').value = p._id;
+      document.getElementById('admin-prod-nombre').value = p.nombre || '';
+      document.getElementById('admin-prod-precio').value = p.precio || '';
+      
+      document.getElementById('admin-prod-catgen').value = p.categoriaGeneral || '';
+      actualizarSubcatFormProd();
+      document.getElementById('admin-prod-subcat').value = p.subcategoria || '';
+
+      document.getElementById('admin-prod-stock').value = p.stock || 10;
+      document.getElementById('admin-prod-titulo-opcion').value = p.tituloOpcion || '';
+      document.getElementById('admin-prod-desc').value = p.descripcion || '';
+
+      document.getElementById('admin-prod-imagen').value = p.imagen || '';
+      if (p.imagen) {
+        document.getElementById('preview-imagen').src = p.imagen;
+        document.getElementById('preview-imagen-container').classList.remove('hidden');
+      }
+
+      opcionesTempForm = p.opciones ? [...p.opciones] : [];
+      renderOpcionesTempAdmin();
+
+      document.getElementById('form-prod-title').innerText = '✏️ Editando Producto';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     function resetFormProducto() {
       document.getElementById('form-prod').reset();
       document.getElementById('admin-prod-id').value = '';
+      document.getElementById('admin-prod-imagen').value = '';
+      document.getElementById('preview-imagen-container').classList.add('hidden');
+      document.getElementById('form-prod-title').innerText = '📦 Agregar / Editar Producto';
       opcionesTempForm = [];
       renderOpcionesTempAdmin();
     }
@@ -646,7 +676,8 @@
           <td class="p-2">${p.categoriaGeneral || '-'}</td>
           <td class="p-2">${p.subcategoria || '-'}</td>
           <td class="p-2 font-bold text-pink-600">Gs. ${p.precio ? p.precio.toLocaleString() : '0'}</td>
-          <td class="p-2">
+          <td class="p-2 flex gap-2">
+            <button onclick="cargarProductoParaEditar('${p._id}')" class="text-blue-600 font-bold">✏️</button>
             <button onclick="eliminarProducto('${p._id}')" class="text-red-500 font-bold">🗑️</button>
           </td>
         </tr>
