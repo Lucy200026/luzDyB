@@ -4,10 +4,14 @@ const categoriaSchema = new mongoose.Schema({
   nombre: {
     type: String,
     required: true,
-    unique: true,
     trim: true
   },
-  descripcion: String
+  // Si padre es null/undefined, es una CATEGORÍA GENERAL.
+  // Si tiene el nombre de una Categoría General, es una SUBCATEGORÍA.
+  categoriaPadre: {
+    type: String,
+    default: null
+  }
 }, {
   timestamps: true
 });
