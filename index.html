@@ -50,8 +50,8 @@
 
   <!-- Banner Dinámico -->
   <section id="banner-bg" class="bg-gradient-to-r from-pink-100 via-pink-50 to-pink-100 text-center py-6 px-4 border-b border-pink-200">
-    <h2 id="banner-titulo" class="text-3xl font-black text-pink-700 mb-1">Tienda Online</h2>
-    <p id="banner-subtitulo" class="text-pink-600 text-xs max-w-md mx-auto">Explora nuestro catálogo completo de belleza y cuidado personal.</p>
+    <h2 id="banner-titulo" class="text-3xl font-black text-pink-700 mb-1">Tienda Online✨ </h2>
+    <p id="banner-subtitulo" class="text-pink-600 text-xs max-w-md mx-auto">🤍 Explora nuestro catálogo completo de belleza y cuidado personal.🤍 </p>
   </section>
 
   <!-- Contenedor Principal -->
@@ -115,7 +115,8 @@
 
   <!-- MODAL: Imagen Ampliada -->
   <div id="modal-img" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-2" onclick="cerrarModalImg()">
-    <div class="relative max-w-md w-full">
+    <div class="relative max-w-md w-full" onclick="event.stopPropagation()">
+      <button onclick="cerrarModalImg()" class="absolute -top-3 -right-3 bg-white text-gray-800 rounded-full w-8 h-8 flex items-center justify-center font-bold text-base shadow-lg z-20 hover:bg-gray-100">✕</button>
       <img id="img-ampliada" src="" class="w-full h-auto max-h-[85vh] object-contain rounded-xl shadow-2xl">
     </div>
   </div>
@@ -130,14 +131,6 @@
       <p class="text-center text-gray-400 py-6 text-xs">Tu carrito está vacío</p>
     </div>
     <div class="p-4 border-t border-pink-100 bg-pink-50">
-      <div class="mb-3">
-        <label class="block text-xs font-bold text-pink-800 mb-1">🚚 Método de Entrega:</label>
-        <select id="select-entrega" class="w-full p-2 text-xs rounded-xl border border-pink-200 bg-white font-semibold focus:outline-none">
-          <option value="Retiro en local">Retiro en Local</option>
-          <option value="Envío a Domicilio">Envío a Domicilio (Delivery)</option>
-        </select>
-      </div>
-
       <div class="flex justify-between font-bold text-base text-pink-900 mb-3">
         <span>Total:</span>
         <span id="cart-total">Gs. 0</span>
@@ -151,7 +144,7 @@
   <!-- MODAL: Login Dueña -->
   <div id="modal-login" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl p-5 w-full max-w-sm shadow-xl">
-      <h3 class="text-lg font-bold text-pink-700 mb-3 text-center">🔐 Acceso Exclusivo Dueña</h3>
+      <h3 class="text-lg font-bold text-pink-700 mb-3 text-center">🔐 Acceso Dueña</h3>
       <input type="password" id="pass-admin" placeholder="Ingresa contraseña" class="w-full border border-pink-200 p-2 rounded-xl mb-3 text-center focus:outline-none focus:ring-2 focus:ring-pink-500 text-xs">
       <div class="flex gap-2 text-xs font-bold">
         <button onclick="toggleAdminModal()" class="w-1/2 border border-gray-300 py-2 rounded-xl text-gray-600">Cancelar</button>
@@ -458,16 +451,14 @@
 
     function enviarPedidoWhatsApp() {
       if (carrito.length === 0) return alert('El carrito está vacío');
-      const metodoEntrega = document.getElementById('select-entrega').value;
 
-      let msg = '¡Hola D & B Belleza! 👋 Quisiera realizar el siguiente pedido:\n\n';
+      let msg = '¡Hola D&B! 👋 Quisiera realizar el siguiente pedido:\n\n';
       carrito.forEach(i => {
         msg += `• ${i.nombre} ${i.opcion ? '[' + i.opcion + ']' : ''} (x${i.cantidad}) - Gs. ${(i.precio * i.cantidad).toLocaleString()}\n`;
       });
 
       const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
       msg += `\n*Total:* Gs. ${total.toLocaleString()}`;
-      msg += `\n🚚 *Entrega:* ${metodoEntrega}`;
 
       window.open(`https://wa.me/595982416860?text=${encodeURIComponent(msg)}`, '_blank');
     }
