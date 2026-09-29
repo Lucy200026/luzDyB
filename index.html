@@ -21,10 +21,10 @@
     }
   </script>
 </head>
-<body id="body-main" class="bg-pink-50/50 font-sans text-gray-800 min-h-screen flex flex-col transition-colors duration-300">
+<body id="body-main" class="bg-pink-50/50 font-sans text-gray-800 min-h-screen flex flex-col">
 
   <!-- Encabezado -->
-  <header id="header-main" class="bg-white shadow-sm sticky top-0 z-30 transition-colors duration-300">
+  <header id="header-main" class="bg-white shadow-sm sticky top-0 z-30">
     <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
       <h1 id="logo-text" class="text-2xl font-bold text-pink-600 tracking-wide cursor-pointer flex items-center gap-1" onclick="filtrarProductos('todas')">
         🌷 <span>D&B</span> 🌷
@@ -43,13 +43,13 @@
     </div>
 
     <!-- Navegación Categorías Principales -->
-    <nav id="nav-categorias" class="bg-pink-100/60 border-t border-b border-pink-100 overflow-x-auto transition-colors duration-300">
+    <nav id="nav-categorias" class="bg-pink-100/60 border-t border-b border-pink-100 overflow-x-auto">
       <div id="categorias-bar" class="max-w-6xl mx-auto px-4 flex gap-2 py-2 text-xs font-bold whitespace-nowrap"></div>
     </nav>
   </header>
 
   <!-- Banner Dinámico -->
-  <section id="banner-bg" class="bg-gradient-to-r from-pink-100 via-pink-50 to-pink-100 text-center py-6 px-4 border-b border-pink-200 transition-colors duration-300">
+  <section id="banner-bg" class="bg-gradient-to-r from-pink-100 via-pink-50 to-pink-100 text-center py-6 px-4 border-b border-pink-200">
     <h2 id="banner-titulo" class="text-3xl font-black text-pink-700 mb-1">Tienda Online</h2>
     <p id="banner-subtitulo" class="text-pink-600 text-xs max-w-md mx-auto">Explora nuestro catálogo completo de belleza y cuidado personal.</p>
   </section>
@@ -168,16 +168,9 @@
 
       <!-- Categorías -->
       <div class="mb-6 bg-pink-50 p-4 rounded-xl border border-pink-100">
-        <h4 class="font-bold text-pink-800 mb-2">1. Nueva Categoría y Tema de Color</h4>
-        <form id="form-cat" onsubmit="guardarCategoria(event)" class="flex flex-col md:flex-row gap-2">
+        <h4 class="font-bold text-pink-800 mb-2">1. Nueva Categoría</h4>
+        <form id="form-cat" onsubmit="guardarCategoria(event)" class="flex gap-2">
           <input type="text" id="admin-cat-nombre" placeholder="Nombre (ej. Hombres, Perfumes)" class="border p-2 rounded-lg flex-grow" required>
-          <select id="admin-cat-color" class="border p-2 rounded-lg font-bold text-gray-700">
-            <option value="rosa">💖 Rosa (Femenino / Clásico)</option>
-            <option value="azul">💙 Azul (Masculino)</option>
-            <option value="verde">💚 Verde (Natura / Cuidado)</option>
-            <option value="morado">💜 Morado / Elegante</option>
-            <option value="negro">🖤 Gris / Oscuro / Masculino</option>
-          </select>
           <button type="submit" class="bg-pink-600 text-white font-bold px-4 py-2 rounded-lg hover:bg-pink-700">+ Guardar Categoría</button>
         </form>
 
@@ -206,7 +199,6 @@
             <input type="text" id="admin-prod-imagen" placeholder="O pega un enlace (https://...)" class="border p-2 rounded-lg text-xs">
           </div>
 
-          <input type="number" id="admin-prod-stock" placeholder="Stock disponible" class="border p-2 rounded-lg md:col-span-2" value="10">
           <textarea id="admin-prod-desc" placeholder="Descripción del producto (Opcional)" class="border p-2 rounded-lg md:col-span-2 h-16"></textarea>
 
           <div class="md:col-span-2 flex gap-2">
@@ -247,90 +239,6 @@
     
     let categoriaActual = 'todas';
 
-    // Temas de colores
-    const temas = {
-      rosa: {
-        bgBody: 'bg-pink-50/50',
-        headerText: 'text-pink-600',
-        headerBtnBg: 'bg-pink-50',
-        headerBtnBorder: 'border-pink-200',
-        navBg: 'bg-pink-100/60',
-        navBorder: 'border-pink-100',
-        bannerBg: 'from-pink-100 via-pink-50 to-pink-100',
-        bannerTitle: 'text-pink-700',
-        bannerSub: 'text-pink-600',
-        btnActive: 'bg-pink-600 text-white shadow-md',
-        btnInactive: 'bg-white text-pink-600 border border-pink-200 hover:bg-pink-50',
-        cardBorder: 'border-pink-100',
-        priceText: 'text-pink-600',
-        btnAdd: 'bg-pink-100 text-pink-700 hover:bg-pink-200'
-      },
-      azul: {
-        bgBody: 'bg-slate-100',
-        headerText: 'text-blue-700',
-        headerBtnBg: 'bg-blue-50',
-        headerBtnBorder: 'border-blue-200',
-        navBg: 'bg-blue-100/80',
-        navBorder: 'border-blue-200',
-        bannerBg: 'from-blue-200 via-slate-100 to-blue-200',
-        bannerTitle: 'text-blue-900',
-        bannerSub: 'text-blue-700',
-        btnActive: 'bg-blue-700 text-white shadow-md',
-        btnInactive: 'bg-white text-blue-700 border border-blue-300 hover:bg-blue-50',
-        cardBorder: 'border-blue-200',
-        priceText: 'text-blue-700',
-        btnAdd: 'bg-blue-100 text-blue-800 hover:bg-blue-200'
-      },
-      verde: {
-        bgBody: 'bg-emerald-50/50',
-        headerText: 'text-emerald-700',
-        headerBtnBg: 'bg-emerald-50',
-        headerBtnBorder: 'border-emerald-200',
-        navBg: 'bg-emerald-100/70',
-        navBorder: 'border-emerald-200',
-        bannerBg: 'from-emerald-100 via-teal-50 to-emerald-100',
-        bannerTitle: 'text-emerald-800',
-        bannerSub: 'text-emerald-600',
-        btnActive: 'bg-emerald-600 text-white shadow-md',
-        btnInactive: 'bg-white text-emerald-700 border border-emerald-200 hover:bg-emerald-50',
-        cardBorder: 'border-emerald-100',
-        priceText: 'text-emerald-700',
-        btnAdd: 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
-      },
-      morado: {
-        bgBody: 'bg-purple-50/50',
-        headerText: 'text-purple-700',
-        headerBtnBg: 'bg-purple-50',
-        headerBtnBorder: 'border-purple-200',
-        navBg: 'bg-purple-100/70',
-        navBorder: 'border-purple-200',
-        bannerBg: 'from-purple-100 via-fuchsia-50 to-purple-100',
-        bannerTitle: 'text-purple-800',
-        bannerSub: 'text-purple-600',
-        btnActive: 'bg-purple-600 text-white shadow-md',
-        btnInactive: 'bg-white text-purple-700 border border-purple-200 hover:bg-purple-50',
-        cardBorder: 'border-purple-100',
-        priceText: 'text-purple-700',
-        btnAdd: 'bg-purple-100 text-purple-800 hover:bg-purple-200'
-      },
-      negro: {
-        bgBody: 'bg-gray-200',
-        headerText: 'text-gray-900',
-        headerBtnBg: 'bg-gray-100',
-        headerBtnBorder: 'border-gray-300',
-        navBg: 'bg-gray-300',
-        navBorder: 'border-gray-400',
-        bannerBg: 'from-gray-300 via-gray-100 to-gray-300',
-        bannerTitle: 'text-gray-900',
-        bannerSub: 'text-gray-700',
-        btnActive: 'bg-gray-900 text-white shadow-md',
-        btnInactive: 'bg-white text-gray-800 border border-gray-400 hover:bg-gray-100',
-        cardBorder: 'border-gray-300',
-        priceText: 'text-gray-900',
-        btnAdd: 'bg-gray-200 text-gray-900 hover:bg-gray-300'
-      }
-    };
-
     document.addEventListener('DOMContentLoaded', () => {
       cargarCategorias();
       cargarProductos();
@@ -358,33 +266,9 @@
 
     function filtrarProductos(catNombre) {
       categoriaActual = catNombre;
-      aplicarTemaColor();
       actualizarBanner();
       renderBarraCategorias();
       aplicarFiltros();
-    }
-
-    function aplicarTemaColor() {
-      let temaNombre = 'rosa';
-      if (categoriaActual !== 'todas') {
-        const catObj = categorias.find(c => c.nombre.toLowerCase() === categoriaActual.toLowerCase());
-        if (catObj && catObj.color && temas[catObj.color]) {
-          temaNombre = catObj.color;
-        }
-      }
-
-      const t = temas[temaNombre] || temas.rosa;
-
-      // Aplicar clases dinámicas
-      document.getElementById('body-main').className = `${t.bgBody} font-sans text-gray-800 min-h-screen flex flex-col transition-colors duration-300`;
-      document.getElementById('logo-text').className = `text-2xl font-bold ${t.headerText} tracking-wide cursor-pointer flex items-center gap-1`;
-      document.getElementById('btn-admin-access').className = `text-xs ${t.headerText} ${t.headerBtnBg} border ${t.headerBtnBorder} px-3 py-1.5 rounded-full font-bold shadow-sm flex items-center gap-1`;
-      document.getElementById('btn-cart-icon').className = `relative ${t.headerBtnBg} p-2 rounded-full ${t.headerText} hover:opacity-80`;
-      document.getElementById('nav-categorias').className = `${t.navBg} border-t border-b ${t.navBorder} overflow-x-auto transition-colors duration-300`;
-      document.getElementById('banner-bg').className = `bg-gradient-to-r ${t.bannerBg} text-center py-6 px-4 border-b border-pink-200 transition-colors duration-300`;
-      document.getElementById('banner-titulo').className = `text-3xl font-black ${t.bannerTitle} mb-1`;
-      document.getElementById('banner-subtitulo').className = `${t.bannerSub} text-xs max-w-md mx-auto`;
-      document.getElementById('titulo-seccion-productos').className = `text-lg font-bold ${t.bannerTitle} mb-3`;
     }
 
     function actualizarBanner() {
@@ -430,21 +314,17 @@
       const bar = document.getElementById('categorias-bar');
       if (!bar) return;
 
-      let temaNombre = 'rosa';
-      if (categoriaActual !== 'todas') {
-        const catObj = categorias.find(c => c.nombre.toLowerCase() === categoriaActual.toLowerCase());
-        if (catObj && catObj.color) temaNombre = catObj.color;
-      }
-      const t = temas[temaNombre] || temas.rosa;
-
-      const btnTodasClass = categoriaActual === 'todas' ? t.btnActive : t.btnInactive;
+      const btnTodasClass = categoriaActual === 'todas' 
+        ? 'bg-pink-600 text-white shadow-md' 
+        : 'bg-white text-pink-600 border border-pink-200 hover:bg-pink-50';
 
       bar.innerHTML = `
         <button onclick="filtrarProductos('todas')" class="px-3.5 py-1 rounded-full ${btnTodasClass}">Todas</button>
         ${categorias.map(cat => {
           const isSelected = categoriaActual.toLowerCase() === cat.nombre.toLowerCase();
-          const catTheme = temas[cat.color] || temas.rosa;
-          const catClass = isSelected ? catTheme.btnActive : catTheme.btnInactive;
+          const catClass = isSelected 
+            ? 'bg-pink-600 text-white shadow-md' 
+            : 'bg-white text-pink-600 border border-pink-200 hover:bg-pink-50';
           return `
             <button onclick="filtrarProductos('${cat.nombre}')" class="px-3.5 py-1 rounded-full ${catClass}">
               ${cat.nombre}
@@ -462,15 +342,8 @@
         return;
       }
 
-      let temaNombre = 'rosa';
-      if (categoriaActual !== 'todas') {
-        const catObj = categorias.find(c => c.nombre.toLowerCase() === categoriaActual.toLowerCase());
-        if (catObj && catObj.color) temaNombre = catObj.color;
-      }
-      const t = temas[temaNombre] || temas.rosa;
-
       grid.innerHTML = prods.map(p => `
-        <div onclick="abrirModalDetalle('${p._id}')" class="bg-white rounded-xl p-2.5 shadow-sm border ${t.cardBorder} overflow-hidden flex flex-col justify-between hover:shadow-md transition cursor-pointer">
+        <div onclick="abrirModalDetalle('${p._id}')" class="bg-white rounded-xl p-2.5 shadow-sm border border-pink-100 overflow-hidden flex flex-col justify-between hover:shadow-md transition cursor-pointer">
           <img src="${p.imagen || 'https://via.placeholder.com/150'}" class="w-full h-36 object-cover rounded-lg">
           <div class="p-1.5 flex flex-col flex-grow justify-between mt-1">
             <div>
@@ -478,8 +351,8 @@
               <h4 class="font-bold text-xs text-gray-800 mt-1 leading-tight line-clamp-1">${p.nombre}</h4>
             </div>
             <div class="mt-2 pt-1.5 border-t border-gray-100 flex items-center justify-between">
-              <span class="font-black ${t.priceText} text-xs">Gs. ${p.precio ? p.precio.toLocaleString() : '0'}</span>
-              <button class="${t.btnAdd} text-[10px] px-2 py-1 rounded-lg font-bold">Ver / Añadir</button>
+              <span class="font-black text-pink-600 text-xs">Gs. ${p.precio ? p.precio.toLocaleString() : '0'}</span>
+              <button class="bg-pink-100 text-pink-700 hover:bg-pink-200 text-[10px] px-2 py-1 rounded-lg font-bold">Ver / Añadir</button>
             </div>
           </div>
         </div>
@@ -627,8 +500,7 @@
         precio: parseFloat(document.getElementById('admin-prod-precio').value),
         categoriaGeneral: document.getElementById('admin-prod-categoria').value,
         descripcion: document.getElementById('admin-prod-desc').value,
-        imagen: document.getElementById('admin-prod-imagen').value,
-        stock: Number(document.getElementById('admin-prod-stock').value || 10)
+        imagen: document.getElementById('admin-prod-imagen').value
       };
 
       const url = id ? `${API_URL}/productos/${id}` : `${API_URL}/productos`;
@@ -651,13 +523,11 @@
       document.getElementById('admin-prod-precio').value = p.precio || '';
       document.getElementById('admin-prod-categoria').value = p.categoriaGeneral || p.categoria || '';
       document.getElementById('admin-prod-imagen').value = p.imagen || '';
-      document.getElementById('admin-prod-stock').value = p.stock || 10;
       document.getElementById('admin-prod-desc').value = p.descripcion || '';
 
       document.getElementById('form-prod-title').innerText = '✏️ Editando Producto';
       document.getElementById('btn-submit-form').innerText = 'Actualizar Producto';
       
-      // Hacer scroll suave hacia el formulario
       document.getElementById('form-prod').scrollIntoView({ behavior: 'smooth' });
     }
 
@@ -683,7 +553,7 @@
     function renderAdminListaCategorias() {
       document.getElementById('admin-lista-categorias').innerHTML = categorias.map(c => `
         <span class="bg-white border border-gray-200 text-gray-800 px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1">
-          ${c.nombre} (${c.color || 'rosa'}) <button onclick="eliminarCategoria('${c._id}')" class="text-red-500">✕</button>
+          ${c.nombre} <button onclick="eliminarCategoria('${c._id}')" class="text-red-500">✕</button>
         </span>
       `).join('');
     }
@@ -691,12 +561,11 @@
     async function guardarCategoria(e) {
       e.preventDefault();
       const nombre = document.getElementById('admin-cat-nombre').value;
-      const color = document.getElementById('admin-cat-color').value;
 
       await fetch(`${API_URL}/categorias`, { 
         method: 'POST', 
         headers: {'Content-Type':'application/json'}, 
-        body: JSON.stringify({ nombre, color }) 
+        body: JSON.stringify({ nombre }) 
       });
       
       document.getElementById('admin-cat-nombre').value = '';
